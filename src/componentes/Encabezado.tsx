@@ -40,7 +40,7 @@ export function Encabezado({ lang, rutaOtra, enPortada }: { lang: Idioma; rutaOt
         {NOMBRE}
       </a>
       <nav className={css.navegacion} aria-label={lang === "es" ? "Principal" : "Main"}>
-        <a className={css.enlace} href={ancla("proyectos")}>
+        <a className={css.enlace} href={ancla("vitrina")}>
           {NAV.proyectos[lang]}
         </a>
         <a className={css.enlace} href={ancla("sobre-mi")}>

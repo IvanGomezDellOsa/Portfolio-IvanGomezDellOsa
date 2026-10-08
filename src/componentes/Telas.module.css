@@ -135,9 +135,51 @@
 .pie {
   display: grid;
   justify-items: center;
-  gap: 16px;
-  width: min(100% - 2 * var(--canal), 1040px);
+  gap: 22px;
+  width: min(100% - 2 * var(--canal), 1240px);
   margin: 0 auto;
+}
+
+/* El video (o el sitio) y, al lado, la sección completa del proyecto elegido. */
+.botones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.detalles {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 54px;
+  padding: 0 16px 0 20px;
+  border: 1px solid oklch(96% 0 0 / 0.12);
+  border-radius: 999px;
+  color: oklch(88% 0 0);
+  font-size: 14.5px;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    color 0.2s var(--curva-reaccion),
+    border-color 0.2s var(--curva-reaccion),
+    background-color 0.2s var(--curva-reaccion);
+}
+
+.detalles:hover {
+  color: oklch(97% 0 0);
+  border-color: color-mix(in oklch, var(--brillo) 55%, transparent);
+  background: color-mix(in oklch, var(--brillo) 8%, transparent);
+}
+
+.flechita {
+  display: grid;
+  transition: transform 0.2s var(--curva-reaccion);
+}
+
+.detalles:hover .flechita {
+  transform: translateX(2px);
 }
 
 .ver {
@@ -193,7 +235,7 @@
 .barras {
   display: grid;
   grid-template-columns: repeat(var(--n, 9), minmax(0, 1fr));
-  gap: 8px;
+  gap: 12px;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -202,14 +244,15 @@
 
 .barras button {
   display: grid;
-  gap: 9px;
+  align-content: start;
+  gap: 10px;
   width: 100%;
-  padding: 6px 0;
+  padding: 10px 0 8px;
   border: 0;
   background: transparent;
   color: oklch(64% 0 0);
-  font-size: 12.5px;
-  line-height: 1.25;
+  font-size: 13.5px;
+  line-height: 1.3;
   text-align: left;
   cursor: pointer;
   transition: color 0.2s var(--curva-reaccion);
@@ -231,10 +274,9 @@
   background: var(--tinte);
 }
 
+/* El nombre completo: si no entra en una línea, baja a la segunda. */
 .rotulo {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-wrap: balance;
 }
 
 @media (max-width: 1099px) {

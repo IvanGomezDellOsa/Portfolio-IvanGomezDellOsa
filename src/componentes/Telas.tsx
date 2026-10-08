@@ -114,27 +114,36 @@ export function Telas({ lang, items, funciones }: { lang: Idioma; items: ItemVit
         </button>
       </div>
       <div className={css.pie}>
-        {f.video ? (
-          <a className={css.ver} href={enYoutube(f.video.id)} target="_blank" rel="noopener noreferrer" onClick={(e) => alClicVideo(e, f.slug)}>
-            <span className={css.play} aria-hidden="true">
-              <Triangulo lado={12} />
-            </span>
-            <span className={css.leyenda}>
-              <span className={css.nombre}>{f.nombre}</span>
-              <span className={css.accion}>{VIDEO.ver[lang]}</span>
+        <div className={css.botones}>
+          {f.video ? (
+            <a className={css.ver} href={enYoutube(f.video.id)} target="_blank" rel="noopener noreferrer" onClick={(e) => alClicVideo(e, f.slug)}>
+              <span className={css.play} aria-hidden="true">
+                <Triangulo lado={12} />
+              </span>
+              <span className={css.leyenda}>
+                <span className={css.nombre}>{f.nombre}</span>
+                <span className={css.accion}>{VIDEO.ver[lang]}</span>
+              </span>
+            </a>
+          ) : f.sitio ? (
+            <a className={css.ver} href={f.sitio} target="_blank" rel="noopener noreferrer">
+              <span className={css.play} aria-hidden="true">
+                <Flecha lado={13} />
+              </span>
+              <span className={css.leyenda}>
+                <span className={css.nombre}>{f.nombre}</span>
+                <span className={css.accion}>{HERO.verSitio[lang]}</span>
+              </span>
+            </a>
+          ) : null}
+          <a className={css.detalles} href={`#${f.slug}`}>
+            {HERO.detalles[lang]}
+            <span className="sr">: {f.nombre}</span>
+            <span className={css.flechita} aria-hidden="true">
+              <Chevron />
             </span>
           </a>
-        ) : f.sitio ? (
-          <a className={css.ver} href={f.sitio} target="_blank" rel="noopener noreferrer">
-            <span className={css.play} aria-hidden="true">
-              <Flecha lado={13} />
-            </span>
-            <span className={css.leyenda}>
-              <span className={css.nombre}>{f.nombre}</span>
-              <span className={css.accion}>{HERO.verSitio[lang]}</span>
-            </span>
-          </a>
-        ) : null}
+        </div>
         <ol className={css.barras} aria-label={HERO.reel[lang]} style={{ "--n": lista.length } as CSSProperties}>
           {lista.map((x, k) => (
             <li key={x.slug}>

@@ -29,7 +29,6 @@ export function Indice({ lang }: { lang: Idioma }) {
                 <a className={css.enlace} href={`#${p.slug}`}>
                   <span className={css.punto} aria-hidden="true" />
                   <span className={css.nombre}>{p.nombre}</span>
-                  <span className={css.area}>{p.area[lang]}</span>
                   <span className={`${css.meta} maquina`}>
                     {p.origen[lang]} · {p.periodo[lang]}
                   </span>

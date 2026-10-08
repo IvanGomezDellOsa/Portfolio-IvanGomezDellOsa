@@ -487,7 +487,7 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
 
   const escena = new Scene();
   const camara = new PerspectiveCamera(30, 1, 0.1, 50);
-  const hilo = new Mesh(new BoxGeometry(60, 0.0035, 0.0035), new MeshBasicMaterial({ color: new Color(0.03, 0.03, 0.03) }));
+  const hilo = new Mesh(new BoxGeometry(60, 0.0075, 0.0075), new MeshBasicMaterial({ color: new Color(0.075, 0.075, 0.075) }));
   hilo.position.y = HILO_Y + 0.012;
   escena.add(hilo);
   // Las luces son sólo para los broches (las telas usan su propio shader).
@@ -517,6 +517,8 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
   ctxHalo.fillStyle = gradiente;
   ctxHalo.fillRect(0, 0, 64, 64);
   const texturaHalo = new CanvasTexture(lienzoHalo);
+  /** Los broches, más grandes que el modelo: que se vean y se puedan agarrar. */
+  const TAMANO_BROCHE = 1.5;
   const crearBroche = (): PiezaBroche => {
     const grupo = new Group();
     const cuerpo = new MeshStandardMaterial({ color: 0x3c3c3c, metalness: 0.3, roughness: 0.4, emissive: 0xffffff, emissiveIntensity: 0 });
@@ -532,7 +534,7 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
     }
     const halo = new SpriteMaterial({ map: texturaHalo, blending: AdditiveBlending, depthWrite: false, transparent: true, opacity: 0 });
     const s = new Sprite(halo);
-    s.scale.setScalar(0.13);
+    s.scale.setScalar(0.075);
     s.position.set(0, -0.008, 0.02);
     grupo.add(s);
     return { grupo, cuerpo, halo };
@@ -668,7 +670,7 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
     return -1;
   };
 
-  /** El broche bajo el puntero: a menos de 18 px de su proyección en pantalla. */
+  /** El broche bajo el puntero: a menos de 26 px de su proyección en pantalla. */
   const brocheEn = (e: PointerEvent): [number, number] | null => {
     const r = canvas.getBoundingClientRect();
     const v = new Vector3();
@@ -1003,9 +1005,10 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
         const destello = b.suelto ? 0 : 0.6 * Math.exp(-((xb - barrido) ** 2) / (2 * 0.32 * 0.32));
         const meta = b.suelto ? 0 : Math.max(encima, destello);
         b.luz += (meta - b.luz) * (meta > b.luz ? 0.35 : 0.12);
-        b.cuerpo.emissiveIntensity = b.luz * 0.85;
-        b.halo.opacity = b.luz * 0.6;
-        b.grupo.scale.setScalar(1 + encima * b.luz * 0.3);
+        // Encendido, pero sobrio: un brillo chico y apenas más grande al pasar el puntero.
+        b.cuerpo.emissiveIntensity = b.luz * 0.3;
+        b.halo.opacity = b.luz * 0.22;
+        b.grupo.scale.setScalar(TAMANO_BROCHE * (1 + encima * b.luz * 0.08));
       });
     }
 

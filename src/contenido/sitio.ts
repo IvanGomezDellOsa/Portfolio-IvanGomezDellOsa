@@ -71,6 +71,10 @@ export const NAV = {
 export const HERO = {
   rol: b("Full Stack Developer", "Full Stack Developer"),
   verProyectos: b("Ver los proyectos", "See the projects"),
+  bajar: b("Seguir bajando", "Keep scrolling"),
+  /** El segundo botón de las telas: lleva a la sección completa del proyecto elegido. */
+  detalles: b("Ver detalles", "View details"),
+  lista: b("Lista de proyectos", "Project list"),
   reel: b("Los proyectos, en video", "The projects, on video"),
   /** El botón de las telas de los dos sitios web, que no tienen video. */
   verSitio: b("Ver sitio web", "Visit the website"),
