@@ -31,6 +31,7 @@ export function vitrinaDe(lang: Idioma): ItemVitrina[] {
     return {
       slug: p.slug,
       nombre: p.nombre,
+      marca: p.marca.replace("marca.webp", "espera.webp"),
       acento: SALAS[p.slug].acento,
       ...(p.video ? { video: { id: p.video.id } } : vivo ? { sitio: lang === "en" && vivo.hrefEn ? vivo.hrefEn : vivo.href } : {}),
     };

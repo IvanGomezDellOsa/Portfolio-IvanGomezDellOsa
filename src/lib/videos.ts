@@ -23,6 +23,8 @@ export interface Funcion {
 export interface ItemVitrina {
   slug: SalaId;
   nombre: string;
+  /** El logo del proyecto en 16:9 (`espera.webp`): lo que muestra su tela mientras espera. */
+  marca: string;
   acento: string;
   video?: { id: string };
   sitio?: string;

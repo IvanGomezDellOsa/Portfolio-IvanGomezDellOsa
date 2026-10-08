@@ -9,6 +9,8 @@ export interface TelaDatos {
   slug: string;
   poster: string;
   video: string;
+  /** El logo en 16:9, a tela completa: lo que muestra la tela mientras no es la elegida. */
+  marca: string;
   /** Cualquier color CSS (los acentos del sitio están en oklch). */
   acento: string;
 }
@@ -74,6 +76,8 @@ export const VERTICE = /* glsl */ `
 
 export const FRAGMENTO = /* glsl */ `
   uniform sampler2D uMapa;
+  uniform sampler2D uMarca; // el logo, para las telas en espera
+  uniform float uMarcaLista;
   uniform float uLuz;      // 1 = la tela elegida; 0 = apagada
   uniform float uListo;    // el video (o el póster) ya llegó
   uniform vec3 uAcento;
@@ -113,6 +117,12 @@ export const FRAGMENTO = /* glsl */ `
     float gris = dot(imagen, vec3(0.2126, 0.7152, 0.0722));
     imagen = mix(vec3(gris), imagen, mix(0.25, 1.0, uLuz)) * mix(0.09, 1.0, uLuz);
     imagen = mix(tela, imagen, uListo);
+
+    // EN ESPERA, EL LOGO a tela completa (sacado del repo de cada proyecto).
+    // El video sólo aparece en la elegida (se funde con uLuz al llegar).
+    vec3 logo = texture2D(uMarca, clamp(uv, 0.0, 1.0)).rgb * 0.85;
+    vec3 espera = mix(tela, logo, uMarcaLista);
+    imagen = mix(espera, imagen, smoothstep(0.35, 0.95, uLuz));
 
     vec3 color = mix(tela + uAcento * 0.02 * uLuz, imagen, dentro);
     color = color * pliegue + saten;

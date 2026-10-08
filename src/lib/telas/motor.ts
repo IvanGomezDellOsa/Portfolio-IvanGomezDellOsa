@@ -549,6 +549,8 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
       side: DoubleSide,
       uniforms: {
         uMapa: { value: new Texture() },
+        uMarca: { value: new Texture() },
+        uMarcaLista: { value: 0 },
         uLuz: { value: 0 },
         uListo: { value: 0 },
         uAcento: { value: rgbDe(d.acento) },
@@ -581,6 +583,12 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
       t.anisotropy = anisotropia;
       if (!textura) material.uniforms.uMapa!.value = t;
       estado.cargado = true;
+    });
+    cargador.load(d.marca, (t) => {
+      t.colorSpace = SRGBColorSpace;
+      t.anisotropy = anisotropia;
+      material.uniforms.uMarca!.value = t;
+      material.uniforms.uMarcaLista!.value = 1;
     });
     return estado;
   });
@@ -1033,6 +1041,7 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
         t.tela.geom.dispose();
         t.material.dispose();
         (t.material.uniforms.uMapa!.value as Texture).dispose();
+        (t.material.uniforms.uMarca!.value as Texture).dispose();
       }
       renderer.dispose();
       canvas.remove();

@@ -42,3 +42,31 @@ export function Flecha({ lado = 12 }: { lado?: number }) {
     </svg>
   );
 }
+
+export function IconoMail({ lado = 18 }: { lado?: number }) {
+  return (
+    <svg width={lado} height={lado} viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M2.4 3.5h19.2c1.33 0 2.4 1.07 2.4 2.4v.33l-12 7.2L0 6.23V5.9c0-1.33 1.07-2.4 2.4-2.4ZM0 8.75l11.38 6.83a1.2 1.2 0 0 0 1.24 0L24 8.75v9.35c0 1.33-1.07 2.4-2.4 2.4H2.4A2.4 2.4 0 0 1 0 18.1V8.75Z"
+      />
+    </svg>
+  );
+}
+
+export function IconoCopiar({ lado = 15 }: { lado?: number }) {
+  return (
+    <svg width={lado} height={lado} viewBox="0 0 16 16" aria-hidden="true">
+      <rect x="5.25" y="5.25" width="8.5" height="8.5" rx="1.75" fill="none" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M10.75 2.75v-.5A1.5 1.5 0 0 0 9.25.75h-6A1.5 1.5 0 0 0 1.75 2.25v6a1.5 1.5 0 0 0 1.5 1.5h.5" fill="none" stroke="currentColor" strokeWidth="1.4" transform="translate(.5 1.5)" />
+    </svg>
+  );
+}
+
+export function IconoListo({ lado = 15 }: { lado?: number }) {
+  return (
+    <svg width={lado} height={lado} viewBox="0 0 16 16" aria-hidden="true">
+      <path d="m3.25 8.5 3 3 6.5-7" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}

@@ -59,6 +59,7 @@ export function Telas({ lang, items, funciones }: { lang: Idioma; items: ItemVit
             slug: f.slug,
             poster: vistaPrevia(f.slug).poster.replace("-1280", "-640"),
             video: vistaPrevia(f.slug).chico,
+            marca: f.marca,
             acento: f.acento,
           })),
           alCambiar: setI,

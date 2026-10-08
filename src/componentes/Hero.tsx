@@ -2,6 +2,7 @@ import { GITHUB, HERO, LINKEDIN, NOMBRE } from "@/contenido/sitio";
 import type { Idioma } from "@/contenido/tipos";
 import type { Funcion, ItemVitrina } from "@/lib/videos";
 import { IconoGithub, IconoLinkedin } from "./Iconos";
+import { MailHero } from "./MailHero";
 import { MenuCV } from "./MenuCV";
 import { Telas } from "./Telas";
 import css from "./Hero.module.css";
@@ -42,6 +43,9 @@ export function Hero({ lang, funciones, vitrina }: { lang: Idioma; funciones: Fu
                 </a>
               </li>
             ))}
+            <li>
+              <MailHero lang={lang} />
+            </li>
           </ul>
         </div>
       </div>
