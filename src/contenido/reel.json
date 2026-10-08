@@ -1,0 +1,21 @@
+{
+  "duracion": 23.8,
+  "proyectos": [
+    "ask-leonardo-da-vinci",
+    "datos-pauta-oficial",
+    "sevive",
+    "inversiones-en-argentina",
+    "facehunt-2",
+    "mementolife",
+    "freemagicmirror"
+  ],
+  "cortes": [
+    3.1,
+    6.5,
+    9.9,
+    13.3,
+    16.7,
+    20.1
+  ],
+  "vuelta": 23.5
+}

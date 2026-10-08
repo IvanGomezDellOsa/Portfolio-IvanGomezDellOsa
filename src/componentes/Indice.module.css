@@ -1,0 +1,135 @@
+.indice {
+  background: var(--fondo);
+}
+
+.interior {
+  width: 100%;
+  max-width: calc(var(--ancho) + 2 * var(--canal));
+  margin: 0 auto;
+  padding: clamp(30px, 6vh, 64px) var(--canal) clamp(70px, 12vh, 130px);
+}
+
+.cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.titulo {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--pelo);
+}
+
+/* Una fila: el enlace a la sección ocupa todo; el video va aparte, a la derecha. */
+/* La columna del botón tiene ancho fijo: así las demás quedan alineadas en todas las filas. */
+.fila {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 140px;
+  align-items: center;
+  border-bottom: 1px solid var(--pelo);
+  transition: background-color 0.25s var(--curva-reaccion);
+}
+
+.fila:hover {
+  background: color-mix(in oklch, var(--tinte) 6%, transparent);
+}
+
+.enlace {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: baseline;
+  gap: 18px;
+  padding: 17px 8px;
+  color: var(--tinta);
+  text-decoration: none;
+}
+
+.punto {
+  align-self: center;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tinte);
+  box-shadow: 0 0 12px color-mix(in oklch, var(--tinte) 60%, transparent);
+}
+
+.nombre {
+  font-size: clamp(17px, 1.5vw, 20px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.area {
+  font-size: 14.5px;
+  color: var(--tinta-2);
+}
+
+.meta {
+  font-size: 12px;
+  color: var(--tinta-3);
+}
+
+/* El botón del video toma el acento del proyecto de su fila. */
+.accion {
+  --acento: var(--tinte);
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 8px 0 16px;
+}
+
+.sitio {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 30px;
+  padding: 0 11px;
+  border: 1px solid var(--pelo);
+  border-radius: 999px;
+  color: var(--tinta-2);
+  font-size: 13px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color 0.2s var(--curva-reaccion),
+    border-color 0.2s var(--curva-reaccion);
+}
+
+.sitio:hover {
+  color: var(--tinta);
+  border-color: color-mix(in oklch, var(--tinte) 55%, transparent);
+}
+
+@media (max-width: 900px) {
+  .fila {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .enlace {
+    grid-template-columns: 10px minmax(0, 1fr);
+    gap: 4px 14px;
+    padding: 15px 4px;
+  }
+
+  .area,
+  .meta {
+    grid-column: 2;
+  }
+
+  .accion {
+    align-self: start;
+    padding: 13px 4px 0 10px;
+  }
+}

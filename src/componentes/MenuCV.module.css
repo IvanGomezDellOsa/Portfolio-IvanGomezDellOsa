@@ -1,0 +1,106 @@
+.menu {
+  position: relative;
+}
+
+/* En la barra: un botón chico de borde. En el hero, la pastilla hueca. */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 32px;
+  padding: 0 12px 0 14px;
+  border: 1px solid color-mix(in oklch, var(--nav-tinta) 20%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--nav-tinta) 4%, transparent);
+  color: var(--nav-tinta);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    border-color 0.2s var(--curva-reaccion),
+    background-color 0.2s var(--curva-reaccion),
+    transform 0.2s var(--curva-reaccion);
+}
+
+.boton:hover,
+.boton[aria-expanded="true"] {
+  border-color: color-mix(in oklch, var(--nav-tinta) 40%, transparent);
+  background: color-mix(in oklch, var(--nav-tinta) 9%, transparent);
+}
+
+.boton:active {
+  transform: scale(0.96);
+}
+
+.chevron {
+  opacity: 0.7;
+  transition: transform 0.25s var(--curva-reaccion);
+}
+
+[aria-expanded="true"] > .chevron {
+  transform: rotate(180deg);
+}
+
+.lista {
+  position: absolute;
+  top: calc(100% + 8px);
+  z-index: 60;
+  display: grid;
+  gap: 2px;
+  min-width: 220px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid oklch(96% 0 0 / 0.12);
+  border-radius: 12px;
+  background: oklch(17% 0 0 / 0.96);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 60px -20px oklch(0% 0 0 / 0.7);
+  animation: abrir 0.22s var(--curva-entrada);
+}
+
+.lista[hidden] {
+  display: none;
+}
+
+.barra .lista {
+  right: 0;
+}
+
+.hero .lista {
+  left: 50%;
+  translate: -50% 0;
+}
+
+@keyframes abrir {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.opcion {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: oklch(96% 0 0);
+  font-size: 14.5px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.15s var(--curva-reaccion);
+}
+
+.opcion:hover,
+.opcion:focus-visible {
+  background: oklch(96% 0 0 / 0.08);
+}
+
+.documento {
+  font-size: 11.5px;
+  color: oklch(70% 0 0);
+  white-space: nowrap;
+}

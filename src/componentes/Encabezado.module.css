@@ -1,0 +1,106 @@
+.barra {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 64px;
+  padding: 0 var(--canal);
+  padding-top: env(safe-area-inset-top);
+  color: var(--nav-tinta);
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 0.4s var(--curva-entrada),
+    border-color 0.4s var(--curva-entrada);
+}
+
+/*
+ * EL VIDRIO. Oscuro, con el tinte del proyecto y alfa, con el prefijo
+ * `-webkit-`: sin él, en iOS 17 y anteriores el vidrio queda plano.
+ */
+.barra[data-con-fondo="true"] {
+  background: color-mix(in oklch, var(--nav-fondo) 72%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+  border-bottom-color: var(--nav-pelo);
+}
+
+.firma {
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--nav-tinta);
+}
+
+.navegacion {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.8vw, 26px);
+}
+
+.enlace {
+  padding: 8px 2px;
+  font-size: 14px;
+  font-weight: 450;
+  text-decoration: none;
+  color: var(--nav-tinta-2);
+  transition: color 0.2s var(--curva-reaccion);
+}
+
+.enlace:hover {
+  color: var(--nav-tinta);
+}
+
+.idiomas {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid color-mix(in oklch, var(--nav-tinta) 16%, transparent);
+  border-radius: 999px;
+}
+
+.idioma {
+  display: inline-grid;
+  place-items: center;
+  min-width: 34px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-family: var(--f-maquina);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--nav-tinta-2);
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+}
+
+.idioma[aria-current] {
+  background: color-mix(in oklch, var(--nav-tinta) 14%, transparent);
+  color: var(--nav-tinta);
+}
+
+a.idioma:hover {
+  color: var(--nav-tinta);
+}
+
+@media (max-width: 860px) {
+  .enlace {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .firma {
+    font-size: 14px;
+  }
+
+  .navegacion {
+    gap: 8px;
+  }
+}

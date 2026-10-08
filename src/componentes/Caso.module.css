@@ -1,0 +1,348 @@
+.caso {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background: var(--fondo);
+  color: var(--tinta);
+}
+
+.caso::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 110vh;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(55% 45% at 88% 6%, var(--luz), transparent 72%);
+}
+
+.cabecera,
+.material,
+.cuerpo,
+.pasos {
+  width: 100%;
+  max-width: calc(var(--ancho) + 2 * var(--canal));
+  margin: 0 auto;
+  padding-left: var(--canal);
+  padding-right: var(--canal);
+}
+
+.cabecera {
+  display: grid;
+  gap: 16px;
+  padding-top: calc(64px + clamp(30px, 7vh, 80px));
+}
+
+.migas {
+  margin-bottom: 10px;
+}
+
+.titulo {
+  font-size: clamp(42px, 6.6vw, 96px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.055em;
+  text-wrap: balance;
+}
+
+.subtitulo {
+  font-size: clamp(18px, 1.7vw, 23px);
+  letter-spacing: -0.02em;
+  color: var(--tinta-2);
+}
+
+.apertura {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: end;
+  gap: clamp(26px, 5vw, 80px);
+  margin: 18px 0 10px;
+}
+
+.resumen {
+  max-width: 36em;
+  font-size: clamp(17.5px, 1.4vw, 20.5px);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+}
+
+.material {
+  padding-top: clamp(40px, 7vh, 76px);
+  padding-bottom: clamp(40px, 7vh, 76px);
+}
+
+/* El video grande y, al lado, sus escenas. */
+.conEscenas {
+  display: grid;
+  gap: clamp(22px, 3vw, 40px);
+}
+
+@media (min-width: 1000px) {
+  .conEscenas[data-escenas="true"] {
+    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+    align-items: start;
+  }
+}
+
+/* ─── Cuerpo del caso ─── */
+
+.cuerpo {
+  display: grid;
+  gap: clamp(46px, 8vh, 90px);
+  padding-bottom: clamp(70px, 12vh, 130px);
+}
+
+.seccion {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+  gap: clamp(18px, 4vw, 60px);
+  padding-top: 24px;
+  border-top: 1px solid var(--pelo);
+}
+
+.tituloSeccion {
+  font-size: clamp(22px, 2.1vw, 30px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: var(--tinta);
+}
+
+.bloques {
+  display: grid;
+  gap: 28px;
+  min-width: 0;
+}
+
+.parrafos {
+  display: grid;
+  gap: 16px;
+  max-width: 44em;
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: var(--tinta-2);
+}
+
+.lista {
+  display: grid;
+  gap: 12px;
+  max-width: 46em;
+  margin: 0;
+  padding-left: 1.15em;
+  font-size: 16.5px;
+  line-height: 1.68;
+  color: var(--tinta-2);
+}
+
+.lista li::marker {
+  color: var(--acento);
+}
+
+.diagrama {
+  display: grid;
+  gap: 12px;
+}
+
+.diagrama pre {
+  margin: 0;
+  padding: 22px 24px;
+  overflow-x: auto;
+  border: 1px solid var(--pelo);
+  border-radius: var(--radio);
+  background: var(--fondo-2);
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--tinta);
+  tab-size: 2;
+}
+
+.diagrama figcaption,
+.tabla figcaption,
+.imagenes figcaption {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--tinta-3);
+}
+
+.tabla {
+  display: grid;
+  gap: 12px;
+}
+
+.desplazable {
+  overflow-x: auto;
+}
+
+.tabla table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.tabla th,
+.tabla td {
+  padding: 11px 16px 11px 0;
+  border-top: 1px solid var(--pelo);
+  text-align: left;
+  vertical-align: top;
+}
+
+.tabla thead th {
+  border-top: 0;
+  padding-bottom: 8px;
+  font-family: var(--f-maquina);
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+}
+
+.tabla tbody th {
+  font-weight: 600;
+  color: var(--tinta);
+  white-space: nowrap;
+}
+
+.tabla td {
+  color: var(--tinta-2);
+}
+
+.imagenes {
+  display: grid;
+  gap: 12px;
+}
+
+.grillaImagenes {
+  display: grid;
+  gap: 18px;
+  align-items: center;
+}
+
+.imagenes[data-cantidad="2"] .grillaImagenes {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.imagenes[data-cantidad="4"] .grillaImagenes {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+/* Una captura de escritorio y una de teléfono: el teléfono más angosto. */
+.grillaImagenes:has(.telefono) {
+  grid-template-columns: minmax(0, 1fr) auto !important;
+}
+
+.imagen {
+  overflow: hidden;
+  border-radius: var(--radio);
+  background: var(--fondo-2);
+  box-shadow: 0 0 0 1px var(--pelo);
+}
+
+.telefono {
+  width: clamp(160px, 20vw, 250px);
+}
+
+.visualBloque {
+  min-width: 0;
+}
+
+.cita {
+  max-width: 40em;
+  padding-left: 20px;
+  border-left: 2px solid var(--acento);
+  font-size: clamp(18px, 1.7vw, 22px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.45;
+  color: var(--tinta);
+}
+
+/* ─── A otro proyecto ─── */
+
+.pasos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding-bottom: clamp(60px, 10vh, 110px);
+}
+
+.paso {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  gap: 8px;
+  padding: clamp(22px, 3vw, 34px);
+  border-radius: 16px;
+  background: var(--fondo);
+  color: var(--tinta);
+  text-decoration: none;
+  box-shadow: 0 0 0 1px var(--pelo) inset;
+  transition:
+    transform 0.3s var(--curva-reaccion),
+    box-shadow 0.3s var(--curva-reaccion);
+}
+
+/* El acento del otro proyecto asoma desde la esquina. */
+.paso::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20% auto auto;
+  width: 60%;
+  aspect-ratio: 1;
+  z-index: -1;
+  border-radius: 50%;
+  background: var(--tinte);
+  filter: blur(70px);
+  opacity: 0.16;
+}
+
+.paso:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--tinte) 45%, transparent) inset;
+}
+
+.paso:last-child {
+  text-align: right;
+}
+
+.nombrePaso {
+  font-size: clamp(22px, 2.4vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.areaPaso {
+  font-size: 14px;
+  color: var(--tinta-2);
+}
+
+@media (max-width: 900px) {
+  .apertura,
+  .seccion {
+    grid-template-columns: 1fr;
+  }
+
+  .imagenes[data-cantidad="2"] .grillaImagenes,
+  .imagenes[data-cantidad="4"] .grillaImagenes {
+    grid-template-columns: 1fr;
+  }
+
+  .grillaImagenes:has(.telefono) {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .pasos {
+    grid-template-columns: 1fr;
+  }
+
+  .paso:last-child {
+    text-align: left;
+  }
+}

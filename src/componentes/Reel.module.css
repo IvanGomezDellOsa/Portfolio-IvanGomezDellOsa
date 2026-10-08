@@ -1,0 +1,234 @@
+/* El resplandor cambia de color con el proyecto: registrado, para que se pueda animar. */
+@property --brillo {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(80% 0.1 75);
+}
+
+.reel {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  width: 100%;
+  transition: --brillo 1.2s var(--curva-entrada);
+}
+
+.pantalla {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  background: oklch(9% 0 0);
+  box-shadow: 0 0 0 1px oklch(96% 0 0 / 0.12);
+}
+
+/* La luz de la pantalla sobre la sala: difusa, detrás, del color del proyecto. */
+.pantalla::before {
+  content: "";
+  position: absolute;
+  inset: 8% 6% -6%;
+  z-index: -1;
+  border-radius: 50%;
+  background: var(--brillo);
+  filter: blur(90px);
+  opacity: 0.26;
+  pointer-events: none;
+}
+
+.poster,
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+.video[hidden] {
+  display: none;
+}
+
+.reproducir {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  padding: clamp(14px, 2.4vw, 26px);
+  border-radius: 14px;
+  color: oklch(97% 0 0);
+  text-decoration: none;
+  background: linear-gradient(to top, oklch(7% 0 0 / 0.78), oklch(7% 0 0 / 0.16) 34%, transparent 56%);
+}
+
+.reproducir:focus-visible {
+  outline-offset: -4px;
+}
+
+.play {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  padding-left: 3px;
+  border-radius: 50%;
+  background: oklch(97% 0 0);
+  color: oklch(14.5% 0 0);
+  box-shadow: 0 8px 30px -8px oklch(0% 0 0 / 0.6);
+  transition: transform 0.25s var(--curva-reaccion);
+}
+
+.reproducir:hover .play {
+  transform: scale(1.06);
+}
+
+.reproducir:active .play {
+  transform: scale(0.96);
+}
+
+.leyenda {
+  display: grid;
+  gap: 2px;
+  padding-bottom: 2px;
+  text-align: left;
+  text-shadow: 0 1px 14px oklch(0% 0 0 / 0.6);
+}
+
+.nombre {
+  font-size: clamp(17px, 1.7vw, 22px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.ver {
+  font-size: 13.5px;
+  color: oklch(88% 0 0);
+}
+
+.ver .maquina {
+  font-size: 12.5px;
+  margin-left: 4px;
+}
+
+.pausa {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid oklch(100% 0 0 / 0.18);
+  border-radius: 50%;
+  background: oklch(12% 0 0 / 0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: oklch(96% 0 0);
+  cursor: pointer;
+  opacity: 0.78;
+  transition: opacity 0.2s var(--curva-reaccion);
+}
+
+.pausa:hover {
+  opacity: 1;
+}
+
+/* ─── Las barras: una por video, como un índice que avanza ─── */
+
+.barras {
+  --avance: 0;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.barras button {
+  display: grid;
+  gap: 9px;
+  width: 100%;
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: oklch(64% 0 0);
+  font-size: 12.5px;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s var(--curva-reaccion);
+}
+
+.barras button:hover,
+.barras button[aria-current] {
+  color: oklch(96% 0 0);
+}
+
+.pista {
+  position: relative;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: oklch(96% 0 0 / 0.16);
+}
+
+.pista::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: var(--tinte);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+li[data-estado="visto"] .pista::after {
+  transform: scaleX(1);
+  background: oklch(96% 0 0 / 0.42);
+}
+
+li[data-estado="actual"] .pista::after {
+  transform: scaleX(var(--avance));
+}
+
+/* Quieto: la barra elegida, llena; ninguna avanza. */
+.reel[data-quieto] li[data-estado="actual"] .pista::after {
+  transform: scaleX(1);
+}
+
+.rotulo {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .barras {
+    gap: 5px;
+  }
+
+  .rotulo {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .barras button {
+    padding: 11px 0;
+  }
+
+  .play {
+    width: 44px;
+    height: 44px;
+  }
+}

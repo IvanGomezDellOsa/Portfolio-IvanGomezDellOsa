@@ -1,0 +1,140 @@
+/*
+ * EL HERO. Negro neutro, una retícula de un pelo que se apaga hacia los bordes
+ * y una luz blanca muy tenue arriba: el lugar, sin decorado. Todo el peso lo
+ * lleva el nombre.
+ */
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: calc(64px + clamp(28px, 6vh, 72px)) var(--canal) clamp(40px, 7vh, 90px);
+  background: var(--fondo);
+}
+
+.fondo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 46% at 50% 0%, oklch(100% 0 0 / 0.075), transparent 72%),
+    linear-gradient(oklch(100% 0 0 / 0.045) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, oklch(100% 0 0 / 0.045) 1px, transparent 1px) 0 0 / 64px 64px;
+  background-position: center top;
+  -webkit-mask-image: radial-gradient(70% 62% at 50% 22%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(70% 62% at 50% 22%, #000 30%, transparent 78%);
+}
+
+.contenido {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+/* El nombre: grande, apretado y con un degradé que lo apaga apenas hacia abajo. */
+.nombre {
+  max-width: 100%;
+  font-size: clamp(44px, 7vw, 96px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.055em;
+  padding-bottom: 0.08em;
+  background: linear-gradient(to bottom, oklch(98% 0 0) 30%, oklch(72% 0 0));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-wrap: balance;
+}
+
+.rol {
+  margin-top: clamp(8px, 1.2vh, 14px);
+  font-size: clamp(19px, 2vw, 26px);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  color: var(--tinta-2);
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: clamp(20px, 3.2vh, 34px);
+}
+
+.redes {
+  display: flex;
+  gap: 4px;
+  margin: 0 0 0 6px;
+  padding: 0;
+  list-style: none;
+}
+
+.red {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: var(--tinta-2);
+  transition:
+    color 0.2s var(--curva-reaccion),
+    background-color 0.2s var(--curva-reaccion);
+}
+
+.red:hover {
+  color: var(--tinta);
+  background: color-mix(in oklch, var(--tinta) 8%, transparent);
+}
+
+/*
+ * Las telas van de borde a borde: el escenario sale del canal lateral. Todo el
+ * hero (nombre, puesto, acciones y las telas con su botón y sus barras) entra
+ * en la primera pantalla de una computadora: lo que más dice del trabajo se ve
+ * sin scrollear.
+ */
+.telas {
+  margin: clamp(12px, 2.5vh, 32px) calc(-1 * var(--canal)) 0;
+}
+
+/* ─── La entrada: una sola, corta y en orden ─── */
+
+@media (prefers-reduced-motion: no-preference) {
+  .nombre,
+  .rol,
+  .acciones,
+  .telas {
+    animation: entrar 0.9s var(--curva-entrada) both;
+  }
+
+  .rol {
+    animation-delay: 0.1s;
+  }
+
+  .acciones {
+    animation-delay: 0.2s;
+  }
+
+  .telas {
+    animation-duration: 1.1s;
+    animation-delay: 0.32s;
+  }
+}
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(14px);
+  }
+}
+
+@media (max-width: 640px) {
+  .redes {
+    margin: 4px 0 0;
+    width: 100%;
+    justify-content: center;
+  }
+}

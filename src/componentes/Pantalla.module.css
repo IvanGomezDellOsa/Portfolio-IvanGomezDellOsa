@@ -1,0 +1,136 @@
+/*
+ * LA PANTALLA. Es lo que más brilla de cada proyecto: un borde de un pelo y,
+ * detrás, el resplandor del acento, como una pantalla encendida en una sala a
+ * oscuras.
+ */
+.pantalla {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.marco {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radio);
+  background: var(--fondo-2);
+  box-shadow:
+    0 0 0 1px var(--pelo),
+    0 30px 110px -40px color-mix(in oklch, var(--acento) 45%, transparent);
+}
+
+.loop,
+.loop video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.loop video {
+  object-fit: cover;
+  transition: transform 1.2s var(--curva-entrada);
+}
+
+.marco:hover .loop video {
+  transform: scale(1.015);
+}
+
+/* Toda la imagen es el botón de play; la leyenda va abajo, sobre un velo. */
+.reproducir {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  padding: clamp(14px, 2.2vw, 22px);
+  color: oklch(97% 0 0);
+  text-decoration: none;
+  background: linear-gradient(to top, oklch(8% 0 0 / 0.72), oklch(8% 0 0 / 0.18) 34%, transparent 58%);
+  transition: background-color 0.3s var(--curva-reaccion);
+}
+
+.reproducir:hover {
+  background-color: oklch(8% 0 0 / 0.12);
+}
+
+.reproducir:focus-visible {
+  outline-offset: -4px;
+  border-radius: var(--radio);
+}
+
+.play {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  padding-left: 3px;
+  border-radius: 50%;
+  background: oklch(97% 0 0);
+  color: oklch(14.5% 0 0);
+  box-shadow: 0 8px 30px -8px oklch(0% 0 0 / 0.6);
+  transition: transform 0.25s var(--curva-reaccion);
+}
+
+.reproducir:hover .play {
+  transform: scale(1.06);
+}
+
+.reproducir:active .play {
+  transform: scale(0.96);
+}
+
+.leyenda {
+  display: grid;
+  gap: 1px;
+  padding-bottom: 3px;
+  text-shadow: 0 1px 12px oklch(0% 0 0 / 0.6);
+}
+
+.ver {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* La pausa del loop, arriba a la derecha: abajo está la leyenda. */
+.pausa {
+  top: 12px;
+  bottom: auto;
+}
+
+/* ─── El botón de un video, en las listas ─── */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 11px;
+  border: 1px solid var(--pelo);
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--tinta) 3%, transparent);
+  color: var(--tinta-2);
+  font-size: 13px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color 0.2s var(--curva-reaccion),
+    border-color 0.2s var(--curva-reaccion),
+    background-color 0.2s var(--curva-reaccion);
+}
+
+.chip:hover {
+  color: var(--tinta);
+  border-color: color-mix(in oklch, var(--acento) 55%, transparent);
+  background: color-mix(in oklch, var(--acento) 10%, transparent);
+}
+
+.chip svg {
+  color: var(--acento);
+}
+

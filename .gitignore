@@ -1,0 +1,22 @@
+# dependencias
+node_modules/
+
+# build de Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# capturas crudas de tools/capturas.mjs (los medios finales van en public/medios)
+tools/_capturas/
+
+# tramos renderizados de los videos de portfolio-videos (tools/videos.mjs)
+tools/_videos/
+
+# entorno
+.env*
+.DS_Store
+Thumbs.db
+
+# configuración local del editor y de Claude Code
+.claude/

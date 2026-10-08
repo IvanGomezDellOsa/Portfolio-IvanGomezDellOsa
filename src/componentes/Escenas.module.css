@@ -1,0 +1,65 @@
+.escenas {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  min-width: 0;
+}
+
+.escenas ol {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--pelo);
+}
+
+.escenas li {
+  border-bottom: 1px solid var(--pelo);
+}
+
+.escenas a {
+  display: grid;
+  grid-template-columns: 3.4em minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 2px;
+  color: var(--tinta-2);
+  font-size: 15px;
+  line-height: 1.35;
+  text-decoration: none;
+  transition: color 0.2s var(--curva-reaccion);
+}
+
+/* El triángulo aparece al pasar: dice que ese renglón arranca el video ahí. */
+.escenas a::after {
+  content: "";
+  align-self: center;
+  width: 7px;
+  height: 8px;
+  background: var(--acento);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  opacity: 0;
+  translate: -4px 0;
+  transition:
+    opacity 0.2s var(--curva-reaccion),
+    translate 0.2s var(--curva-reaccion);
+}
+
+.escenas a:hover {
+  color: var(--tinta);
+}
+
+.escenas a:hover::after,
+.escenas a:focus-visible::after {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.escenas .maquina {
+  font-size: 12.5px;
+  color: var(--tinta-3);
+}
+
+.escenas a:hover .maquina {
+  color: var(--acento);
+}
