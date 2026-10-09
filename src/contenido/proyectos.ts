@@ -1027,8 +1027,8 @@ export const PROYECTOS: Proyecto[] = [
       nombre: "FaceHunt",
       periodo: b("2025", "2025"),
       texto: b(
-        "Reconocimiento facial en video con deep learning: DeepFace (FaceNet), RetinaFace y MTCNN, extracción de cuadros por lotes con OpenCV, descarga con yt-dlp, API en FastAPI e interfaz web en Docker.",
-        "Deep learning facial recognition in video: DeepFace (FaceNet), RetinaFace and MTCNN, batched frame extraction with OpenCV, downloads with yt-dlp, a FastAPI API and a web interface in Docker.",
+        "Reconocimiento facial en video con deep learning: DeepFace (FaceNet), RetinaFace y MTCNN, extracción de cuadros por lotes con OpenCV, descarga con yt-dlp, API en FastAPI e interfaz web en Docker. La lógica de reconocimiento y de procesamiento de video es propia; la interfaz web y parte de la sintaxis de la API se hicieron con asistencia de IA.",
+        "Deep learning facial recognition in video: DeepFace (FaceNet), RetinaFace and MTCNN, batched frame extraction with OpenCV, downloads with yt-dlp, a FastAPI API and a web interface in Docker. The recognition and video processing logic is my own; the web interface and part of the API syntax were built with AI assistance.",
       ),
       stack: ["Python", "DeepFace", "FaceNet", "RetinaFace", "FastAPI", "Docker"],
       enlaces: [{ tipo: "repositorio", href: `${GH}/FaceHunt` }],
@@ -1162,6 +1162,18 @@ export const PROYECTOS: Proyecto[] = [
                 ["Interface", "HTML, CSS and JavaScript with no build step, in a pywebview window"],
                 ["Testing and packaging", "pytest, PyInstaller, Windows installer"],
               ],
+            ),
+          },
+        ],
+      },
+      {
+        titulo: b("Notas de desarrollo", "Development notes"),
+        bloques: [
+          {
+            tipo: "parrafos",
+            texto: b(
+              ["Desarrollado con asistencia de IA para ganar productividad; las decisiones de producto y arquitectura son propias."],
+              ["Built with AI assistance to gain productivity; the product and architecture decisions are my own."],
             ),
           },
         ],
@@ -1333,6 +1345,10 @@ export const PROYECTOS: Proyecto[] = [
           },
         ],
       },
+      {
+        titulo: b("Notas de desarrollo", "Development notes"),
+        bloques: [{ tipo: "parrafos", texto: b([AI_ES], [AI_EN]) }],
+      },
     ],
   },
 
@@ -1358,6 +1374,14 @@ export const PROYECTOS: Proyecto[] = [
         "Heavy effects are turned off on phones to keep scrolling smooth, the Instagram feed and the reviews are local content instead of external widgets, and structured data helps with local search.",
       ],
     ),
+    dato: {
+      valor: b("95 / 100", "95 / 100"),
+      etiqueta: b(
+        "de rendimiento en Lighthouse con el perfil móvil, sobre el sitio en producción (99 en escritorio)",
+        "Lighthouse performance with the mobile profile, on the live site (99 on desktop)",
+      ),
+      nota: b("Mediana de 3 corridas · septiembre de 2026", "Median of 3 runs · September 2026"),
+    },
     stack: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Lenis", "shadcn/ui", "Vercel"],
     enlaces: [
       { tipo: "sitio", href: "https://www.rugidosfiestas.com.ar", texto: b("rugidosfiestas.com.ar", "rugidosfiestas.com.ar") },
@@ -1447,7 +1471,7 @@ export const PROYECTOS: Proyecto[] = [
         bloques: [
           {
             tipo: "tabla",
-            columnas: b(["Lighthouse", "Teléfono", "Escritorio"], ["Lighthouse", "Phone", "Desktop"]),
+            columnas: b(["Lighthouse", "Móvil", "Escritorio"], ["Lighthouse", "Mobile", "Desktop"]),
             filas: b(
               [
                 ["Rendimiento", "**95**", "**99**"],
