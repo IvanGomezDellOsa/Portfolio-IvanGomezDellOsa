@@ -3,6 +3,7 @@ import type { SalaId } from "@/contenido/salas";
 import type { Idioma } from "@/contenido/tipos";
 import { funcionesDe, vitrinaDe } from "@/lib/funciones";
 import { inicio } from "@/lib/rutas";
+import { Arriba } from "./Arriba";
 import { Encabezado } from "./Encabezado";
 import { Galeria } from "./Galeria";
 import { Hero } from "./Hero";
@@ -45,6 +46,7 @@ export function Portada({ lang }: { lang: Idioma }) {
       </main>
       <Pie />
       <Pasillo lang={lang} />
+      <Arriba lang={lang} />
       <Teatro lang={lang} funciones={funciones} />
       <Revelador />
       <ObservadorSalas />

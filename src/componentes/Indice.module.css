@@ -31,12 +31,12 @@
   border-top: 1px solid var(--pelo);
 }
 
-/* Una fila: el enlace a la sección ocupa todo; el video va aparte, a la derecha. */
-/* La columna del botón tiene ancho fijo: así las demás quedan alineadas en todas las filas. */
+/* Una fila: el enlace a la sección ocupa todo; a la derecha, las tres columnas de íconos, de ancho fijo para que se alineen. */
 .fila {
+  --columna: 104px;
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 140px;
+  grid-template-columns: minmax(0, 1fr) repeat(3, var(--columna));
   align-items: center;
   border-bottom: 1px solid var(--pelo);
   transition: background-color 0.25s var(--curva-reaccion);
@@ -46,9 +46,61 @@
   background: color-mix(in oklch, var(--tinte) 6%, transparent);
 }
 
+/* Los títulos de las columnas: chicos, en versalitas, sobre la línea de arriba. */
+.titulos {
+  padding: 0 0 10px;
+  border-bottom: 0;
+  color: var(--tinta-3);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.titulos:hover {
+  background: none;
+}
+
+.tituloProyecto {
+  padding-left: 36px;
+  text-align: left;
+}
+
+.celda {
+  display: grid;
+  place-items: center;
+}
+
+.icono {
+  --acento: var(--tinte);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--tinta-3);
+  text-decoration: none;
+  transition:
+    color 0.2s var(--curva-reaccion),
+    background-color 0.2s var(--curva-reaccion);
+}
+
+.icono:hover,
+.icono:focus-visible {
+  color: var(--tinta);
+  background: color-mix(in oklch, var(--tinte) 16%, transparent);
+}
+
+.vacio {
+  width: 10px;
+  height: 1px;
+  background: var(--pelo);
+}
+
 .enlace {
   display: grid;
-  grid-template-columns: 10px minmax(0, 1.3fr) minmax(0, 1.1fr);
+  grid-template-columns: 10px minmax(0, 1fr);
   align-items: baseline;
   gap: 18px;
   padding: 17px 8px;
@@ -72,58 +124,19 @@
   line-height: 1.25;
 }
 
-.meta {
-  font-size: 12px;
-  color: var(--tinta-3);
-}
-
-/* El botón del video toma el acento del proyecto de su fila. */
-.accion {
-  --acento: var(--tinte);
-  display: flex;
-  justify-content: flex-end;
-  padding: 0 8px 0 16px;
-}
-
-.sitio {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  height: 30px;
-  padding: 0 11px;
-  border: 1px solid var(--pelo);
-  border-radius: 999px;
-  color: var(--tinta-2);
-  font-size: 13px;
-  text-decoration: none;
-  white-space: nowrap;
-  transition:
-    color 0.2s var(--curva-reaccion),
-    border-color 0.2s var(--curva-reaccion);
-}
-
-.sitio:hover {
-  color: var(--tinta);
-  border-color: color-mix(in oklch, var(--tinte) 55%, transparent);
-}
-
 @media (max-width: 900px) {
   .fila {
-    grid-template-columns: minmax(0, 1fr) auto;
+    --columna: 44px;
+  }
+
+  /* En el celular los íconos se explican solos (y llevan su nombre para lectores). */
+  .titulos {
+    display: none;
   }
 
   .enlace {
     grid-template-columns: 10px minmax(0, 1fr);
     gap: 4px 14px;
     padding: 15px 4px;
-  }
-
-  .meta {
-    grid-column: 2;
-  }
-
-  .accion {
-    align-self: start;
-    padding: 13px 4px 0 10px;
   }
 }

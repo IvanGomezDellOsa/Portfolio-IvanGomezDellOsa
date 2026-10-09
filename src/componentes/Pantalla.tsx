@@ -78,6 +78,7 @@ export function BotonVideo({
   lang,
   variante = "hueca",
   conTexto = true,
+  clase,
 }: {
   slug: SalaId;
   nombre: string;
@@ -85,10 +86,12 @@ export function BotonVideo({
   lang: Idioma;
   variante?: "pastilla" | "hueca" | "chip";
   conTexto?: boolean;
+  /** Una clase propia en lugar de la de la variante (el ícono de la lista de proyectos). */
+  clase?: string;
 }) {
-  const clase = variante === "chip" ? css.chip : variante === "pastilla" ? "pastilla" : "pastilla hueca";
+  const estilo = clase ?? (variante === "chip" ? css.chip : variante === "pastilla" ? "pastilla" : "pastilla hueca");
   return (
-    <a className={clase} href={enYoutube(video.id)} target="_blank" rel="noopener noreferrer" onClick={(e) => alClicVideo(e, slug)}>
+    <a className={estilo} href={enYoutube(video.id)} target="_blank" rel="noopener noreferrer" onClick={(e) => alClicVideo(e, slug)}>
       <Triangulo lado={variante === "chip" ? 10 : 12} />
       {conTexto ? VIDEO.ver[lang] : <span className="sr">{VIDEO.ver[lang]}</span>}
       <span className="sr">: {nombre}</span>

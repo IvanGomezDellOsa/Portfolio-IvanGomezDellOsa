@@ -206,7 +206,7 @@ export function Galeria({ lang }: { lang: Idioma }) {
             <a className="enlace-linea" href={GITHUB} target="_blank" rel="noopener noreferrer">
               GitHub ↗
             </a>
-            <MenuCV lang={lang} variante="hero" />
+            <MenuCV lang={lang} variante="pastilla" />
           </div>
         </div>
       </section>

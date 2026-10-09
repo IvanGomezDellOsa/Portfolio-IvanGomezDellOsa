@@ -2,13 +2,13 @@
   position: relative;
 }
 
-/* En la barra: un botón chico de borde. En el hero, la pastilla hueca. */
+/* En la barra: un botón chico de borde. En el contacto, la pastilla hueca. */
 .boton {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   height: 32px;
-  padding: 0 12px 0 14px;
+  padding: 0 14px;
   border: 1px solid color-mix(in oklch, var(--nav-tinta) 20%, transparent);
   border-radius: 999px;
   background: color-mix(in oklch, var(--nav-tinta) 4%, transparent);
@@ -32,75 +32,158 @@
   transform: scale(0.96);
 }
 
-.chevron {
-  opacity: 0.7;
-  transition: transform 0.25s var(--curva-reaccion);
-}
-
-[aria-expanded="true"] > .chevron {
-  transform: rotate(180deg);
-}
-
-.lista {
-  position: absolute;
-  top: calc(100% + 8px);
-  z-index: 60;
+/* El botón del hero: sutil, como GitHub, LinkedIn y el mail. */
+.icono {
+  position: relative;
   display: grid;
-  gap: 2px;
-  min-width: 220px;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--tinta-2);
+  cursor: pointer;
+  transition: color 0.2s var(--curva-reaccion);
+}
+
+.icono:hover,
+.icono[aria-expanded="true"] {
+  color: var(--tinta);
+}
+
+/* En la barra de la vista previa: un botón redondo como los demás de la barra. */
+.descarga {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: oklch(78% 0 0);
+  cursor: pointer;
+  transition:
+    color 0.15s var(--curva-reaccion),
+    background-color 0.15s var(--curva-reaccion);
+}
+
+.descarga:hover,
+.descarga[aria-expanded="true"] {
+  color: #fff;
+  background: oklch(100% 0 0 / 0.07);
+}
+
+/* «Abrir PDF»: con su palabra, para quien no reconoce el ícono. */
+.pestana {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 16px 0 13px;
+  border: 0;
+  border-radius: 999px;
+  background: oklch(100% 0 0 / 0.07);
+  color: oklch(88% 0 0);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.15s var(--curva-reaccion),
+    background-color 0.15s var(--curva-reaccion);
+}
+
+.pestana svg {
+  flex: none;
+}
+
+.pestana:hover,
+.pestana[aria-expanded="true"] {
+  color: #fff;
+  background: oklch(100% 0 0 / 0.12);
+}
+
+.menu > button {
+  position: relative;
+  z-index: 2;
+}
+
+/*
+ * EL LIQUIDO: ocupa el lugar del botón y queda detrás. La gota toma su forma
+ * (círculo o pastilla); las opciones salen de su centro hacia abajo.
+ */
+.liquido {
+  position: absolute !important;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.gota {
+  position: absolute !important;
+  inset: 0;
+  border-radius: 999px;
+}
+
+.relleno {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+}
+
+.opciones {
+  position: absolute;
+  inset: 0;
   margin: 0;
-  padding: 6px;
+  padding: 0;
   list-style: none;
-  border: 1px solid oklch(96% 0 0 / 0.12);
-  border-radius: 12px;
-  background: oklch(17% 0 0 / 0.96);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 24px 60px -20px oklch(0% 0 0 / 0.7);
-  animation: abrir 0.22s var(--curva-entrada);
 }
 
-.lista[hidden] {
-  display: none;
+.item {
+  position: absolute !important;
+  top: calc(50% - 18px);
+  left: calc(50% - 52px);
+  /* El texto, por encima de la silueta del líquido. */
+  z-index: 1;
+  width: 104px;
+  height: 36px;
+  border-radius: 999px;
 }
 
-.barra .lista {
-  right: 0;
-}
-
-.hero .lista {
-  left: 50%;
-  translate: -50% 0;
-}
-
-@keyframes abrir {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
+.item > li {
+  width: 100%;
+  height: 100%;
 }
 
 .opcion {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  color: oklch(96% 0 0);
-  font-size: 14.5px;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  color: oklch(78% 0 0);
+  font-size: 14px;
   font-weight: 500;
   text-decoration: none;
-  transition: background-color 0.15s var(--curva-reaccion);
+  opacity: 0;
+  outline: none;
+  transition:
+    opacity 0.15s var(--curva-reaccion),
+    color 0.15s var(--curva-reaccion);
 }
 
+[data-abierto] .opcion {
+  pointer-events: auto;
+  opacity: 1;
+  transition-delay: 0.12s, 0s;
+}
+
+/* Al pasar: sólo se enciende el texto; la gota no cambia (un fondo encima dejaba bordes). */
 .opcion:hover,
 .opcion:focus-visible {
-  background: oklch(96% 0 0 / 0.08);
-}
-
-.documento {
-  font-size: 11.5px;
-  color: oklch(70% 0 0);
-  white-space: nowrap;
+  color: oklch(98% 0 0);
 }

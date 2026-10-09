@@ -1,0 +1,35 @@
+.arriba {
+  position: fixed;
+  right: clamp(14px, 2vw, 28px);
+  bottom: clamp(14px, 2vw, 28px);
+  z-index: 45;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid oklch(96% 0 0 / 0.1);
+  border-radius: 50%;
+  background: color-mix(in oklch, var(--nav-fondo) 60%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--tinta-2);
+  opacity: 0;
+  pointer-events: none;
+  translate: 0 8px;
+  transition:
+    opacity 0.3s var(--curva-entrada),
+    translate 0.3s var(--curva-entrada),
+    color 0.2s var(--curva-reaccion),
+    border-color 0.2s var(--curva-reaccion);
+}
+
+.arriba[data-visible] {
+  opacity: 1;
+  pointer-events: auto;
+  translate: 0 0;
+}
+
+.arriba:hover {
+  color: var(--tinta);
+  border-color: oklch(96% 0 0 / 0.22);
+}

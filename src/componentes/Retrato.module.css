@@ -1,0 +1,38 @@
+/*
+ * EL RETRATO: capas apiladas en el mismo círculo, de abajo hacia arriba: el
+ * frente (lo primero que se pinta), el anillo de poses, el velo que funde los
+ * saltos y los videos de la salida y la vuelta. El tamaño, el borde y la
+ * entrada los pone el hero.
+ */
+.retrato {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Un píxel de más por lado: el borde de cada celda del anillo cae fuera del círculo. */
+.capa {
+  position: absolute;
+  inset: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  object-fit: cover;
+  /* Blanco y negro, apenas más contrastado: las tres fuentes quedan iguales
+     (el frente de otra toma tiene la piel más roja) y el retrato entra en los
+     grises neutros del sitio. Va en cada capa y no en el círculo, que usa
+     `filter` para su entrada. */
+  filter: grayscale(1) contrast(1.08);
+}
+
+.anillo {
+  background-repeat: no-repeat;
+  background-size: 600% 600%;
+}
+
+/* El velo y los videos, ocultos hasta que hacen falta. */
+.velo,
+.video {
+  opacity: 0;
+}

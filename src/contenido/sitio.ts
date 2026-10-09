@@ -58,7 +58,15 @@ export const NAV = {
   contacto: b("Contacto", "Contact"),
   cv: b("CV", "Resume"),
   /** El menú del botón «CV»: el nombre accesible del botón y de la lista. */
+  /** El botón «CV» del sitio: abre la vista previa (con los dos idiomas adentro). */
+  cvVer: b("Ver el CV", "View the resume"),
   cvMenu: b("Descargar el CV: elegir idioma", "Download the resume: choose a language"),
+  /** En la vista previa: abrir el PDF en otra pestaña, como siempre. */
+  cvPestana: b("Abrir el PDF en otra pestaña: elegir idioma", "Open the PDF in a new tab: choose a language"),
+  /** El rótulo de ese botón: para quien prefiere el PDF de siempre. */
+  cvAbrir: b("Abrir PDF", "Open PDF"),
+  /** El mail de la tapa del CV se copia: el aviso. */
+  cvCopiado: b("Email copiado", "Email copied"),
   idioma: b("Idioma", "Language"),
   inicio: b("Inicio", "Home"),
 };
@@ -75,6 +83,7 @@ export const HERO = {
   /** El segundo botón de las telas: lleva a la sección completa del proyecto elegido. */
   detalles: b("Ver detalles", "View details"),
   lista: b("Lista de proyectos", "Project list"),
+  arriba: b("Volver arriba", "Back to top"),
   reel: b("Los proyectos, en video", "The projects, on video"),
   /** El botón de las telas de los dos sitios web, que no tienen video. */
   verSitio: b("Ver sitio web", "Visit the website"),
@@ -84,6 +93,11 @@ export const HERO = {
 export const INDICE = {
   titulo: b("Proyectos", "Projects"),
   sitio: b("Sitio web", "Website"),
+  /** Los títulos de las columnas de enlaces. */
+  proyecto: b("Proyecto", "Project"),
+  video: b("Video", "Video"),
+  repositorio: b("Repositorio", "Repository"),
+  enlace: b("Enlace", "Link"),
 };
 
 export const SALA = {

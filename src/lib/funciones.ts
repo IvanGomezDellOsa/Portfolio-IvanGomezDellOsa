@@ -24,9 +24,16 @@ export function funcionesDe(lang: Idioma): Funcion[] {
   );
 }
 
-/** Las telas del hero: los nueve proyectos, en el orden de las salas. */
+/** En las telas, FreeMagicMirror y FaceHunt 2 cambian de lugar (pedido de Iván). */
+const CAMBIADOS = ["freemagicmirror", "facehunt-2"];
+
+/** Las telas del hero: los nueve proyectos, en el orden de las salas salvo `CAMBIADOS`. */
 export function vitrinaDe(lang: Idioma): ItemVitrina[] {
-  return PROYECTOS.map((p) => {
+  const orden: string[] = PROYECTOS.map((p) => p.slug);
+  const [a, b] = CAMBIADOS.map((s) => orden.indexOf(s));
+  const proyectos = [...PROYECTOS];
+  if (a! >= 0 && b! >= 0) [proyectos[a!], proyectos[b!]] = [proyectos[b!]!, proyectos[a!]!];
+  return proyectos.map((p) => {
     const vivo = p.enlaces.find((e) => e.tipo === "sitio" || e.tipo === "vista-previa");
     return {
       slug: p.slug,

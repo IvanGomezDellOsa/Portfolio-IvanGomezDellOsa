@@ -4,6 +4,7 @@ import type { Funcion, ItemVitrina } from "@/lib/videos";
 import { IconoGithub, IconoLinkedin } from "./Iconos";
 import { MailHero } from "./MailHero";
 import { MenuCV } from "./MenuCV";
+import { Retrato } from "./Retrato";
 import { Telas } from "./Telas";
 import css from "./Hero.module.css";
 
@@ -13,13 +14,13 @@ const REDES = [
 ];
 
 /**
- * EL HERO: la foto, el nombre y el puesto, y nada más que diga lo mismo con
- * otras palabras. Debajo, lo que se puede hacer (ver los proyectos, bajar el CV
- * en cualquiera de los dos idiomas, las redes). Ocupa la primera pantalla
- * entera; las telas (los nueve proyectos colgados de un hilo) tienen la suya,
- * justo después.
+ * EL HERO: el retrato (que mira el cursor), el nombre y el puesto, y nada más
+ * que diga lo mismo con otras palabras. Debajo, lo que se puede hacer (ver los
+ * proyectos, bajar el CV en cualquiera de los dos idiomas, las redes). Ocupa la
+ * primera pantalla entera; las telas (los nueve proyectos colgados de un hilo)
+ * tienen la suya, justo después.
  *
- * La entrada es una sola y corta (la foto, el nombre, el puesto, las
+ * La entrada es una sola y corta (el retrato, el nombre, el puesto, las
  * acciones, en ese orden), en CSS puro.
  */
 export function Hero({ lang, funciones, vitrina }: { lang: Idioma; funciones: Funcion[]; vitrina: ItemVitrina[] }) {
@@ -28,7 +29,7 @@ export function Hero({ lang, funciones, vitrina }: { lang: Idioma; funciones: Fu
       <section id="inicio" className={css.hero} data-sala-id="taller" aria-labelledby="t-inicio">
         <div className={css.fondo} aria-hidden="true" />
         <div className={css.contenido}>
-          <img className={css.foto} src="/medios/persona/foto-480.webp" alt="" width={480} height={530} fetchPriority="high" decoding="async" />
+          <Retrato className={css.foto} />
           <h1 id="t-inicio" className={css.nombre}>
             {NOMBRE}
           </h1>
@@ -37,7 +38,6 @@ export function Hero({ lang, funciones, vitrina }: { lang: Idioma; funciones: Fu
             <a className="pastilla" href="#vitrina">
               {HERO.verProyectos[lang]}
             </a>
-            <MenuCV lang={lang} variante="hero" />
             <ul className={css.redes}>
               {REDES.map(({ nombre, href, Icono }) => (
                 <li key={nombre}>
@@ -48,6 +48,9 @@ export function Hero({ lang, funciones, vitrina }: { lang: Idioma; funciones: Fu
               ))}
               <li>
                 <MailHero lang={lang} />
+              </li>
+              <li>
+                <MenuCV lang={lang} variante="icono" />
               </li>
             </ul>
           </div>
