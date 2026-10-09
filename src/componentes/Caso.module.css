@@ -16,6 +16,22 @@
   background: radial-gradient(55% 45% at 88% 6%, var(--luz), transparent 72%);
 }
 
+/* La retícula del hero y de las salas, detrás de la cabecera. */
+.caso::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: min(900px, 105vh);
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(color-mix(in oklch, var(--tinta) 4%, transparent) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, color-mix(in oklch, var(--tinta) 4%, transparent) 1px, transparent 1px) 0 0 / 64px 64px;
+  background-position: center top;
+  -webkit-mask-image: radial-gradient(62% 58% at 22% 24%, #000 10%, transparent 72%);
+  mask-image: radial-gradient(62% 58% at 22% 24%, #000 10%, transparent 72%);
+}
+
 .cabecera,
 .material,
 .cuerpo,

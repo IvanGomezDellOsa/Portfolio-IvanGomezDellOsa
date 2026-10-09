@@ -62,39 +62,23 @@
   border-radius: var(--radio);
 }
 
-.play {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 48px;
-  height: 48px;
-  padding-left: 3px;
-  border-radius: 50%;
+/*
+ * El play: la pastilla clara del sitio, como en las telas. Siempre clara (no
+ * la tinta del proyecto) porque va sobre el video, y con sombra para
+ * despegarse de los videos de fondo blanco.
+ */
+.boton {
   background: oklch(97% 0 0);
   color: oklch(14.5% 0 0);
-  box-shadow: 0 8px 30px -8px oklch(0% 0 0 / 0.6);
-  transition: transform 0.25s var(--curva-reaccion);
+  box-shadow: 0 10px 30px -10px oklch(0% 0 0 / 0.7);
 }
 
-.reproducir:hover .play {
-  transform: scale(1.06);
+.reproducir:hover .boton {
+  background: oklch(88% 0 0);
 }
 
-.reproducir:active .play {
-  transform: scale(0.96);
-}
-
-.leyenda {
-  display: grid;
-  gap: 1px;
-  padding-bottom: 3px;
-  text-shadow: 0 1px 12px oklch(0% 0 0 / 0.6);
-}
-
-.ver {
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+.reproducir:active .boton {
+  transform: scale(0.97);
 }
 
 /* La pausa del loop, arriba a la derecha: abajo está la leyenda. */

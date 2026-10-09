@@ -105,6 +105,9 @@ export const SALA = {
   enlaces: b("Enlaces", "Links"),
   stackYEnlaces: b("Stack y enlaces", "Stack and links"),
   caso: b("Caso completo", "Full case study"),
+  /** El botón que cambia la descripción reducida por la ampliada, y vuelta. */
+  leerMas: b("Leer más", "Read more"),
+  leerMenos: b("Leer menos", "Read less"),
   primeraVersion: b("Primera versión", "First version"),
   sitio: b("Sitio web", "Website"),
   repositorio: b("Repositorio", "Repository"),

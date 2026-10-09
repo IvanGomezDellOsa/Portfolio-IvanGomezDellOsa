@@ -3,6 +3,7 @@ import { SALAS, variablesDe, type SalaId } from "@/contenido/salas";
 import { SALA } from "@/contenido/sitio";
 import type { Idioma, PrimeraVersion, Proyecto } from "@/contenido/tipos";
 import { caso } from "@/lib/rutas";
+import { Ampliable } from "./Ampliable";
 import { Enlaces, Imagen, Medicion, Navegador, Stack } from "./Piezas";
 import { Texto } from "./Texto";
 import css from "./Sala.module.css";
@@ -28,8 +29,9 @@ export function EtiquetaSala({ p, lang, i = 0 }: { p: Proyecto; lang: Idioma; i?
 /**
  * UN PROYECTO. La misma estructura para los nueve, porque quien recorre el
  * sitio aprende dónde está cada cosa en el primero: nombre → descripción
- * aprobada y dato medido → el material (el video, grande) → el detalle, el
- * stack y los enlaces. Lo que cambia es el tinte (`salas.ts`) y el material.
+ * reducida, enlaces y dato medido → el material (el video, grande) → el
+ * stack. «Leer más» cambia la reducida por la ampliada en el lugar; el detalle
+ * va en el caso completo. Lo que cambia es el tinte (`salas.ts`) y el material.
  *
  * Cada bloque se revela por su cuenta cuando entra en pantalla (no hay
  * revelados anidados: el estado de un bloque nunca pisa el de otro).
@@ -42,7 +44,7 @@ export function Sala({ p, lang, previa, visual }: { p: Proyecto; lang: Idioma; p
         <header className={css.cabecera} data-revelar="">
           <EtiquetaSala p={p} lang={lang} />
           <h2 id={`t-${p.slug}`} className={`${css.titulo} aparece`} style={{ "--i": 1 } as CSSProperties}>
-            {p.nombre}
+            <span className="degrade">{p.nombre}</span>
           </h2>
           {p.subtitulo && (
             <p className={`${css.subtitulo} aparece`} style={{ "--i": 2 } as CSSProperties}>
@@ -52,9 +54,29 @@ export function Sala({ p, lang, previa, visual }: { p: Proyecto; lang: Idioma; p
         </header>
 
         <div className={css.apertura} data-revelar="">
-          <p className={`${css.resumen} texto aparece`}>
-            <Texto t={p.resumen[lang]} />
-          </p>
+          <div className={css.presentacion}>
+            <Ampliable
+              className="aparece"
+              reducida={
+                <p className={`${css.resumen} texto`}>
+                  <Texto t={(p.breve ?? p.resumen)[lang]} />
+                </p>
+              }
+              ampliada={
+                <div className={`${css.ampliada} texto`}>
+                  {[p.resumen[lang], ...p.cuerpo[lang]].map((t, n) => (
+                    <p key={n}>
+                      <Texto t={t} />
+                    </p>
+                  ))}
+                </div>
+              }
+              mas={SALA.leerMas[lang]}
+              menos={SALA.leerMenos[lang]}
+              nombre={p.nombre}
+            />
+            <Enlaces enlaces={p.enlaces} lang={lang} caso={caso(lang, p.slug)} video={videoDe(p)} i={1} />
+          </div>
           {p.dato && (
             <div className={css.dato}>
               <Medicion dato={p.dato} lang={lang} i={2} />
@@ -64,18 +86,8 @@ export function Sala({ p, lang, previa, visual }: { p: Proyecto; lang: Idioma; p
 
         <div className={css.visual}>{visual}</div>
 
-        <div className={css.detalle} data-revelar="">
-          <div className={`${css.cuerpo} texto aparece`}>
-            {p.cuerpo[lang].map((t, n) => (
-              <p key={n}>
-                <Texto t={t} />
-              </p>
-            ))}
-          </div>
-          <div className={css.lateral}>
-            <Stack items={p.stack} lang={lang} i={1} />
-            <Enlaces enlaces={p.enlaces} lang={lang} caso={caso(lang, p.slug)} video={videoDe(p)} i={2} />
-          </div>
+        <div className={css.pie} data-revelar="">
+          <Stack items={p.stack} lang={lang} enLinea />
         </div>
 
         {p.primeraVersion && <BloquePrimeraVersion pv={p.primeraVersion} lang={lang} />}

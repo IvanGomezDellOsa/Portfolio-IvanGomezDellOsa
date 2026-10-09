@@ -247,6 +247,21 @@ dd {
   translate: 2px 0;
 }
 
+/*
+ * EL NOMBRE DE UN PROYECTO, con el degradé del nombre del hero: claro arriba y
+ * apenas apagado hacia abajo, en la tinta de cada proyecto. Va en un `<span>`
+ * y se clona por renglón: un nombre en dos líneas se apaga igual en las dos, y
+ * las colas de la g y la y quedan dentro de su renglón.
+ */
+.degrade {
+  background: linear-gradient(to bottom, var(--tinta) 30%, color-mix(in oklch, var(--tinta-2), var(--tinta-3)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
 /* El pelo: una separación de un píxel, de punta a punta. */
 .pelo {
   height: 1px;

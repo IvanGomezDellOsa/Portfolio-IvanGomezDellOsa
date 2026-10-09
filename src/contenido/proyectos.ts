@@ -49,14 +49,22 @@ export const PROYECTOS: Proyecto[] = [
       "**Leonardo da Vinci dejó más de 7.500 páginas escritas.** Por primera vez, un software las utiliza para conversar con él sin inventar respuestas.",
       "**Leonardo da Vinci left more than 7,500 written pages.** For the first time, software uses them to speak with him without inventing answers.",
     ),
+    // En su sala la canónica va en la entrada, sobre el taller: la reducida es
+    // la historia corta, junto al espacio vectorial, con el giro de Richter.
+    breve: b(
+      "El proyecto nace de cruzar dos datos: una IA que simula ser una persona real le atribuye frases que nunca dijo, y Leonardo, durante toda su vida, hizo una especie de *transfusión mental a papel*. El sistema consulta los 1.565 pasajes que Jean Paul Richter transcribió y tradujo en 1888.",
+      "The project comes from putting two facts together: an AI that simulates a real person attributes to them phrases they never said, and Leonardo, throughout his life, made a kind of *mind transfusion onto paper*. The system searches the 1,565 passages that Jean Paul Richter transcribed and translated in 1888.",
+    ),
     cuerpo: b(
       [
         "El proyecto nace de cruzar dos datos. Una IA que simula ser una persona real inventa hasta su manera de expresarse y le atribuye frases que nunca dijo; para evitarlo, esa persona tendría que haber dejado por escrito un contexto enorme de sí misma, y casi nadie lo tiene. Leonardo es una excepción: durante toda su vida hizo una especie de *transfusión mental a papel*. El sistema consulta los 1.565 pasajes que Jean Paul Richter transcribió y tradujo en 1888.",
-        "Cruzar esos datos fue el punto de partida, no el resultado. El pipeline RAG está escrito desde cero: recuperación híbrida, un filtro que decide si los cuadernos tratan el tema y la comprobación de que cada cita exista en el pasaje original. Incluye además una biblioteca 3D, un museo virtual 3D y un espacio vectorial que muestra cómo una pregunta encuentra sus pasajes.",
+        "Cruzar esos datos fue el punto de partida, no el resultado. El pipeline RAG está escrito desde cero, sin frameworks como LangChain o LlamaIndex: recuperación híbrida, un filtro que decide si los cuadernos tratan el tema y la comprobación de que cada cita exista en el pasaje original. De esta forma, cada paso se puede controlar y medir por separado.",
+        "La consulta se vectoriza en el navegador, sin costo por consulta y sin una cuota que se pueda agotar; la generación usa Gemini, con respaldo en Groq. Costo de operación: US$0. Incluye además una biblioteca 3D, un museo virtual 3D y un espacio vectorial que muestra cómo una pregunta encuentra sus pasajes.",
       ],
       [
         "The project comes from putting two facts together. An AI that simulates a real person makes up even the way they express themselves and attributes to them phrases they never said; to avoid it, the person would have had to leave behind an enormous written context of themselves, and almost nobody has anything like that. Leonardo is an exception: throughout his life he made a kind of *mind transfusion onto paper*. The system searches the 1,565 passages that Jean Paul Richter transcribed and translated in 1888.",
-        "Putting those facts together was the starting point, not the result. The RAG pipeline is written from scratch: hybrid retrieval, a filter that decides whether the notebooks cover the subject, and a check that every quotation exists in the original passage. It also includes a 3D library, a 3D virtual museum and a vector space that shows how a question finds its passages.",
+        "Putting those facts together was the starting point, not the result. The RAG pipeline is written from scratch, with no frameworks such as LangChain or LlamaIndex: hybrid retrieval, a filter that decides whether the notebooks cover the subject, and a check that every quotation exists in the original passage. This way, every step can be controlled and measured on its own.",
+        "The query is vectorised in the browser, with no cost per query and no quota that can run out; generation uses Gemini, with Groq as fallback. Operating cost: US$0. It also includes a 3D library, a 3D virtual museum and a vector space that shows how a question finds its passages.",
       ],
     ),
     dato: {
@@ -395,6 +403,10 @@ export const PROYECTOS: Proyecto[] = [
       "La primera y única base unificada de pauta oficial argentina: **540.413 órdenes de publicidad** de Nación, CABA, PBA y Santa Fe (2003–2025), con montos deflactados por IPC.",
       "The first and only unified database of Argentine government advertising: **540,413 advertising orders** from the national government, Buenos Aires City, Buenos Aires Province and Santa Fe (2003–2025), with amounts adjusted for inflation (CPI).",
     ),
+    breve: b(
+      "La primera y única base unificada de pauta oficial argentina, con montos deflactados por IPC para que las cifras sean comparables entre años.",
+      "The first and only unified database of Argentine government advertising, with amounts adjusted for inflation (CPI) so figures can be compared across years.",
+    ),
     cuerpo: b(
       [
         "Antes, esos datos estaban dispersos en portales, planillas y PDF de cada jurisdicción, sin forma de compararlos. El ETL en Python incluye un dataset de PBA 2020–2024 reconstruido a partir de más de 500 resoluciones en PDF, datos que no existen en ningún portal de datos abiertos.",
@@ -655,6 +667,10 @@ export const PROYECTOS: Proyecto[] = [
       "Aplicación de reservas y gestión en producción, con más de 200 usuarios, API REST en Python/FastAPI y PostgreSQL.",
       "A booking and management application in production, with more than 200 users, a REST API in Python/FastAPI and PostgreSQL.",
     ),
+    breve: b(
+      "Aplicación de reservas y gestión en producción, desarrollada como único programador, con una API REST en Python/FastAPI y PostgreSQL.",
+      "A booking and management application in production, built as the sole developer, with a REST API in Python/FastAPI and PostgreSQL.",
+    ),
     cuerpo: b(
       [
         "La desarrollé como único programador, desde la captación del cliente y la definición de requisitos hasta la puesta en producción. Reservas con control de concurrencia para evitar sobrerreservas, créditos con vencimiento, turnos fijos con reserva automática y calendario con feriados configurables.",
@@ -815,6 +831,10 @@ export const PROYECTOS: Proyecto[] = [
     resumen: b(
       "Automatiza con IA el seguimiento de las inversiones privadas anunciadas en Argentina. Cada 72 horas rastrea noticias, redes y registros oficiales, identifica las inversiones reales y descarta duplicados. Los resultados se publican automáticamente en la web y en un canal de Telegram.",
       "Uses AI to track the private investments announced in Argentina. Every 72 hours it sweeps news, social media and official registries, identifies the real investments and discards duplicates. The results are published automatically on the website and in a Telegram channel.",
+    ),
+    breve: b(
+      "Automatiza con IA el seguimiento de las inversiones privadas anunciadas en Argentina y publica las nuevas en la web y en un canal de Telegram.",
+      "Uses AI to track the private investments announced in Argentina and publishes the new ones on the website and in a Telegram channel.",
     ),
     cuerpo: b(
       [
@@ -985,6 +1005,10 @@ export const PROYECTOS: Proyecto[] = [
     resumen: b(
       "Sistema de reconocimiento facial con IA y deep learning que, a partir de una foto, localiza cada aparición de una persona en horas de video, incluso de perfil, parcialmente cubierta o en baja resolución. Procesa todo en local con aceleración por GPU, sin enviar datos a la nube.",
       "A facial recognition system with AI and deep learning that, from a photo, finds every appearance of a person in hours of video, even in profile, partially covered or at low resolution. Everything is processed locally with GPU acceleration, without sending data to the cloud.",
+    ),
+    breve: b(
+      "A partir de una foto, localiza con IA cada aparición de una persona en horas de video. Procesa todo en local, sin enviar datos a la nube.",
+      "From a photo, it uses AI to find every appearance of a person in hours of video. Everything is processed locally, without sending data to the cloud.",
     ),
     cuerpo: b(
       [
@@ -1192,6 +1216,10 @@ export const PROYECTOS: Proyecto[] = [
     resumen: b(
       "Extensión de Chrome publicada en la Chrome Web Store que reemplaza la pestaña nueva por una grilla con las semanas de la vida, calculada a partir de la fecha de nacimiento.",
       "A Chrome extension published on the Chrome Web Store that replaces the new tab with a grid of the weeks of a life, calculated from the date of birth.",
+    ),
+    breve: b(
+      "Extensión de Chrome publicada en la Chrome Web Store que reemplaza la pestaña nueva por una grilla con las semanas de la vida.",
+      "A Chrome extension published on the Chrome Web Store that replaces the new tab with a grid of the weeks of a life.",
     ),
     cuerpo: b(
       [
@@ -1563,6 +1591,10 @@ export const PROYECTOS: Proyecto[] = [
     resumen: b(
       "Rediseño completo del sitio institucional de una empresa de seguridad privada con más de 30 años de trayectoria y certificaciones ISO 9001, 14001 y 45001.",
       "A complete redesign of the corporate website of a private security company with more than 30 years in business and ISO 9001, 14001 and 45001 certifications.",
+    ),
+    breve: b(
+      "Rediseño completo del sitio institucional de una empresa de seguridad privada con más de 30 años de trayectoria.",
+      "A complete redesign of the corporate website of a private security company with more than 30 years in business.",
     ),
     cuerpo: b(
       [

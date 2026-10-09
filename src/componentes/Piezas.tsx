@@ -36,9 +36,10 @@ export function Medicion({ dato, lang, i = 0 }: { dato: Dato; lang: Idioma; i?: 
   );
 }
 
-export function Stack({ items, lang, i = 0 }: { items: string[]; lang: Idioma; i?: number }) {
+/** El stack. `enLinea`: el rótulo y los chips en una sola fila, al pie de una sala. */
+export function Stack({ items, lang, i = 0, enLinea = false }: { items: string[]; lang: Idioma; i?: number; enLinea?: boolean }) {
   return (
-    <div className={`${css.stack} aparece`} style={{ "--i": i } as CSSProperties}>
+    <div className={`${css.stack} ${enLinea ? css.stackEnLinea : ""} aparece`} style={{ "--i": i } as CSSProperties}>
       <p className="etiqueta">{SALA.stack[lang]}</p>
       <ul className={`${css.lista} maquina`}>
         {items.map((s) => (

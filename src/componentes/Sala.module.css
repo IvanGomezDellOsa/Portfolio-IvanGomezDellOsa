@@ -3,24 +3,50 @@
  * paso desde el anterior: un degradé en oklch de un negro teñido al otro.
  */
 .sala {
+  --alto-umbral: clamp(56px, 11vh, 120px);
   position: relative;
   isolation: isolate;
   background: var(--fondo);
   color: var(--tinta);
 }
 
-/* El resplandor del acento, arriba a la derecha: lo que hace del tinte un lugar. */
+/*
+ * El resplandor del acento, arriba a la derecha: lo que hace del tinte un
+ * lugar. Nace debajo del umbral y se enciende de a poco: si arrancara de golpe
+ * en su borde, se vería un corte recto.
+ */
 .sala::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: var(--alto-umbral) 0 0;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(55% 32% at 92% 12%, var(--luz), transparent 72%);
+  background: radial-gradient(55% 32% at 92% 10%, var(--luz), transparent 72%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 min(34vh, 300px));
+  mask-image: linear-gradient(to bottom, transparent, #000 min(34vh, 300px));
+}
+
+/*
+ * La retícula del hero (y de la tapa del CV), detrás del nombre del proyecto:
+ * el mismo pelo cada 64 px, del color de la tinta, que se apaga hacia afuera.
+ */
+.sala::after {
+  content: "";
+  position: absolute;
+  inset: var(--alto-umbral) 0 auto;
+  height: min(820px, 100vh);
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(color-mix(in oklch, var(--tinta) 4%, transparent) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, color-mix(in oklch, var(--tinta) 4%, transparent) 1px, transparent 1px) 0 0 / 64px 64px;
+  background-position: center top;
+  -webkit-mask-image: radial-gradient(62% 58% at 22% 18%, #000 10%, transparent 72%);
+  mask-image: radial-gradient(62% 58% at 22% 18%, #000 10%, transparent 72%);
 }
 
 .umbral {
-  height: clamp(70px, 14vh, 150px);
+  height: var(--alto-umbral);
   background: linear-gradient(to bottom, var(--previo), var(--fondo));
   background: linear-gradient(in oklch to bottom, var(--previo), var(--fondo));
 }
@@ -29,7 +55,7 @@
   width: 100%;
   max-width: calc(var(--ancho) + 2 * var(--canal));
   margin: 0 auto;
-  padding: clamp(8px, 2vh, 28px) var(--canal) clamp(80px, 13vh, 150px);
+  padding: clamp(8px, 2vh, 28px) var(--canal) clamp(56px, 9vh, 104px);
 }
 
 /* ─── Cabecera ─── */
@@ -57,12 +83,12 @@
   box-shadow: 0 0 0 1px var(--pelo);
 }
 
+/* El nombre lleva el degradé del hero (`.degrade`, en globals.css). */
 .titulo {
   font-size: clamp(40px, 6vw, 84px);
   font-weight: 600;
   line-height: 1;
   letter-spacing: -0.05em;
-  color: var(--tinta);
   text-wrap: balance;
 }
 
@@ -74,18 +100,46 @@
   color: var(--tinta-2);
 }
 
-/* ─── Apertura: la descripción aprobada y el dato ─── */
+/* ─── Apertura: la descripción, los enlaces y el dato ─── */
 
+/*
+ * Arriba y no abajo: al ampliar la descripción, la columna crece hacia abajo y
+ * el dato se queda quieto.
+ */
 .apertura {
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  align-items: end;
+  align-items: start;
   gap: clamp(26px, 5vw, 80px);
   margin-bottom: clamp(40px, 6.5vh, 72px);
 }
 
+.presentacion {
+  display: grid;
+  gap: clamp(18px, 2.6vh, 26px);
+  justify-items: start;
+}
+
 .resumen {
   max-width: 36em;
+  font-size: clamp(17.5px, 1.4vw, 20.5px);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: var(--tinta);
+}
+
+/* La ampliada: la descripción aprobada como entrada y, debajo, el resto en cuerpo de lectura. */
+.ampliada {
+  display: grid;
+  gap: 16px;
+  max-width: 40em;
+  font-size: 16.5px;
+  line-height: 1.72;
+  color: var(--tinta-2);
+}
+
+.ampliada p:first-child {
+  margin-bottom: 4px;
   font-size: clamp(17.5px, 1.4vw, 20.5px);
   line-height: 1.55;
   letter-spacing: -0.01em;
@@ -132,27 +186,14 @@
   display: grid;
 }
 
-/* ─── Detalle ─── */
+/* ─── Pie: el stack en una fila (y, en Leonardo, sus enlaces secundarios) ─── */
 
-.detalle {
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: clamp(26px, 5vw, 80px);
-}
-
-.cuerpo {
-  display: grid;
-  gap: 16px;
-  max-width: 40em;
-  font-size: 16.5px;
-  line-height: 1.72;
-  color: var(--tinta-2);
-}
-
-.lateral {
-  display: grid;
-  align-content: start;
-  gap: 28px;
+.pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px 40px;
 }
 
 /* ─── Primera versión ─── */
@@ -207,7 +248,6 @@
 
 @media (max-width: 900px) {
   .apertura,
-  .detalle,
   .par,
   .parInvertido,
   .primeraGrilla {

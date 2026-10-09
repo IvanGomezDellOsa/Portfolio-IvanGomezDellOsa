@@ -51,14 +51,11 @@ export function Pantalla({
           rel="noopener noreferrer"
           onClick={(e) => alClicVideo(e, slug)}
         >
-          <span className={css.play} aria-hidden="true">
-            <Triangulo lado={14} />
-          </span>
-          <span className={css.leyenda}>
-            <span className={css.ver}>
-              {VIDEO.ver[lang]}
-              <span className="sr">: {nombre}</span>
-            </span>
+          {/* La misma pastilla «▶ Ver video» de las telas del hero. */}
+          <span className={`pastilla ${css.boton}`}>
+            <Triangulo lado={12} />
+            {VIDEO.ver[lang]}
+            <span className="sr">: {nombre}</span>
           </span>
         </a>
       </div>

@@ -8,8 +8,13 @@
   display: grid;
   align-items: end;
   min-height: clamp(560px, 90vh, 920px);
-  margin-top: calc(-1 * clamp(70px, 14vh, 150px) + 30px);
+  margin-top: calc(-1 * var(--alto-umbral) + 30px);
   overflow: hidden;
+}
+
+/* La retícula de las otras salas no va: acá el lugar lo pone el taller. */
+section.leonardo::after {
+  content: none;
 }
 
 .apaisado,
@@ -41,13 +46,17 @@
   padding: 0 var(--canal) clamp(40px, 7vh, 80px);
 }
 
+/*
+ * El nombre lleva el degradé del hero (`.degrade`). La sombra que lo separa del
+ * fuego va como filtro: con el texto recortado al fondo, un `text-shadow` se
+ * vería a través de las letras.
+ */
 .titulo {
   font-size: clamp(44px, 7.4vw, 108px);
   font-weight: 600;
   line-height: 0.98;
   letter-spacing: -0.055em;
-  color: var(--tinta);
-  text-shadow: 0 2px 30px oklch(6% 0.02 40 / 0.6);
+  filter: drop-shadow(0 2px 24px oklch(6% 0.02 40 / 0.55));
   text-wrap: balance;
 }
 

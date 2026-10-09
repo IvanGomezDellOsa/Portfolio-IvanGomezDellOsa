@@ -119,9 +119,18 @@ export interface Proyecto {
   area: Bilingue;
   /** Una línea debajo del nombre, sólo si el nombre solo no alcanza. */
   subtitulo?: Bilingue;
-  /** La descripción aprobada: lo primero que se lee. */
+  /** La descripción aprobada: la del caso completo, y el comienzo de la ampliada. */
   resumen: Bilingue<Marcado>;
-  /** Uno o dos párrafos más, en la sala. El detalle va en el caso. */
+  /**
+   * LA DESCRIPCION REDUCIDA: lo que la sala muestra sin abrir nada (una o dos
+   * líneas). Si falta, la reducida es `resumen`, que ya es corto.
+   */
+  breve?: Bilingue<Marcado>;
+  /**
+   * Uno o dos párrafos más. En la sala, `resumen` + `cuerpo` es la
+   * descripción ampliada que reemplaza a la reducida con «Leer más». El
+   * detalle va en el caso.
+   */
   cuerpo: Bilingue<Marcado[]>;
   dato?: Dato;
   stack: string[];

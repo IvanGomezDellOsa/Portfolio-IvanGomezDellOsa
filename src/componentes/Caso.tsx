@@ -203,7 +203,9 @@ export function Caso({ p, lang }: { p: Proyecto; lang: Idioma }) {
           </a>
         </p>
         <EtiquetaSala p={p} lang={lang} />
-        <h1 className={css.titulo}>{p.nombre}</h1>
+        <h1 className={css.titulo}>
+          <span className="degrade">{p.nombre}</span>
+        </h1>
         {p.subtitulo && <p className={css.subtitulo}>{p.subtitulo[lang]}</p>}
         <div className={css.apertura}>
           <p className={`${css.resumen} texto`}>

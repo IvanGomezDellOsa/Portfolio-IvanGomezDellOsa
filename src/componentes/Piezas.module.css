@@ -55,6 +55,13 @@
   gap: 12px;
 }
 
+.stackEnLinea {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+}
+
 .lista {
   display: flex;
   flex-wrap: wrap;
