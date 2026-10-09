@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { EMAIL, GITHUB, LINKEDIN, NAV, NOMBRE, SITIO } from "@/contenido/sitio";
+import { EMAIL, GITHUB, LINKEDIN, NAV, NOMBRE } from "@/contenido/sitio";
 import type { EstadoLibro, Libro, Zona } from "@/lib/libro";
 import { sinMovimiento } from "./Medios";
 import { TRAZOS } from "./Iconos";
@@ -118,10 +118,6 @@ async function dibujarTapa(acciones: { copiar: () => void; abrir: () => void; ro
   ctx.fillText("ESPAÑOL · ENGLISH", W - M, 250);
   ctx.textAlign = "left";
 
-  // A la derecha, al medio: «Abrir», para quien no sabe que la tapa se da vuelta.
-  espaciado(0, 54);
-  const abrir = pastilla(ctx, { x: W - M, y: 1000, texto: acciones.rotuloAbrir, trazo: FLECHA, cuerpo: 54, alto: 128, clara: true, trazoAntes: false, derecha: true, fuente: sans });
-
   // El nombre, entero en un renglón: la letra se achica hasta que entra en el ancho.
   const ancho = W - 2 * M;
   let cuerpo = 230;
@@ -141,6 +137,10 @@ async function dibujarTapa(acciones: { copiar: () => void; abrir: () => void; ro
   espaciado(-0.02, 76);
   ctx.fillStyle = "rgb(255 255 255 / 0.58)";
   ctx.fillText("Full Stack Developer", M, base + 130);
+
+  // A la derecha del puesto: «Abrir», la pastilla hueca del sitio, para quien no sabe que la tapa se da vuelta.
+  espaciado(-0.005, 46);
+  const abrir = pastilla(ctx, { x: W - M, y: base + 104, texto: acciones.rotuloAbrir, trazo: CHEVRON, cuerpo: 46, alto: 140, trazoAntes: false, derecha: true, fuente: sans });
 
   // Abajo: los contactos, cada uno con el ícono de su red; a la derecha, copiar o abrir. Una sola línea fina arriba.
   const zonas: Zona[] = [
@@ -194,44 +194,40 @@ async function dibujarTapa(acciones: { copiar: () => void; abrir: () => void; ro
 }
 
 /**
- * Una pastilla con su texto y un trazo a un costado (en 24 × 24), alineada a la
- * izquierda o a la derecha desde `x`; devuelve su caja. Clara (llena) u oscura.
+ * La pastilla hueca del sitio (`.pastilla.hueca`: 44 px de alto, letra de
+ * 14,5 px, el borde y el fondo apenas marcados), a la escala de la carilla.
+ * Con su texto y un trazo (en 24 × 24) antes o después, alineada a la
+ * izquierda o a la derecha desde `x`; devuelve su caja.
  */
 function pastilla(
   ctx: CanvasRenderingContext2D,
-  o: { x: number; y: number; texto: string; trazo: string; cuerpo: number; alto: number; clara: boolean; trazoAntes: boolean; derecha: boolean; fuente: string },
+  o: { x: number; y: number; texto: string; trazo: string; cuerpo: number; alto: number; trazoAntes: boolean; derecha: boolean; fuente: string },
 ) {
   ctx.font = `500 ${o.cuerpo}px ${o.fuente}`;
   ctx.textBaseline = "middle";
-  const lado = o.cuerpo * 0.62;
-  const sep = o.cuerpo * 0.42;
-  const relleno = o.alto * 0.5;
+  const lado = o.cuerpo * 0.78;
+  const sep = o.cuerpo * 0.4;
+  const relleno = o.alto * 0.45;
   const ancho = ctx.measureText(o.texto).width + lado + sep + 2 * relleno;
   const x = o.derecha ? o.x - ancho : o.x;
   const y = o.y - o.alto / 2;
   ctx.beginPath();
   ctx.roundRect(x, y, ancho, o.alto, o.alto / 2);
-  if (o.clara) {
-    ctx.fillStyle = "#f2f2f0";
-    ctx.fill();
-  } else {
-    ctx.fillStyle = "rgb(255 255 255 / 0.05)";
-    ctx.fill();
-    ctx.lineWidth = 2.5;
-    ctx.strokeStyle = "rgb(255 255 255 / 0.2)";
-    ctx.stroke();
-  }
-  const tinta = o.clara ? "#111113" : "rgb(255 255 255 / 0.85)";
+  ctx.fillStyle = "rgb(255 255 255 / 0.04)";
+  ctx.fill();
+  ctx.lineWidth = 3.2;
+  ctx.strokeStyle = "rgb(255 255 255 / 0.2)";
+  ctx.stroke();
   const xTrazo = o.trazoAntes ? x + relleno : x + ancho - relleno - lado;
   const xTexto = o.trazoAntes ? xTrazo + lado + sep : x + relleno;
-  ctx.fillStyle = tinta;
+  ctx.fillStyle = "rgb(255 255 255 / 0.94)";
   ctx.textAlign = "left";
   ctx.fillText(o.texto, xTexto, o.y + o.cuerpo * 0.04);
   ctx.save();
   ctx.translate(xTrazo, o.y - lado / 2);
   ctx.scale(lado / 24, lado / 24);
-  ctx.strokeStyle = tinta;
-  ctx.lineWidth = 2.2;
+  ctx.strokeStyle = "rgb(255 255 255 / 0.94)";
+  ctx.lineWidth = 2;
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
   ctx.stroke(new Path2D(o.trazo));
@@ -240,60 +236,22 @@ function pastilla(
   return { x, y, ancho, alto: o.alto };
 }
 
-const FLECHA = "M4 12h16m-6-6 6 6-6 6";
-const CRUZ = "M6 6l12 12M18 6 6 18";
+/** El chevron y la cruz del sitio, en 24 × 24. */
+const CHEVRON = "M9 5.25 15.75 12 9 18.75";
+const CRUZ = "M6.5 6.5l11 11m0-11-11 11";
 
-/**
- * La contratapa, en espejo de la tapa: arriba los mismos rótulos; el
- * agradecimiento en los dos idiomas (primero el de la página), y abajo una
- * pastilla discreta, «Salir», y el sitio.
- */
-async function dibujarContratapa(idioma: "es" | "en", rotulo: string, salir: () => void) {
-  const { c, ctx, sans, mono, espaciado } = await lienzo();
+/** La contratapa: el fondo de la tapa y, sola en el medio, la pastilla «Salir». */
+async function dibujarContratapa(rotulo: string, salir: () => void) {
+  const { c, ctx, sans, espaciado } = await lienzo();
   const W = ANCHO;
   const H = ALTO;
-  const M = MARGEN;
-  fondo(ctx, H * 0.3);
-
-  ctx.textBaseline = "alphabetic";
-  ctx.font = `400 40px ${mono}`;
-  espaciado(0.2, 40);
-  ctx.fillStyle = "rgb(255 255 255 / 0.5)";
-  ctx.fillText("CURRICULUM VITAE", M, 250);
-  ctx.textAlign = "right";
-  ctx.fillText("ESPAÑOL · ENGLISH", W - M, 250);
-  ctx.textAlign = "left";
-
-  const [primero, segundo] = idioma === "es" ? ["Gracias por leer.", "Thanks for reading."] : ["Thanks for reading.", "Gracias por leer."];
-  const base = 1580;
-  const cuerpo = 150;
-  ctx.font = `600 ${cuerpo}px ${sans}`;
-  espaciado(-0.045, cuerpo);
-  const degrade = ctx.createLinearGradient(0, base - cuerpo * 0.8, 0, base + cuerpo * 0.2);
-  degrade.addColorStop(0, "#fafafa");
-  degrade.addColorStop(1, "#b4b4b4");
-  ctx.fillStyle = degrade;
-  ctx.fillText(primero, M - cuerpo * 0.04, base);
-  ctx.font = `400 76px ${sans}`;
-  espaciado(-0.02, 76);
-  ctx.fillStyle = "rgb(255 255 255 / 0.5)";
-  ctx.fillText(segundo, M, base + 130);
-
-  // Abajo, como los contactos de la tapa: la línea fina, «Salir» y el sitio.
-  const abajo = H - 520 + 128;
-  ctx.fillStyle = "rgb(255 255 255 / 0.1)";
-  ctx.fillRect(M, H - 520 - 120, W - 2 * M, 2);
-  espaciado(0, 52);
-  const caja = pastilla(ctx, { x: M, y: abajo, texto: rotulo, trazo: CRUZ, cuerpo: 52, alto: 120, clara: false, trazoAntes: true, derecha: false, fuente: sans });
-  ctx.font = `400 40px ${mono}`;
-  espaciado(0.2, 40);
-  ctx.textAlign = "right";
-  ctx.textBaseline = "middle";
-  ctx.fillStyle = "rgb(255 255 255 / 0.4)";
-  ctx.fillText(SITIO.replace(/^https:\/\/(www\.)?/, "").toUpperCase(), W - M, abajo);
-  ctx.textAlign = "left";
-
-  const holgura = 30;
+  fondo(ctx, H * 0.5);
+  espaciado(-0.005, 50);
+  ctx.font = `500 50px ${sans}`;
+  // Centrada: se mide primero y se dibuja desde su borde izquierdo.
+  const ancho = ctx.measureText(rotulo).width + 50 * 0.78 + 50 * 0.4 + 2 * 150 * 0.45;
+  const caja = pastilla(ctx, { x: (W - ancho) / 2, y: H / 2, texto: rotulo, trazo: CRUZ, cuerpo: 50, alto: 150, trazoAntes: true, derecha: false, fuente: sans });
+  const holgura = 40;
   const zonas: Zona[] = [
     {
       cara: "contratapa",
@@ -355,7 +313,7 @@ export function VisorCV({ idioma, alCerrar }: { idioma: "es" | "en"; alCerrar: (
       Promise.all([
         import("@/lib/libro"),
         dibujarTapa({ copiar, abrir: () => libro.current?.siguiente(), rotuloAbrir: t.abrir }),
-        dibujarContratapa(idioma, t.salir, () => salirActual.current()),
+        dibujarContratapa(t.salir, () => salirActual.current()),
       ])
         .then(([{ crearLibro }, tapa, contratapa]) => {
           if (!vivo || !escenario.current) return;

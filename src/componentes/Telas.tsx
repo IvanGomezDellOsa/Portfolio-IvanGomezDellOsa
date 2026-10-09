@@ -13,7 +13,7 @@ import css from "./Telas.module.css";
 
 function Chevron() {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+    <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
       <path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -105,44 +105,40 @@ export function Telas({ lang, items, funciones }: { lang: Idioma; items: ItemVit
       <div ref={escenario} className={css.escenario}>
         {/* Mientras llega Three: el primer proyecto, quieto, donde va a estar su tela. */}
         <img className={css.espera} src={vistaPrevia(lista[0]!.slug).poster} alt="" width={1280} height={720} decoding="async" />
-        {/* Las flechas, en el hueco entre la tela del centro y sus vecinas: que se vea que hay más. */}
-        <button type="button" className={`${css.flecha} ${css.anterior}`} onClick={() => ir((i - 1 + lista.length) % lista.length)} aria-label={SALA.anterior[lang]}>
-          <Chevron />
-        </button>
-        <button type="button" className={`${css.flecha} ${css.siguiente}`} onClick={() => ir((i + 1) % lista.length)} aria-label={SALA.siguiente[lang]}>
-          <Chevron />
-        </button>
       </div>
       <div className={css.pie}>
+        {/* El nombre, cuando las barras no lo muestran (pantallas angostas). */}
+        <p className={css.titulo} aria-hidden="true">
+          {f.nombre}
+        </p>
+        {/* Todo lo que se hace con la tela, en una fila: las flechas a los costados y en el medio sus dos botones, las pastillas del sitio. */}
         <div className={css.botones}>
+          <button type="button" className={`${css.flecha} ${css.anterior}`} onClick={() => ir((i - 1 + lista.length) % lista.length)} aria-label={SALA.anterior[lang]}>
+            <Chevron />
+          </button>
           {f.video ? (
-            <a className={css.ver} href={enYoutube(f.video.id)} target="_blank" rel="noopener noreferrer" onClick={(e) => alClicVideo(e, f.slug)}>
-              <span className={css.play} aria-hidden="true">
-                <Triangulo lado={12} />
-              </span>
-              <span className={css.leyenda}>
-                <span className={css.nombre}>{f.nombre}</span>
-                <span className={css.accion}>{VIDEO.ver[lang]}</span>
-              </span>
+            <a className={`pastilla ${css.ver}`} href={enYoutube(f.video.id)} target="_blank" rel="noopener noreferrer" onClick={(e) => alClicVideo(e, f.slug)}>
+              <Triangulo lado={11} />
+              {VIDEO.ver[lang]}
+              <span className="sr">: {f.nombre}</span>
             </a>
           ) : f.sitio ? (
-            <a className={css.ver} href={f.sitio} target="_blank" rel="noopener noreferrer">
-              <span className={css.play} aria-hidden="true">
-                <Flecha lado={13} />
-              </span>
-              <span className={css.leyenda}>
-                <span className={css.nombre}>{f.nombre}</span>
-                <span className={css.accion}>{HERO.verSitio[lang]}</span>
-              </span>
+            <a className={`pastilla ${css.ver}`} href={f.sitio} target="_blank" rel="noopener noreferrer">
+              {HERO.verSitio[lang]}
+              <span className="sr">: {f.nombre}</span>
+              <Flecha lado={13} />
             </a>
           ) : null}
-          <a className={css.detalles} href={`#${f.slug}`}>
+          <a className={`pastilla hueca ${css.detalles}`} href={`#${f.slug}`}>
             {HERO.detalles[lang]}
             <span className="sr">: {f.nombre}</span>
             <span className={css.flechita} aria-hidden="true">
               <Chevron />
             </span>
           </a>
+          <button type="button" className={`${css.flecha} ${css.siguiente}`} onClick={() => ir((i + 1) % lista.length)} aria-label={SALA.siguiente[lang]}>
+            <Chevron />
+          </button>
         </div>
         <ol className={css.barras} aria-label={HERO.reel[lang]} style={{ "--n": lista.length } as CSSProperties}>
           {lista.map((x, k) => (

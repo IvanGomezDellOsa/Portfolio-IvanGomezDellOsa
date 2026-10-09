@@ -75,55 +75,6 @@
   opacity: 0;
 }
 
-/*
- * LAS FLECHAS, en el hueco entre la tela del centro y sus vecinas. El hueco
- * mide 0,44 de cada 1,6 de tela: el centro del hueco está a parte × 0,6375 %
- * del medio.
- */
-.flecha {
-  position: absolute;
-  top: 50%;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: 1px solid oklch(96% 0 0 / 0.16);
-  border-radius: 50%;
-  background: oklch(13% 0 0 / 0.55);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  color: oklch(96% 0 0);
-  cursor: pointer;
-  transform: translateY(-50%);
-  transition:
-    border-color 0.2s var(--curva-reaccion),
-    background-color 0.2s var(--curva-reaccion),
-    transform 0.2s var(--curva-reaccion);
-}
-
-.flecha:hover {
-  border-color: color-mix(in oklch, var(--brillo) 70%, transparent);
-  background: color-mix(in oklch, var(--brillo) 14%, oklch(13% 0 0 / 0.7));
-}
-
-.flecha:active {
-  transform: translateY(-50%) scale(0.94);
-}
-
-.anterior {
-  left: max(10px, calc(50% - var(--parte) * 0.6375% - 22px));
-}
-
-.anterior svg {
-  transform: scaleX(-1);
-}
-
-.siguiente {
-  right: max(10px, calc(50% - var(--parte) * 0.6375% - 22px));
-}
-
 /* Sin movimiento (o sin WebGL): el reel, del ancho de antes. */
 .reelQuieto {
   width: min(100% - 2 * var(--canal), 1040px);
@@ -140,96 +91,83 @@
   margin: 0 auto;
 }
 
-/* El video (o el sitio) y, al lado, la sección completa del proyecto elegido. */
+/* El nombre del proyecto elegido: sólo cuando las barras no lo muestran. */
+.titulo {
+  display: none;
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/*
+ * LA FILA DE CONTROLES: ‹ · Ver video · Ver detalles · ›. Los botones son las
+ * pastillas del sitio (la llena para el video, la hueca para los detalles) y
+ * las flechas, círculos huecos del mismo alto: todo a 44 px, en una sola línea.
+ */
 .botones {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 10px;
 }
 
-.detalles {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 54px;
-  padding: 0 16px 0 20px;
-  border: 1px solid oklch(96% 0 0 / 0.12);
-  border-radius: 999px;
-  color: oklch(88% 0 0);
-  font-size: 14.5px;
-  font-weight: 500;
-  text-decoration: none;
+.flecha {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid color-mix(in oklch, var(--tinta) 18%, transparent);
+  border-radius: 50%;
+  background: color-mix(in oklch, var(--tinta) 3%, transparent);
+  color: var(--tinta);
+  cursor: pointer;
   transition:
-    color 0.2s var(--curva-reaccion),
     border-color 0.2s var(--curva-reaccion),
-    background-color 0.2s var(--curva-reaccion);
+    background-color 0.2s var(--curva-reaccion),
+    transform 0.2s var(--curva-reaccion);
 }
 
-.detalles:hover {
-  color: oklch(97% 0 0);
-  border-color: color-mix(in oklch, var(--brillo) 55%, transparent);
-  background: color-mix(in oklch, var(--brillo) 8%, transparent);
+.flecha:hover {
+  border-color: color-mix(in oklch, var(--tinta) 34%, transparent);
+  background: color-mix(in oklch, var(--tinta) 8%, transparent);
+}
+
+.flecha:active {
+  transform: scale(0.94);
+}
+
+/* Separadas de los botones: navegan, no hacen. */
+.anterior {
+  margin-right: 8px;
+}
+
+.siguiente {
+  margin-left: 8px;
+}
+
+.anterior svg {
+  transform: scaleX(-1);
+}
+
+.ver svg {
+  flex: none;
+}
+
+.detalles {
+  padding-right: 15px;
 }
 
 .flechita {
   display: grid;
+  margin-left: -2px;
   transition: transform 0.2s var(--curva-reaccion);
 }
 
 .detalles:hover .flechita {
   transform: translateX(2px);
-}
-
-.ver {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  padding: 6px 18px 6px 6px;
-  border: 1px solid oklch(96% 0 0 / 0.12);
-  border-radius: 999px;
-  background: oklch(96% 0 0 / 0.03);
-  color: oklch(97% 0 0);
-  text-decoration: none;
-  transition:
-    border-color 0.2s var(--curva-reaccion),
-    background-color 0.2s var(--curva-reaccion);
-}
-
-.ver:hover {
-  border-color: color-mix(in oklch, var(--brillo) 55%, transparent);
-  background: color-mix(in oklch, var(--brillo) 8%, transparent);
-}
-
-.play {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 40px;
-  height: 40px;
-  padding-left: 2px;
-  border-radius: 50%;
-  background: oklch(97% 0 0);
-  color: oklch(14.5% 0 0);
-}
-
-.leyenda {
-  display: grid;
-  gap: 1px;
-  text-align: left;
-}
-
-.nombre {
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-.accion {
-  font-size: 13px;
-  color: oklch(80% 0 0);
 }
 
 .barras {
@@ -289,6 +227,34 @@
   }
 }
 
+/* Los nombres ya no entran debajo de cada barra (se pisan): el del elegido va arriba de los botones. */
+@media (max-width: 1199px) {
+  .titulo {
+    display: block;
+  }
+
+  .pie {
+    gap: 16px;
+  }
+
+  .botones {
+    margin-bottom: 6px;
+  }
+
+  .rotulo {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .barras button {
+    padding: 11px 0;
+  }
+}
+
 @media (max-width: 700px) {
   .escenario {
     --parte: 72;
@@ -308,16 +274,25 @@
     gap: 5px;
   }
 
-  .rotulo {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
+  /* Que la fila entre en un teléfono: flechas y pastillas un poco más justas. */
+  .botones {
+    gap: 6px;
   }
 
-  .barras button {
-    padding: 11px 0;
+  .flecha {
+    width: 40px;
+    height: 40px;
+  }
+
+  .botones :global(.pastilla) {
+    padding: 0 15px;
+  }
+
+  .anterior {
+    margin-right: 0;
+  }
+
+  .siguiente {
+    margin-left: 0;
   }
 }
