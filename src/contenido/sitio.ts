@@ -33,8 +33,8 @@ export const CV = {
 
 /** Cada CV se nombra en su propio idioma, en las dos versiones del sitio. */
 export const CV_OPCIONES = [
-  { lang: "es", href: CV.es, idioma: "Español", documento: "CV" },
-  { lang: "en", href: CV.en, idioma: "English", documento: "Resume" },
+  { lang: "es", href: CV.es, idioma: "Español" },
+  { lang: "en", href: CV.en, idioma: "English" },
 ] as const;
 
 export const META = {
