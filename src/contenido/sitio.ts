@@ -404,7 +404,7 @@ export const STACK: { titulo: Bilingue; intro: Bilingue; grupos: { titulo: Bilin
         { nombre: b("Gemini API", "Gemini API"), salas: ["ask-leonardo-da-vinci", "inversiones-en-argentina"] },
         { nombre: b("Embeddings", "Embeddings"), salas: ["ask-leonardo-da-vinci", "inversiones-en-argentina", "facehunt-2"] },
         { nombre: b("Jev (TypeSafe)", "Jev (TypeSafe)"), salas: ["inversiones-en-argentina"] },
-        { nombre: b("Visión por computador", "Computer vision"), salas: ["facehunt-2", "freemagicmirror"] },
+        { nombre: b("Visión por computador", "Computer vision"), salas: ["facehunt-2"] },
       ],
     },
     {

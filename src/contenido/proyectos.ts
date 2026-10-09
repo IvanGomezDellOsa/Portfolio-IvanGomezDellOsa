@@ -16,7 +16,10 @@
  *   · SeViVe con fecha de fin (jun. 2026), «más de 200 usuarios», PWA con
  *     inicio de sesión de Google (no iOS/Android ni Apple) y sin «US$4 por mes».
  *   · Inversiones sin enlace al canal de Telegram.
- *   · Rugidos sin «de 16 MB a menos de 1,5 MB» (no verificable).
+ *   · Rugidos sin «de 16 MB a menos de 1,5 MB». Las cifras que van son las
+ *     verificadas del README (2026-09-30): Lighthouse y «~15,6 MB a ~1,8 MB».
+ *   · Navkok sin «formulario de contacto» (en el código es una simulación) y
+ *     SeViVe sin «acceso controlado» (el código se valida en la app).
  *   · FaceHunt (2025) y el sitio 2023 de Rugidos van como «primera versión»,
  *     dentro de su sucesor.
  *   · Cada proyecto lleva su video de YouTube, el mismo que
@@ -724,7 +727,6 @@ export const PROYECTOS: Proyecto[] = [
                 "**Panel de administración:** calendario mensual con la ocupación de cada clase, historial por alumno, bloqueo de usuarios con cancelación de sus reservas futuras y feriados que se cargan desde la app, sin un deploy.",
                 "**Comunicación:** novedades con notificaciones push y feedback después de cada clase, con aviso por email a la administración ante una respuesta negativa.",
                 "**Apto médico:** carga de PDF o imagen, con compresión automática.",
-                "**Acceso controlado:** registrarse exige un código que entrega el estudio, para que no entren usuarios ajenos.",
                 "**Rifa mensual** entre alumnos activos, ponderada por asistencia, para incentivar la constancia.",
               ],
               [
@@ -735,7 +737,6 @@ export const PROYECTOS: Proyecto[] = [
                 "**Admin panel:** monthly calendar with each class's occupancy, per-student history, blocking users with cancellation of their future bookings, and holidays added from the app, with no deploy.",
                 "**Communication:** announcements with push notifications and feedback after every class, with an email alert to the administration on a negative answer.",
                 "**Medical certificate:** PDF or image upload, with automatic compression.",
-                "**Controlled access:** signing up requires a code provided by the studio, so outsiders cannot get in.",
                 "**Monthly raffle** among active students, weighted by attendance, to encourage consistency.",
               ],
             ),
@@ -1341,7 +1342,7 @@ export const PROYECTOS: Proyecto[] = [
     nombre: "Rugidos Fiestas",
     marca: "/medios/rugidos/marca.webp",
     origen: b("Rugidos Fiestas Tandil", "Rugidos Fiestas Tandil"),
-    periodo: b("2023 – 2026", "2023 – 2026"),
+    periodo: b("2023 – actualidad", "2023 – present"),
     area: b("Sitio web comercial", "Commercial website"),
     resumen: b(
       "Sitio comercial de una empresa de eventos, mobile first y optimizado para búsquedas locales.",
@@ -1442,19 +1443,47 @@ export const PROYECTOS: Proyecto[] = [
         ],
       },
       {
-        titulo: b("Rendimiento en teléfonos", "Performance on phones"),
+        titulo: b("Rendimiento", "Performance"),
         bloques: [
+          {
+            tipo: "tabla",
+            columnas: b(["Lighthouse", "Teléfono", "Escritorio"], ["Lighthouse", "Phone", "Desktop"]),
+            filas: b(
+              [
+                ["Rendimiento", "**95**", "**99**"],
+                ["Accesibilidad", "96", "96"],
+                ["Buenas prácticas", "100", "100"],
+                ["SEO", "100", "100"],
+                ["LCP", "2,9 s", "0,8 s"],
+                ["CLS", "0", "0"],
+              ],
+              [
+                ["Performance", "**95**", "**99**"],
+                ["Accessibility", "96", "96"],
+                ["Best practices", "100", "100"],
+                ["SEO", "100", "100"],
+                ["LCP", "2.9 s", "0.8 s"],
+                ["CLS", "0", "0"],
+              ],
+            ),
+            pie: b(
+              "Lighthouse 12 sobre el sitio en producción, mediana de 3 corridas por perfil (septiembre de 2026).",
+              "Lighthouse 12 on the live site, median of 3 runs per profile (September 2026).",
+            ),
+          },
           {
             tipo: "lista",
             items: b(
               [
-                "Parallax, efecto 3D de las tarjetas, vidrio esmerilado y animaciones de entrada se desactivan en teléfonos: el contenido llega antes y el scroll no se traba en equipos de gama media.",
+                "Parallax, efecto 3D de las tarjetas, vidrio esmerilado y animaciones de entrada se desactivan en teléfonos, para que el contenido llegue antes y el scroll se mantenga fluido en equipos de gama media.",
                 "El logo pasó de PNG (127 KB) a WebP (7 KB), y el recurso crítico del hero se pide con prioridad alta.",
+                "Las fotos del salón y de los extras se procesaron en lote con Sharp: de ~15,6 MB a ~1,8 MB.",
                 "El feed de Instagram y las reseñas de Google se sirven como contenido local: sin dependencias externas ni saltos de diseño mientras cargan.",
               ],
               [
-                "Parallax, the cards' 3D effect, frosted glass and entrance animations are turned off on phones: content arrives sooner and scrolling does not stutter on mid-range devices.",
+                "Parallax, the cards' 3D effect, frosted glass and entrance animations are turned off on phones, so content arrives sooner and scrolling stays smooth on mid-range devices.",
                 "The logo went from PNG (127 KB) to WebP (7 KB), and the hero's critical asset is requested with high priority.",
+                "The venue and extras photos were batch-processed with Sharp: from ~15.6 MB to ~1.8 MB.",
                 "The Instagram feed and the Google reviews are served as local content: no external dependencies and no layout shifts while they load.",
               ],
             ),
@@ -1517,11 +1546,11 @@ export const PROYECTOS: Proyecto[] = [
     cuerpo: b(
       [
         "Proyecto freelance a mi cargo de punta a punta, desde la venta al cliente hasta el sitio terminado. Definí la arquitectura de información y el diseño UX/UI, y redacté los textos institucionales con el tono de la empresa.",
-        "Las imágenes y el video de fondo del hero se produjeron con herramientas de IA y se curaron para la identidad de la marca. Next.js, React, TypeScript y Tailwind CSS, con microanimaciones, formulario de contacto y diseño responsive.",
+        "Las imágenes y el video de fondo del hero se produjeron con herramientas de IA y se curaron para la identidad de la marca. Next.js, React, TypeScript y Tailwind CSS, con microanimaciones y diseño responsive.",
       ],
       [
         "A freelance project I handled end to end, from selling it to the client to the finished site. I defined the information architecture and the UX/UI design, and wrote the corporate copy in the company's tone.",
-        "The images and the hero background video were produced with AI tools and curated for the brand identity. Next.js, React, TypeScript and Tailwind CSS, with micro-animations, a contact form and responsive design.",
+        "The images and the hero background video were produced with AI tools and curated for the brand identity. Next.js, React, TypeScript and Tailwind CSS, with micro-animations and responsive design.",
       ],
     ),
     stack: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
@@ -1545,13 +1574,13 @@ export const PROYECTOS: Proyecto[] = [
                 "**Relación con el cliente:** venta del proyecto y trato directo durante todo el desarrollo.",
                 "**Contenido:** definí las secciones del sitio y redacté los textos institucionales con el tono de la empresa.",
                 "**Material visual:** imágenes y video de fondo del hero generados con herramientas de IA y curados para la identidad de la marca.",
-                "**Desarrollo:** Next.js, React, TypeScript y Tailwind CSS, con microanimaciones, formulario de contacto y diseño responsive.",
+                "**Desarrollo:** Next.js, React, TypeScript y Tailwind CSS, con microanimaciones y diseño responsive.",
               ],
               [
                 "**Client relationship:** selling the project and direct contact throughout development.",
                 "**Content:** I defined the site's sections and wrote the corporate copy in the company's tone.",
                 "**Visual material:** images and the hero background video generated with AI tools and curated for the brand identity.",
-                "**Development:** Next.js, React, TypeScript and Tailwind CSS, with micro-animations, a contact form and responsive design.",
+                "**Development:** Next.js, React, TypeScript and Tailwind CSS, with micro-animations and responsive design.",
               ],
             ),
           },
