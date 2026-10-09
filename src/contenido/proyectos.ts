@@ -21,7 +21,7 @@
  *   · Navkok sin «formulario de contacto» (en el código es una simulación) y
  *     SeViVe sin «acceso controlado» (el código se valida en la app).
  *   · FaceHunt (2025) y el sitio 2023 de Rugidos van como «primera versión»,
- *     dentro de su sucesor.
+ *     dentro de su sucesor. El de 2023 sin su demo en video: sólo el repositorio.
  *   · Cada proyecto lleva su video de YouTube, el mismo que
  *     enlazan su README y el CV 10-26 v2. Los sitios (Rugidos, Navkok) no
  *     tienen: se ven con un clic y no hay nada que explicar.
@@ -1396,10 +1396,7 @@ export const PROYECTOS: Proyecto[] = [
         "In production from 2023 until it was replaced by the current version. HTML, CSS and JavaScript with no frameworks, with automatic deploy to cPanel. Built without AI assistance.",
       ),
       stack: ["HTML5", "CSS3", "JavaScript"],
-      enlaces: [
-        { tipo: "repositorio", href: `${GH}/RugidosWebSite-2023-Legacy` },
-        { tipo: "demo", href: "https://www.youtube.com/watch?v=5V_OWWT0yM4", texto: b("Video", "Video") },
-      ],
+      enlaces: [{ tipo: "repositorio", href: `${GH}/RugidosWebSite-2023-Legacy` }],
       imagen: {
         src: b("/medios/rugidos/primera-version", "/medios/rugidos/primera-version"),
         alt: b("La portada del sitio de 2023: fondo rosa, el león de Rugidos y los enlaces a redes.", "The 2023 site's home page: pink background, the Rugidos lion and the social links."),
