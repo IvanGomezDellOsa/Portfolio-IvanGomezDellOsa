@@ -22,11 +22,12 @@ const REDES = [
  * LA PERSONA, después de la lista de proyectos: sobre mí, experiencia y
  * contacto. En el mismo negro neutro del hero, y con sus mismas piezas: los
  * títulos de sección de la lista y, en el contacto, el nombre de la sección con
- * el degradé del hero, la pastilla y los íconos de las redes.
+ * el degradé del hero, el email que se copia y los íconos de las redes.
  */
 export function Galeria({ lang }: { lang: Idioma }) {
   return (
-    <div className={css.galeria} data-sala-id="galeria" style={variablesDe("galeria")}>
+    <div className={css.galeria} data-sala-id="galeria" style={{ ...variablesDe("galeria"), "--previo": SALAS[PROYECTOS[PROYECTOS.length - 1]!.slug].fondo } as CSSProperties}>
+      <div className={css.umbral} aria-hidden="true" />
       <section id="sobre-mi" className={css.interior} aria-labelledby="t-sobre-mi">
         <div className={css.persona} data-revelar="">
           <figure className={`${css.foto} aparece`}>
@@ -118,9 +119,6 @@ export function Galeria({ lang }: { lang: Idioma }) {
             <CopiarEmail email={EMAIL} lang={lang} />
           </div>
           <div className={`${hero.acciones} aparece`} style={{ "--i": 2 } as CSSProperties}>
-            <a className="pastilla" href={`mailto:${EMAIL}`}>
-              {CONTACTO.escribir[lang]}
-            </a>
             <ul className={hero.redes}>
               {REDES.map(({ nombre, href, Icono }) => (
                 <li key={nombre}>

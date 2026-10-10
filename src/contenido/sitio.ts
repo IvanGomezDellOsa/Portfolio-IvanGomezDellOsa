@@ -128,8 +128,8 @@ export const SALA = {
 /** El video de cada proyecto y su reproductor. */
 export const VIDEO = {
   ver: b("Ver video", "Watch video"),
-  /** El nombre fijo de los videos, el mismo del CV y de LinkedIn. */
-  presentacion: b("Video de presentación", "Presentation video"),
+  /** El botón de la pantalla de cada proyecto: dice qué video es, con el nombre fijo del CV. */
+  verPresentacion: b("Ver video de presentación", "Watch presentation video"),
   /** Los dos sitios web no tienen video: su pantalla muestra el recorrido de la página. */
   recorridoDe: b("Recorrido sin sonido del sitio de", "Silent walkthrough of the website of"),
   escenas: b("Escenas", "Scenes"),
@@ -355,7 +355,6 @@ export const CONTACTO = {
   titulo: b("Contacto", "Contact"),
   copiar: b("Copiar el email", "Copy the email"),
   copiado: b("Email copiado", "Email copied"),
-  escribir: b("Escribir un email", "Send an email"),
 };
 
 export const NO_ENCONTRADA = {

@@ -8,6 +8,13 @@
   color: var(--tinta);
 }
 
+/* El paso desde el último proyecto: de su tinte al negro neutro. */
+.umbral {
+  height: clamp(56px, 11vh, 120px);
+  background: linear-gradient(to bottom, var(--previo), var(--fondo));
+  background: linear-gradient(in oklch to bottom, var(--previo), var(--fondo));
+}
+
 .interior {
   width: 100%;
   max-width: calc(var(--ancho) + 2 * var(--canal));
@@ -327,4 +334,9 @@
     grid-template-columns: 1fr;
     gap: 4px;
   }
+}
+
+/* Sin la pastilla al lado, la fila de íconos queda centrada. */
+.contactoContenido ul {
+  margin-left: 0;
 }

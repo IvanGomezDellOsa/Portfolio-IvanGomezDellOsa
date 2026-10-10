@@ -4,15 +4,15 @@ import type { SalaId } from "@/contenido/salas";
 import { HERO, SALA, VIDEO } from "@/contenido/sitio";
 import type { Idioma, TipoEnlace, VideoProyecto } from "@/contenido/tipos";
 import { alClicVideo } from "@/lib/teatro";
-import { duracionIso, enYoutube, reloj, vistaPrevia } from "@/lib/videos";
+import { enYoutube, vistaPrevia } from "@/lib/videos";
 import { VideoEnVista } from "./Medios";
 import { Flecha, Triangulo } from "./Iconos";
 import css from "./Pantalla.module.css";
 
 /**
- * LA PANTALLA DE UN PROYECTO: lo principal de su página. Corre un fragmento
- * mudo y en loop (`tools/videos.mjs`) y, en el centro, la acción: «▶ Ver video»
- * abre el video de presentación completo en el teatro (sin JavaScript, el
+ * LA PANTALLA DE UN PROYECTO: lo principal de su sección. Corre un fragmento
+ * mudo y en loop (`tools/videos.mjs`) y, en el centro, la acción: «▶ Ver video
+ * de presentación» abre el video de presentación completo en el teatro (sin JavaScript, el
  * enlace lleva a YouTube). Los dos sitios web no tienen video de presentación:
  * su pantalla muestra el recorrido de la página, que es lo que hay para ver, y
  * el botón que lleva al sitio va en una esquina, sin taparlo.
@@ -57,11 +57,8 @@ export function Pantalla({
               {video ? (
                 <>
                   <Triangulo lado={13} />
-                  {VIDEO.ver[lang]}
+                  {VIDEO.verPresentacion[lang]}
                   <span className="sr">: {nombre}</span>
-                  <time className={`${css.duracion} maquina`} dateTime={duracionIso(video.duracion)}>
-                    {reloj(video.duracion)}
-                  </time>
                 </>
               ) : (
                 <>
@@ -71,7 +68,6 @@ export function Pantalla({
                 </>
               )}
             </span>
-            {video && <span className={`etiqueta ${css.rotulo}`}>{VIDEO.presentacion[lang]}</span>}
           </a>
         )}
       </div>

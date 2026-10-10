@@ -1,32 +1,44 @@
 /*
- * LA PAGINA DE UN PROYECTO. El fondo es el tinte de su producto, con la
- * retícula y la luz del hero detrás del nombre. Una sola columna de 1200 px:
- * el nombre, el video a todo el ancho y, debajo, lo que se lee.
+ * UN PROYECTO, en el recorrido de la portada. El fondo es el tinte de su
+ * producto, con la retícula y la luz del hero detrás del nombre; el umbral de
+ * arriba es el paso desde el anterior. Una sola columna de 1200 px: el nombre,
+ * el video a todo el ancho y, debajo, lo que se lee.
  */
 .proyecto {
+  --alto-umbral: clamp(56px, 11vh, 120px);
   position: relative;
   isolation: isolate;
-  min-height: 100vh;
+  padding-bottom: clamp(64px, 11vh, 120px);
   background: var(--fondo);
   color: var(--tinta);
+  /* Al llegar por un ancla, el umbral queda bajo la barra y el nombre, a la vista. */
+  scroll-margin-top: calc(-1 * var(--alto-umbral) + 8px);
+}
+
+.umbral {
+  height: var(--alto-umbral);
+  background: linear-gradient(to bottom, var(--previo), var(--fondo));
+  background: linear-gradient(in oklch to bottom, var(--previo), var(--fondo));
 }
 
 /* El resplandor del acento, arriba a la derecha: lo que hace del tinte un lugar. */
 .proyecto::before {
   content: "";
   position: absolute;
-  inset: 0 0 auto;
+  inset: var(--alto-umbral) 0 auto;
   height: 110vh;
   z-index: -1;
   pointer-events: none;
   background: radial-gradient(55% 45% at 88% 6%, var(--luz), transparent 72%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 min(34vh, 300px));
+  mask-image: linear-gradient(to bottom, transparent, #000 min(34vh, 300px));
 }
 
 /* La retícula del hero (y de la tapa del CV), detrás de la cabecera. */
 .proyecto::after {
   content: "";
   position: absolute;
-  inset: 0 0 auto;
+  inset: var(--alto-umbral) 0 auto;
   height: min(900px, 105vh);
   z-index: -1;
   pointer-events: none;
@@ -40,8 +52,7 @@
 
 .cabecera,
 .pantalla,
-.ficha,
-.pasos {
+.ficha {
   width: 100%;
   max-width: calc(var(--ancho) + 2 * var(--canal));
   margin: 0 auto;
@@ -56,7 +67,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: 22px clamp(28px, 4vw, 64px);
-  padding-top: calc(64px + clamp(26px, 5.5vh, 56px));
+  padding-top: clamp(10px, 2.4vh, 28px);
 }
 
 .presentacion {
@@ -347,101 +358,6 @@
   color: var(--tinta-3);
 }
 
-/* ─── A otro proyecto ─── */
-
-.pasos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  padding-top: clamp(64px, 11vh, 120px);
-  padding-bottom: clamp(60px, 10vh, 110px);
-}
-
-.paso {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  display: grid;
-  gap: 8px;
-  padding: clamp(22px, 3vw, 34px);
-  border-radius: 16px;
-  background: var(--fondo);
-  color: var(--tinta);
-  text-decoration: none;
-  box-shadow: 0 0 0 1px var(--pelo) inset;
-  transition:
-    transform 0.3s var(--curva-reaccion),
-    box-shadow 0.3s var(--curva-reaccion);
-}
-
-/* El acento del otro proyecto asoma desde la esquina. */
-.paso::before {
-  content: "";
-  position: absolute;
-  inset: -40% -20% auto auto;
-  width: 60%;
-  aspect-ratio: 1;
-  z-index: -1;
-  border-radius: 50%;
-  background: var(--tinte);
-  filter: blur(70px);
-  opacity: 0.16;
-}
-
-.paso:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 0 1px color-mix(in oklch, var(--tinte) 45%, transparent) inset;
-}
-
-.paso:last-child {
-  text-align: right;
-}
-
-.nombrePaso {
-  font-size: clamp(22px, 2.4vw, 32px);
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1.1;
-}
-
-.areaPaso {
-  font-size: 14px;
-  color: var(--tinta-2);
-}
-
-/* ─── La entrada: una sola, corta y en orden, como la del hero ─── */
-
-@media (prefers-reduced-motion: no-preference) {
-  .presentacion > *,
-  .enlaces,
-  .pantalla {
-    animation: entrar 0.9s var(--curva-entrada) both;
-  }
-
-  .presentacion > :nth-child(2) {
-    animation-delay: 0.06s;
-  }
-
-  .presentacion > :nth-child(3) {
-    animation-delay: 0.12s;
-  }
-
-  .enlaces {
-    animation-delay: 0.18s;
-  }
-
-  .pantalla {
-    animation-delay: 0.24s;
-  }
-}
-
-@keyframes entrar {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-}
-
 /* ─── Teléfono y tableta ─── */
 
 @media (max-width: 900px) {
@@ -472,12 +388,3 @@
   }
 }
 
-@media (max-width: 640px) {
-  .pasos {
-    grid-template-columns: 1fr;
-  }
-
-  .paso:last-child {
-    text-align: left;
-  }
-}

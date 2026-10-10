@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { NAV, NOMBRE } from "@/contenido/sitio";
 import type { Idioma } from "@/contenido/tipos";
-import { inicio } from "@/lib/rutas";
 import { MenuCV } from "./MenuCV";
 import css from "./Encabezado.module.css";
 
@@ -18,7 +17,7 @@ import css from "./Encabezado.module.css";
  * portada los enlaces son anclas; en un caso, vuelven a la portada con el
  * ancla. El botón «CV» ofrece siempre los dos idiomas.
  */
-export function Encabezado({ lang, rutaOtra, enPortada }: { lang: Idioma; rutaOtra: string; enPortada: boolean }) {
+export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string }) {
   const [conFondo, setConFondo] = useState(false);
 
   useEffect(() => {
@@ -28,15 +27,14 @@ export function Encabezado({ lang, rutaOtra, enPortada }: { lang: Idioma; rutaOt
     return () => window.removeEventListener("scroll", medir);
   }, []);
 
-  const base = enPortada ? "" : inicio(lang);
-  const ancla = (id: string) => `${base}#${id}`;
+  const ancla = (id: string) => `#${id}`;
 
   return (
-    <header className={css.barra} data-con-fondo={conFondo || !enPortada}>
+    <header className={css.barra} data-con-fondo={conFondo}>
       <a className="saltar" href="#contenido">
         {NAV.saltar[lang]}
       </a>
-      <a className={css.firma} href={enPortada ? "#inicio" : inicio(lang)} aria-label={`${NOMBRE}, ${NAV.inicio[lang]}`}>
+      <a className={css.firma} href="#inicio" aria-label={`${NOMBRE}, ${NAV.inicio[lang]}`}>
         {NOMBRE}
       </a>
       <nav className={css.navegacion} aria-label={lang === "es" ? "Principal" : "Main"}>

@@ -1,9 +1,7 @@
 import type { CSSProperties } from "react";
-import { PROYECTOS } from "@/contenido/proyectos";
-import { SALAS, variablesDe } from "@/contenido/salas";
+import { SALAS, variablesDe, type SalaId } from "@/contenido/salas";
 import { SALA } from "@/contenido/sitio";
 import type { Bloque, Idioma, PrimeraVersion, Proyecto as DatosProyecto } from "@/contenido/tipos";
-import { caso } from "@/lib/rutas";
 import { CasoCompleto } from "./CasoCompleto";
 import { EspacioVectorial } from "./EspacioVectorial";
 import { Barras, Capas, Cobertura, Sistema } from "./Graficos";
@@ -161,7 +159,7 @@ function Etiqueta({ p, lang }: { p: DatosProyecto; lang: Idioma }) {
 function BloquePrimeraVersion({ pv, lang }: { pv: PrimeraVersion; lang: Idioma }) {
   return (
     <section className={css.seccion} aria-label={`${SALA.primeraVersion[lang]}: ${pv.nombre}`}>
-      <h2 className={css.tituloSeccion}>{SALA.primeraVersion[lang]}</h2>
+      <h3 className={css.tituloSeccion}>{SALA.primeraVersion[lang]}</h3>
       <div className={css.primera}>
         {pv.imagen && (
           <div className={css.imagen}>
@@ -176,9 +174,9 @@ function BloquePrimeraVersion({ pv, lang }: { pv: PrimeraVersion; lang: Idioma }
           </div>
         )}
         <div className={css.primeraTexto}>
-          <h3 className={css.primeraNombre}>
+          <h4 className={css.primeraNombre}>
             {pv.nombre} <span className={`${css.primeraPeriodo} maquina`}>{pv.periodo[lang]}</span>
-          </h3>
+          </h4>
           <p className="texto">
             <Texto t={pv.texto[lang]} />
           </p>
@@ -191,8 +189,9 @@ function BloquePrimeraVersion({ pv, lang }: { pv: PrimeraVersion; lang: Idioma }
 }
 
 /**
- * LA PAGINA DE UN PROYECTO: el único lugar donde se lo presenta. La misma
- * estructura para los nueve, porque quien entra a uno ya sabe leer los demás:
+ * UN PROYECTO, en el recorrido de la portada: el único lugar donde se lo
+ * presenta. La misma estructura para los nueve, porque quien vio uno ya sabe
+ * leer los demás:
  *
  *   1. Qué es: su marca, el nombre y la descripción reducida, con sus enlaces.
  *   2. EL VIDEO, a todo el ancho: es la mejor presentación de cada proyecto, y
@@ -203,20 +202,19 @@ function BloquePrimeraVersion({ pv, lang }: { pv: PrimeraVersion; lang: Idioma }
  *
  * Lo que cambia entre proyectos es el tinte (`salas.ts`) y el contenido.
  */
-export function Proyecto({ p, lang }: { p: DatosProyecto; lang: Idioma }) {
-  const i = PROYECTOS.findIndex((x) => x.slug === p.slug);
-  const anterior = PROYECTOS[(i - 1 + PROYECTOS.length) % PROYECTOS.length]!;
-  const siguiente = PROYECTOS[(i + 1) % PROYECTOS.length]!;
+export function Proyecto({ p, lang, previa }: { p: DatosProyecto; lang: Idioma; previa: SalaId }) {
   const vivo = p.enlaces.find((e) => EN_VIVO.has(e.tipo));
 
   return (
-    <article className={css.proyecto} data-sala-id={p.slug} style={variablesDe(p.slug)}>
-      <header className={css.cabecera}>
+    <section id={p.slug} className={css.proyecto} data-sala-id={p.slug} style={{ ...variablesDe(p.slug), "--previo": SALAS[previa].fondo } as CSSProperties} aria-labelledby={`t-${p.slug}`}>
+      {/* El paso desde el proyecto anterior: de un negro teñido al otro. */}
+      <div className={css.umbral} aria-hidden="true" />
+      <header className={css.cabecera} data-revelar="">
         <div className={css.presentacion}>
           <Etiqueta p={p} lang={lang} />
-          <h1 className={css.titulo}>
+          <h2 id={`t-${p.slug}`} className={css.titulo}>
             <span className="degrade">{p.nombre}</span>
-          </h1>
+          </h2>
           <p className={`${css.resumen} texto`}>
             <Texto t={p.resumen[lang]} />
           </p>
@@ -252,7 +250,7 @@ export function Proyecto({ p, lang }: { p: DatosProyecto; lang: Idioma }) {
         <div className={css.caso}>
           {p.caso.map((s) => (
             <section key={s.titulo.es} className={css.seccion}>
-              <h2 className={css.tituloSeccion}>{s.titulo[lang]}</h2>
+              <h3 className={css.tituloSeccion}>{s.titulo[lang]}</h3>
               <div className={css.bloques}>
                 {s.bloques.map((b, n) => (
                   <RenderBloque key={n} b={b} lang={lang} />
@@ -264,22 +262,6 @@ export function Proyecto({ p, lang }: { p: DatosProyecto; lang: Idioma }) {
         </div>
       </CasoCompleto>
 
-      <nav className={css.pasos} aria-label={lang === "es" ? "Otros proyectos" : "Other projects"}>
-        {[
-          { x: anterior, rotulo: SALA.anterior[lang], flecha: "←" },
-          { x: siguiente, rotulo: SALA.siguiente[lang], flecha: "→" },
-        ].map(({ x, rotulo, flecha }) => (
-          <a key={rotulo} href={caso(lang, x.slug)} className={css.paso} style={{ ...variablesDe(x.slug), "--tinte": SALAS[x.slug].acento } as CSSProperties}>
-            <span className="etiqueta">
-              {flecha === "←" && <span aria-hidden="true">← </span>}
-              {rotulo}
-              {flecha === "→" && <span aria-hidden="true"> →</span>}
-            </span>
-            <span className={css.nombrePaso}>{x.nombre}</span>
-            <span className={css.areaPaso}>{x.area[lang]}</span>
-          </a>
-        ))}
-      </nav>
-    </article>
+    </section>
   );
 }

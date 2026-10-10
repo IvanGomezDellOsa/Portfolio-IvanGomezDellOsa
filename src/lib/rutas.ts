@@ -8,8 +8,8 @@ import { SITIO } from "@/contenido/sitio";
 
 export const inicio = (lang: Idioma) => (lang === "es" ? "/" : "/en/");
 
-export const caso = (lang: Idioma, slug: string) =>
-  lang === "es" ? `/proyectos/${slug}/` : `/en/projects/${slug}/`;
+/** Cada proyecto es una sección de la portada: su dirección es el ancla. */
+export const caso = (lang: Idioma, slug: string) => `${inicio(lang)}#${slug}`;
 
 export const otroIdioma = (lang: Idioma): Idioma => (lang === "es" ? "en" : "es");
 

@@ -8,8 +8,7 @@ import css from "./Galeria.module.css";
 
 /**
  * LA DIRECCION DEL CONTACTO: se lee entera y un clic la copia, como en la tapa
- * del CV. El ícono pasa a un tilde durante dos segundos; para escribir desde el
- * programa de correo está la pastilla de al lado.
+ * del CV. El ícono pasa a un tilde durante dos segundos.
  */
 export function CopiarEmail({ email, lang }: { email: string; lang: Idioma }) {
   const [copiado, setCopiado] = useState(false);
@@ -19,7 +18,7 @@ export function CopiarEmail({ email, lang }: { email: string; lang: Idioma }) {
       setCopiado(true);
       window.setTimeout(() => setCopiado(false), 2000);
     } catch {
-      /* Sin permiso de portapapeles: la dirección queda a la vista y la pastilla abre el correo. */
+      /* Sin permiso de portapapeles: la dirección queda a la vista. */
     }
   };
   return (
