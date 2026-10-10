@@ -76,6 +76,8 @@ export const NAV = {
   cvCopiado: b("Email copiado", "Email copied"),
   idioma: b("Idioma", "Language"),
   inicio: b("Inicio", "Home"),
+  /** El botón que despliega los enlaces de la barra, en el teléfono. */
+  menu: b("Menú", "Menu"),
 };
 
 /**

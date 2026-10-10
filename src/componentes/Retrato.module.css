@@ -37,6 +37,15 @@
   opacity: 0;
 }
 
+/* Roto (`lib/rotura.ts`): los pedazos se llevaron la foto y el aro. Queda la marca de donde estaba. */
+.retrato[data-roto] {
+  box-shadow: 0 0 0 1px oklch(100% 0 0 / 0.07);
+}
+
+.retrato[data-roto] .capa {
+  visibility: hidden;
+}
+
 /* Nada del retrato se selecciona, se arrastra ni abre el menú de «guardar» al mantener apretado. */
 .retrato,
 .retrato * {

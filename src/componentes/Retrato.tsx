@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import type { Rotura } from "@/lib/rotura";
 import css from "./Retrato.module.css";
 
 const RUTA = "/medios/persona/retrato";
@@ -63,6 +64,11 @@ const posicion = (n: number) => `${((n % COLUMNAS) / (COLUMNAS - 1)) * 100}% ${(
  * pared vacía, como un cuadro cuyo dueño salió, y a los diez segundos vuelve
  * caminando y mira de nuevo.
  *
+ * En una pantalla táctil no hay cursor que seguir: ahí el toque no lo hace
+ * irse, lo rompe. El retrato se parte en dos donde cayó el dedo y los pedazos
+ * caen (`lib/rotura.ts`); queda el aro vacío y a los diez segundos está otra
+ * vez entero.
+ *
  * Todo sale de la misma sesión, llevado a un solo encuadre
  * (`tools/retrato.mjs`). Primero se pinta el frente solo; el anillo de poses y
  * los videos se piden cuando terminó de cargar la página. Con ahorro de datos
@@ -73,6 +79,7 @@ const posicion = (n: number) => `${((n % COLUMNAS) / (COLUMNAS - 1)) * 100}% ${(
  */
 export function Retrato({ className = "" }: { className?: string }) {
   const caja = useRef<HTMLDivElement>(null);
+  const frente = useRef<HTMLImageElement>(null);
   const base = useRef<HTMLDivElement>(null);
   const velo = useRef<HTMLDivElement>(null);
   const salida = useRef<HTMLVideoElement>(null);
@@ -88,6 +95,7 @@ export function Retrato({ className = "" }: { className?: string }) {
 
     const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const ahorro = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+    const tactil = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 
     let vivo = true;
     let listo = false;
@@ -102,6 +110,8 @@ export function Retrato({ className = "" }: { className?: string }) {
     let fundido: Animation | undefined;
     let px: number | null = null;
     let py = 0;
+    let rotura: Rotura | null = null;
+    let hoja: HTMLImageElement | null = null;
 
     // Un cuadro. Si no es vecino del anterior (o es el frente, que sale de
     // otra toma), el anterior se desvanece encima: un salto sin corte seco.
@@ -227,9 +237,74 @@ export function Retrato({ className = "" }: { className?: string }) {
         },
       );
     };
-    el.addEventListener("click", irse);
+
+    // Recompuesto: el retrato vuelve a aparecer en su lugar, entero.
+    const recomponer = () => {
+      if (!vivo) return;
+      delete el.dataset.roto;
+      for (const capa of [frente.current, b]) capa?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, easing: "cubic-bezier(0.22, 1, 0.36, 1)" });
+      quedarse(700);
+    };
+
+    // El toque, en una pantalla táctil: no hay cursor que seguir, así que el
+    // retrato se parte donde cayó el dedo (`lib/rotura.ts`) y a los diez
+    // segundos está otra vez. Si no se pudo armar la rotura, se va caminando.
+    const romper = (e: MouseEvent) => {
+      const escenario = el.closest("section");
+      const foto = frente.current;
+      if (yendose || !rotura || !escenario || !foto?.complete || !foto.naturalWidth) return false;
+      const celda = hoja && actual !== FRENTE ? ([(actual % COLUMNAS) * (hoja.naturalWidth / COLUMNAS), Math.floor(actual / COLUMNAS) * (hoja.naturalHeight / FILAS), hoja.naturalWidth / COLUMNAS, hoja.naturalHeight / FILAS] as const) : undefined;
+      // Vuelve a los diez segundos, pero nunca con los pedazos todavía en el aire.
+      let cayendo = true;
+      let vencido = false;
+      const alTerminar = () => {
+        cayendo = false;
+        if (vencido) recomponer();
+      };
+      let hecho = false;
+      try {
+        hecho = rotura.romper({ caja: el, escenario, fuente: celda && hoja ? { imagen: hoja, recorte: celda } : { imagen: foto }, x: e.clientX, y: e.clientY, alTerminar });
+      } catch {
+        hecho = false;
+      }
+      if (!hecho) return false;
+      yendose = true;
+      window.clearTimeout(reloj);
+      reloj = 0;
+      cola = [];
+      el.dataset.roto = "";
+      el.style.cursor = "default";
+      if (hoja && actual !== FRENTE) {
+        b.style.backgroundPosition = posicion(FRENTE);
+        actual = FRENTE;
+      }
+      destino = FRENTE;
+      navigator.vibrate?.(14);
+      regreso = window.setTimeout(() => {
+        vencido = true;
+        if (!cayendo) recomponer();
+      }, VUELVE_MS);
+      return true;
+    };
+
+    const alClic = (e: MouseEvent) => {
+      if (!romper(e)) irse();
+    };
+    el.addEventListener("click", alClic);
 
     const empezar = async () => {
+      if (tactil && !quieto && !ahorro)
+        import("@/lib/rotura").then(
+          ({ prepararRotura }) => {
+            if (!vivo) return;
+            try {
+              rotura = prepararRotura();
+            } catch {
+              rotura = null;
+            }
+          },
+          () => {},
+        );
       if (ahorro) return;
       const anillo = new Image();
       anillo.src = `${RUTA}/anillo.webp`;
@@ -241,6 +316,7 @@ export function Retrato({ className = "" }: { className?: string }) {
       if (!vivo || yendose) return;
       b.style.backgroundImage = v.style.backgroundImage = `url(${anillo.src})`;
       b.style.backgroundPosition = posicion(FRENTE);
+      hoja = anillo;
       listo = true;
       window.addEventListener("pointermove", alMover, { passive: true });
       window.addEventListener("pointerdown", alMover, { passive: true });
@@ -257,7 +333,9 @@ export function Retrato({ className = "" }: { className?: string }) {
       window.clearTimeout(regreso);
       cancelAnimationFrame(cuadro);
       fundido?.cancel();
-      el.removeEventListener("click", irse);
+      el.removeEventListener("click", alClic);
+      rotura?.destruir();
+      delete el.dataset.roto;
       window.removeEventListener("load", empezar);
       window.removeEventListener("pointermove", alMover);
       window.removeEventListener("pointerdown", alMover);
@@ -268,7 +346,7 @@ export function Retrato({ className = "" }: { className?: string }) {
   return (
     // Sin menú contextual ni arrastre: guardar o ampliar la foto y los videos no queda a un clic.
     <div ref={caja} className={`${className} ${css.retrato}`} aria-hidden="true" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>
-      <img className={css.capa} src={`${RUTA}/frente.webp`} alt="" width={300} height={300} fetchPriority="high" decoding="async" draggable={false} />
+      <img ref={frente} className={css.capa} src={`${RUTA}/frente.webp`} alt="" width={300} height={300} fetchPriority="high" decoding="async" draggable={false} />
       <div ref={base} className={`${css.capa} ${css.anillo}`} />
       <div ref={velo} className={`${css.capa} ${css.anillo} ${css.velo}`} />
       <video ref={salida} className={`${css.capa} ${css.video}`} src={`${RUTA}/salida.mp4`} muted playsInline preload="none" tabIndex={-1} disablePictureInPicture controlsList="nodownload noremoteplayback" />

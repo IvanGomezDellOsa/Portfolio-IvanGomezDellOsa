@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { NAV, NOMBRE } from "@/contenido/sitio";
 import type { Idioma } from "@/contenido/tipos";
 import { senalarContacto } from "@/lib/contacto";
@@ -18,9 +18,18 @@ import css from "./Encabezado.module.css";
  * portada los enlaces son anclas; en un caso, vuelven a la portada con el
  * ancla. Todo es texto, sin cajas: los enlaces, «CV» (que abre la vista
  * previa) y, al final, el idioma.
+ *
+ * EN EL TELEFONO es una barra de verdad, siempre con su vidrio: el nombre
+ * adentro, a la izquierda, y a la derecha el idioma y el botón del menú. Los
+ * enlaces no entran en una fila: se despliegan debajo, dentro de la misma
+ * barra, y se cierran al elegir, con Esc o al tocar afuera.
  */
 export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string }) {
   const [conFondo, setConFondo] = useState(false);
+  const [abierto, setAbierto] = useState(false);
+  const barra = useRef<HTMLElement>(null);
+  const boton = useRef<HTMLButtonElement>(null);
+  const idNav = useId();
 
   useEffect(() => {
     const medir = () => setConFondo(window.scrollY > 24);
@@ -29,36 +38,60 @@ export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string 
     return () => window.removeEventListener("scroll", medir);
   }, []);
 
+  useEffect(() => {
+    if (!abierto) return;
+    const afuera = (e: PointerEvent) => {
+      if (!barra.current?.contains(e.target as Node)) setAbierto(false);
+    };
+    const tecla = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setAbierto(false);
+      boton.current?.focus();
+    };
+    document.addEventListener("pointerdown", afuera);
+    document.addEventListener("keydown", tecla);
+    return () => {
+      document.removeEventListener("pointerdown", afuera);
+      document.removeEventListener("keydown", tecla);
+    };
+  }, [abierto]);
+
   const ancla = (id: string) => `#${id}`;
 
   return (
-    <header className={css.barra} data-con-fondo={conFondo}>
+    <header ref={barra} className={css.barra} data-con-fondo={conFondo} data-abierto={abierto || undefined}>
       <a className="saltar" href="#contenido">
         {NAV.saltar[lang]}
       </a>
-      <a className={css.firma} href="#inicio" aria-label={`${NOMBRE}, ${NAV.inicio[lang]}`}>
+      <a className={css.firma} href="#inicio" aria-label={`${NOMBRE}, ${NAV.inicio[lang]}`} onClick={() => setAbierto(false)}>
         {NOMBRE}
       </a>
-      <nav className={css.navegacion} aria-label={lang === "es" ? "Principal" : "Main"}>
-        <a className={css.enlace} href={ancla("vitrina")}>
-          {NAV.proyectos[lang]}
-        </a>
-        <a className={css.enlace} href={ancla("sobre-mi")}>
-          {NAV.sobreMi[lang]}
-        </a>
-        {/* Prueba: «Contacto» vuelve al hero y señala los íconos (`lib/contacto.ts`). Sin JavaScript, baja a la sección. */}
-        <a
-          className={css.enlace}
-          href={ancla("contacto")}
-          onClick={(e) => {
-            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-            e.preventDefault();
-            void senalarContacto(e.currentTarget);
-          }}
-        >
-          {NAV.contacto[lang]}
-        </a>
-        <MenuCV lang={lang} />
+      <div className={css.derecha}>
+        {/* Cualquier clic adentro (un enlace o «CV») cierra el menú del teléfono. */}
+        <nav id={idNav} className={css.navegacion} aria-label={lang === "es" ? "Principal" : "Main"} onClick={() => setAbierto(false)}>
+          <div className={css.enlaces}>
+            <a className={css.enlace} href={ancla("vitrina")}>
+              {NAV.proyectos[lang]}
+            </a>
+            <a className={css.enlace} href={ancla("sobre-mi")}>
+              {NAV.sobreMi[lang]}
+            </a>
+            {/* Prueba: «Contacto» vuelve al hero y señala los íconos (`lib/contacto.ts`). Sin JavaScript, baja a la sección. */}
+            <a
+              className={css.enlace}
+              href={ancla("contacto")}
+              onClick={(e) => {
+                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                e.preventDefault();
+                // Con el menú abierto el enlace está por plegarse: el anillo sale del botón.
+                void senalarContacto((abierto && boton.current) || e.currentTarget);
+              }}
+            >
+              {NAV.contacto[lang]}
+            </a>
+            <MenuCV lang={lang} />
+          </div>
+        </nav>
         <div className={css.idiomas} role="group" aria-label={NAV.idioma[lang]}>
           {(["es", "en"] as const).map((l) =>
             l === lang ? (
@@ -72,7 +105,10 @@ export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string 
             ),
           )}
         </div>
-      </nav>
+        <button ref={boton} type="button" className={css.menu} aria-label={NAV.menu[lang]} aria-expanded={abierto} aria-controls={idNav} onClick={() => setAbierto((a) => !a)}>
+          <span className={css.rayas} aria-hidden="true" />
+        </button>
+      </div>
     </header>
   );
 }
