@@ -19,10 +19,10 @@ import css from "./Encabezado.module.css";
  * ancla. Todo es texto, sin cajas: los enlaces, «CV» (que abre la vista
  * previa) y, al final, el idioma.
  *
- * EN EL TELEFONO, cerrada, la barra muestra sólo el botón del menú: el nombre
- * ya está, grande, en el hero. Todo lo demás va adentro del menú, que se
- * despliega en la misma barra: el nombre arriba, los enlaces, «CV» y, al
- * final, el idioma. Se cierra al elegir, con Esc o al tocar afuera.
+ * EN EL TELEFONO la barra muestra sólo el botón del menú, sin el nombre (ya
+ * está, grande, en el hero). Todo lo demás va adentro del menú, que se
+ * despliega en la misma barra: Proyectos, Sobre mí, «CV», Contacto y, un poco
+ * apartado, el idioma. Se cierra al elegir, con Esc o al tocar afuera.
  */
 export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string }) {
   const [conFondo, setConFondo] = useState(false);
@@ -78,7 +78,7 @@ export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string 
             </a>
             {/* Prueba: «Contacto» vuelve al hero y señala los íconos (`lib/contacto.ts`). Sin JavaScript, baja a la sección. */}
             <a
-              className={css.enlace}
+              className={`${css.enlace} ${css.contacto}`}
               href={ancla("contacto")}
               onClick={(e) => {
                 if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -89,7 +89,9 @@ export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string 
             >
               {NAV.contacto[lang]}
             </a>
-            <MenuCV lang={lang} />
+            <div className={css.filaCV}>
+              <MenuCV lang={lang} />
+            </div>
             <div className={css.idiomas} role="group" aria-label={NAV.idioma[lang]}>
               {(["es", "en"] as const).map((l) =>
                 l === lang ? (

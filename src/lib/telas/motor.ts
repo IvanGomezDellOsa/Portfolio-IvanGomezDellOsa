@@ -650,7 +650,7 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
   const ro = new ResizeObserver(ajustar);
   ro.observe(o.contenedor);
 
-  const aNdc = (e: PointerEvent) => {
+  const aNdc = (e: { clientX: number; clientY: number }) => {
     const r = canvas.getBoundingClientRect();
     puntero.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     rayo.setFromCamera(puntero, camara);
@@ -668,7 +668,7 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
   };
 
   /** El broche bajo el puntero: a menos de 26 px de su proyección en pantalla. */
-  const brocheEn = (e: PointerEvent): [number, number] | null => {
+  const brocheEn = (e: { clientX: number; clientY: number }): [number, number] | null => {
     const r = canvas.getBoundingClientRect();
     const v = new Vector3();
     for (let k = 0; k < N; k++) {
@@ -731,9 +731,9 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
     const tocadaK = telaEn();
     if (tocadaK >= 0) telas[tocadaK]!.tela.tocada = performance.now();
     const k = telaEn();
-    // Con el mouse, apretar sobre la tela la agarra; con el dedo, el gesto
-    // horizontal sigue siendo deslizar (la tela ocupa casi todo el ancho).
-    if (k >= 0 && e.pointerType === "mouse") gesto = empezarAgarre(k, e);
+    // Apretar sobre la tela la agarra, con el mouse o con el dedo; fuera de
+    // ella, el gesto horizontal desliza el hilo.
+    if (k >= 0) gesto = empezarAgarre(k, e);
     gesto ??= { tipo: "deslizar", x0: e.clientX, r0: recorrido, ultimoX: e.clientX, ultimoT: performance.now(), v: 0, movio: false, t0: performance.now(), tela: k };
     canvas.style.cursor = "grabbing";
   };
@@ -831,6 +831,19 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
   canvas.addEventListener("pointercancel", alSoltar);
   canvas.addEventListener("pointerleave", alSalir);
   canvas.style.touchAction = "pan-y";
+  // Con el dedo sobre una tela o un broche, la página no se desplaza: el gesto
+  // es de la tela (agarrar y arrastrar, como con el mouse). Fuera de ellas, el
+  // gesto vertical sigue siendo el scroll.
+  canvas.addEventListener(
+    "touchstart",
+    (e) => {
+      const dedo = e.touches[0];
+      if (e.touches.length !== 1 || !dedo) return;
+      aNdc(dedo);
+      if ((brocheEn(dedo) || telaEn() >= 0) && e.cancelable) e.preventDefault();
+    },
+    { passive: false },
+  );
   canvas.style.cursor = "grab";
 
   // Sin respuesta al scroll de la página (la versión Verlet la tiene): el

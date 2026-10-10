@@ -11,6 +11,7 @@ import css from "./MenuCV.module.css";
 /** Entre el botón y la primera opción, y entre las dos opciones. */
 const SEPARACION = 12;
 const ALTO_OPCION = 36;
+const ANCHO_OPCION = 104;
 
 /**
  * EL BOTON «CV». En el sitio abre directo la vista previa (`VisorCV`): el libro
@@ -30,6 +31,9 @@ export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: 
   const enVisor = descarga || pestana;
   const [abierto, setAbierto] = useState(false);
   const [alto, setAlto] = useState(32);
+  const [ancho, setAncho] = useState(32);
+  // En una pantalla táctil el sitio no abre el libro: el botón suelta las dos gotas y cada una abre su PDF.
+  const [tactil, setTactil] = useState(false);
   const [viendo, setViendo] = useState(false);
   const cerrarVisor = useCallback(() => setViendo(false), []);
   const raiz = useRef<HTMLDivElement>(null);
@@ -37,9 +41,15 @@ export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: 
   const primero = useRef<HTMLAnchorElement>(null);
   const id = useId();
 
-  useLayoutEffect(() => {
-    if (boton.current) setAlto(boton.current.offsetHeight);
+  useEffect(() => {
+    setTactil(window.matchMedia("(hover: none) and (pointer: coarse)").matches);
   }, []);
+
+  useLayoutEffect(() => {
+    if (!boton.current) return;
+    setAlto(boton.current.offsetHeight);
+    setAncho(boton.current.offsetWidth);
+  }, [tactil]);
 
   useEffect(() => {
     if (!abierto) return;
@@ -67,6 +77,8 @@ export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: 
   }, [abierto]);
 
   const alternar = (e: MouseEvent<HTMLButtonElement>) => {
+    // En el menú del teléfono, tocar «CV» no lo cierra: primero hay que elegir idioma.
+    e.stopPropagation();
     const abrir = !abierto;
     setAbierto(abrir);
     // Abierto con el teclado (un clic sin puntero): el foco pasa a la primera opción.
@@ -74,7 +86,7 @@ export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: 
   };
 
   // En el sitio: un botón que abre la vista previa, sin gotas.
-  if (!enVisor)
+  if (!enVisor && !tactil)
     return (
       <>
         <button
@@ -92,12 +104,16 @@ export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: 
       </>
     );
 
-  const claseBoton = pestana ? css.pestana : css.descarga;
+  const claseBoton = pestana ? css.pestana : descarga ? css.descarga : variante === "icono" ? css.icono : variante === "pastilla" ? "pastilla hueca" : variante === "texto" ? css.texto : css.boton;
+  // Hacia dónde brotan las gotas: en el hero, abajo; en el menú del teléfono, al costado (dentro de su fila); si no, arriba.
+  const hacia = enVisor ? "arriba" : variante === "icono" ? "abajo" : variante === "barra" ? "derecha" : "arriba";
+  const lejos = (i: number) => (hacia === "derecha" ? ancho / 2 + SEPARACION + ANCHO_OPCION / 2 + i * (ANCHO_OPCION + SEPARACION) : alto / 2 + SEPARACION + ALTO_OPCION / 2 + i * (ALTO_OPCION + SEPARACION));
+  const rotulo = pestana ? NAV.cvPestana[lang] : descarga ? NAV.cvMenu[lang] : NAV.cvElegir[lang];
 
   return (
-    <div ref={raiz} className={css.menu} data-abierto={abierto || undefined}>
+    <div ref={raiz} className={css.menu} data-abierto={abierto || undefined} data-hacia={hacia}>
       {/* El líquido, detrás del botón: una gota del tamaño del botón y las dos opciones, escondidas debajo hasta abrir. */}
-      <Liquid className={css.liquido} blur={5} contrast={20} fill="oklch(22% 0 0)" shadow="0 16px 36px -14px oklch(0% 0 0 / 0.75)" filterPadding={140}>
+      <Liquid className={css.liquido} blur={5} contrast={20} fill="oklch(22% 0 0)" shadow="0 16px 36px -14px oklch(0% 0 0 / 0.75)" filterPadding={hacia === "derecha" ? 300 : 140}>
         <Liquid.Item className={css.gota} scale={abierto ? 1 : 0} transition="bouncy">
           <div className={css.relleno} />
         </Liquid.Item>
@@ -106,8 +122,8 @@ export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: 
             <Liquid.Item
               key={o.lang}
               className={css.item}
-              x={0}
-              y={abierto ? -(alto / 2 + SEPARACION + ALTO_OPCION / 2 + i * (ALTO_OPCION + SEPARACION)) : 0}
+              x={abierto && hacia === "derecha" ? lejos(i) : 0}
+              y={!abierto || hacia === "derecha" ? 0 : hacia === "abajo" ? lejos(i) : -lejos(i)}
               scale={abierto ? 1 : 0}
               transition="bouncy"
               delay={abierto ? i * 60 : (1 - i) * 40}
@@ -138,12 +154,21 @@ export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: 
         className={claseBoton}
         aria-expanded={abierto}
         aria-controls={id}
-        aria-label={pestana ? NAV.cvPestana[lang] : NAV.cvMenu[lang]}
-        title={pestana ? NAV.cvPestana[lang] : NAV.cvMenu[lang]}
+        aria-label={rotulo}
+        title={enVisor ? rotulo : undefined}
+        data-contacto={variante === "icono" ? "cv" : undefined}
         onClick={alternar}
       >
         {descarga ? (
           <IconoDescarga lado={18} />
+        ) : variante === "icono" ? (
+          <IconoCV />
+        ) : !enVisor ? (
+          variante === "texto" ? (
+            NAV.cvVer[lang]
+          ) : (
+            NAV.cv[lang]
+          )
         ) : (
           <>
             <IconoPestana lado={17} />

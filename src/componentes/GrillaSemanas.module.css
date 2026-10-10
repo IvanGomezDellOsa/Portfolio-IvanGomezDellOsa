@@ -113,12 +113,18 @@
     gap: 14px;
   }
 
+  /* El rótulo, en su renglón; debajo, la barra a todo el ancho con el año al lado. */
   .control {
     grid-template-columns: minmax(0, 1fr) 4ch;
+    gap: 10px 14px;
   }
 
-  .control .etiqueta {
+  .control > span {
     grid-column: 1 / -1;
+  }
+
+  .control input {
+    height: 32px;
   }
 }
 

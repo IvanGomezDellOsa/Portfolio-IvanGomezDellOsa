@@ -107,7 +107,8 @@ a.idioma:hover {
 }
 
 /* En pantallas anchas los enlaces son, sin más, los hijos de la navegación. */
-.enlaces {
+.enlaces,
+.filaCV {
   display: contents;
 }
 
@@ -119,7 +120,7 @@ a.idioma:hover {
  * EL TELEFONO: cerrada, la barra muestra sólo el botón del menú (transparente
  * sobre el hero y vidrio al bajar, como siempre). Todo lo demás va adentro del
  * menú, que se despliega en la misma barra (que crece), no en un panel aparte:
- * el nombre arriba, los enlaces y, al final, el idioma.
+ * los enlaces y, al final, el idioma.
  */
 @media (max-width: 860px) {
   .barra {
@@ -141,31 +142,39 @@ a.idioma:hover {
     display: contents;
   }
 
-  /* El nombre: en la primera fila (64px, con su pelo), pero sólo con el menú abierto. */
+  /* El nombre no se muestra (está en el hero): sólo guarda el alto de la primera fila (64px, con su pelo). */
   .firma {
     display: flex;
     align-items: center;
     height: 63px;
     margin-right: auto;
     visibility: hidden;
-    opacity: 0;
-    transition:
-      opacity 0.25s var(--curva-entrada),
-      visibility 0s 0.25s;
   }
 
-  .barra[data-abierto] .firma {
-    visibility: visible;
-    opacity: 1;
-    transition-delay: 0s;
+  /* «Contacto» va debajo de «CV». */
+  .contacto {
+    order: 1;
   }
 
-  /* El idioma: la última fila del menú. */
+  /* El idioma: la última fila del menú, un poco apartada de los enlaces. */
   .idiomas {
+    order: 2;
     height: auto;
+    margin-top: 18px;
     padding: 9px 0;
     border-left: 0;
     border-top: 1px solid var(--nav-pelo);
+  }
+
+  /* La fila de «CV»: en una pantalla táctil, sus dos idiomas brotan al costado, dentro de la fila. */
+  .filaCV {
+    display: block;
+    border-top: 1px solid var(--nav-pelo);
+  }
+
+  .filaCV > div {
+    width: fit-content;
+    margin: 8px 0;
   }
 
   .idioma {
@@ -266,7 +275,7 @@ a.idioma:hover {
 
   /* Cada enlace, una fila con su pelo arriba; «CV» (un botón) es una más. */
   .enlace,
-  .enlaces > button {
+  .filaCV > button {
     display: block;
     width: 100%;
     padding: 15px 0;
@@ -279,7 +288,11 @@ a.idioma:hover {
     color: var(--nav-tinta);
   }
 
-  .enlaces > :last-child {
+  .filaCV > button {
+    border-top: 0;
+  }
+
+  .idiomas {
     margin-bottom: 8px;
   }
 }

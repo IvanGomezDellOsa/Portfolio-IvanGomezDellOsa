@@ -46,7 +46,9 @@ const GRAVEDAD = 3400;
 /** A cuántos píxeles mira el ojo: cuánta perspectiva tienen los pedazos al girar. */
 const OJO = 820;
 const PASO = 1 / 240;
-const TOPE_S = 2.6;
+const TOPE_S = 3.2;
+/** A qué ritmo corre la caída: un poco más lenta que la real, para que se alcance a ver. */
+const RITMO = 0.78;
 /** Los lados del disco. */
 const LADOS = 96;
 const POLVO = 34;
@@ -715,8 +717,8 @@ export function prepararRotura(): Rotura {
       // Con pocos cuadros por segundo la caída sigue el reloj, no se pone en cámara lenta.
       const dt = Math.max(0, Math.min((ahora - antes) / 1000, 1 / 10));
       antes = ahora;
-      t += dt;
-      resto += dt;
+      t += dt * RITMO;
+      resto += dt * RITMO;
       while (resto >= PASO) {
         avanzar(PASO);
         resto -= PASO;

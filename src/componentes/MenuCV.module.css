@@ -115,6 +115,25 @@
   z-index: 2;
 }
 
+/* En el menú del teléfono: «CV» con la letra de las otras filas; sus idiomas brotan al costado. */
+.menu[data-hacia="derecha"] > .boton {
+  padding: 7px 12px 7px 0;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--nav-tinta);
+}
+
+/* Ahí «CV» es texto, como las otras filas: sin gota detrás. */
+.menu[data-hacia="derecha"] .gota {
+  visibility: hidden;
+}
+
+/* En el hero, las gotas caen sobre lo que haya debajo. */
+.menu[data-hacia="abajo"] {
+  z-index: 5;
+}
+
 /*
  * EL LIQUIDO: ocupa el lugar del botón y queda detrás. La gota toma su forma
  * (círculo o pastilla); las opciones salen de su centro hacia abajo.

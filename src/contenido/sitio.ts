@@ -67,6 +67,8 @@ export const NAV = {
   /** El menú del botón «CV»: el nombre accesible del botón y de la lista. */
   /** El botón «CV» del sitio: abre la vista previa (con los dos idiomas adentro). */
   cvVer: b("Ver el CV", "View the resume"),
+  /** En el teléfono, el botón «CV» del sitio: abre el PDF, después de elegir idioma. */
+  cvElegir: b("Abrir el CV: elegir idioma", "Open the resume: choose a language"),
   cvMenu: b("Descargar el CV: elegir idioma", "Download the resume: choose a language"),
   /** En la vista previa: abrir el PDF en otra pestaña, como siempre. */
   cvPestana: b("Abrir el PDF en otra pestaña: elegir idioma", "Open the PDF in a new tab: choose a language"),
