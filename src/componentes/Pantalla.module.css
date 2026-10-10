@@ -4,8 +4,6 @@
  * oscuras.
  */
 .pantalla {
-  display: grid;
-  gap: 12px;
   min-width: 0;
 }
 
@@ -14,11 +12,11 @@
   isolation: isolate;
   overflow: hidden;
   aspect-ratio: 16 / 9;
-  border-radius: var(--radio);
+  border-radius: 16px;
   background: var(--fondo-2);
   box-shadow:
     0 0 0 1px var(--pelo),
-    0 30px 110px -40px color-mix(in oklch, var(--acento) 45%, transparent);
+    0 40px 130px -50px color-mix(in oklch, var(--acento) 55%, transparent);
 }
 
 .loop,
@@ -35,86 +33,126 @@
 }
 
 .marco:hover .loop video {
-  transform: scale(1.015);
-}
-
-/* Toda la imagen es el botón de play; la leyenda va abajo, sobre un velo. */
-.reproducir {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  align-items: flex-end;
-  gap: 14px;
-  padding: clamp(14px, 2.2vw, 22px);
-  color: oklch(97% 0 0);
-  text-decoration: none;
-  background: linear-gradient(to top, oklch(8% 0 0 / 0.72), oklch(8% 0 0 / 0.18) 34%, transparent 58%);
-  transition: background-color 0.3s var(--curva-reaccion);
-}
-
-.reproducir:hover {
-  background-color: oklch(8% 0 0 / 0.12);
-}
-
-.reproducir:focus-visible {
-  outline-offset: -4px;
-  border-radius: var(--radio);
+  transform: scale(1.012);
 }
 
 /*
- * El play: la pastilla clara del sitio, como en las telas. Siempre clara (no
- * la tinta del proyecto) porque va sobre el video, y con sombra para
- * despegarse de los videos de fondo blanco.
+ * Toda la pantalla es el botón. En el centro, la pastilla; abajo a la
+ * izquierda, qué es lo que se abre. Un velo parejo y leve para que la pastilla
+ * se despegue de cualquier video, y otro, abajo, para el rótulo.
+ */
+.accion {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  color: oklch(97% 0 0);
+  text-decoration: none;
+  background:
+    linear-gradient(to top, oklch(8% 0 0 / 0.66), transparent 30%),
+    oklch(8% 0 0 / 0.16);
+  transition: background-color 0.3s var(--curva-reaccion);
+}
+
+.accion:hover {
+  background-color: oklch(8% 0 0 / 0.26);
+}
+
+/* Un sitio web: lo que se mira es el recorrido. Sin velo, y el botón abajo a la izquierda. */
+.accion[data-tipo="sitio"] {
+  place-items: end start;
+  padding: clamp(14px, 2vw, 22px);
+  background: linear-gradient(to top, oklch(8% 0 0 / 0.5), transparent 24%);
+}
+
+.accion[data-tipo="sitio"]:hover {
+  background-color: oklch(8% 0 0 / 0.1);
+}
+
+.accion[data-tipo="sitio"] .boton {
+  min-height: 46px;
+  padding: 0 20px;
+  font-size: 15px;
+  box-shadow:
+    0 0 0 4px oklch(100% 0 0 / 0.1),
+    0 14px 36px -12px oklch(0% 0 0 / 0.8);
+}
+
+.accion:focus-visible {
+  outline-offset: -4px;
+  border-radius: 16px;
+}
+
+/*
+ * La pastilla clara del sitio, más grande que en el resto: es la acción
+ * principal de la página. Siempre clara (no la tinta del proyecto) porque va
+ * sobre el video.
  */
 .boton {
+  gap: 10px;
+  min-height: 54px;
+  padding: 0 26px;
   background: oklch(97% 0 0);
   color: oklch(14.5% 0 0);
-  box-shadow: 0 10px 30px -10px oklch(0% 0 0 / 0.7);
+  font-size: 16px;
+  box-shadow:
+    0 0 0 6px oklch(100% 0 0 / 0.1),
+    0 18px 50px -14px oklch(0% 0 0 / 0.8);
+  transition:
+    transform 0.25s var(--curva-reaccion),
+    background-color 0.2s var(--curva-reaccion),
+    box-shadow 0.25s var(--curva-reaccion);
 }
 
-.reproducir:hover .boton {
-  background: oklch(88% 0 0);
+.accion:hover .boton {
+  background: oklch(100% 0 0);
+  transform: scale(1.04);
+  box-shadow:
+    0 0 0 9px oklch(100% 0 0 / 0.12),
+    0 18px 50px -14px oklch(0% 0 0 / 0.8);
 }
 
-.reproducir:active .boton {
-  transform: scale(0.97);
+.accion:active .boton {
+  transform: scale(0.98);
 }
 
-/* La pausa del loop, arriba a la derecha: abajo está la leyenda. */
+.duracion {
+  margin-left: 2px;
+  padding-left: 11px;
+  border-left: 1px solid oklch(14.5% 0 0 / 0.2);
+  font-size: 13px;
+  color: oklch(14.5% 0 0 / 0.66);
+}
+
+.rotulo {
+  position: absolute;
+  left: clamp(14px, 2vw, 22px);
+  bottom: clamp(12px, 1.8vw, 20px);
+  color: oklch(97% 0 0 / 0.82);
+}
+
+/* La pausa del loop, arriba a la derecha, fuera del camino. */
 .pausa {
   top: 12px;
   bottom: auto;
 }
 
-/* ─── El botón de un video, en las listas ─── */
+@media (max-width: 640px) {
+  .marco {
+    border-radius: 12px;
+  }
 
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  height: 30px;
-  padding: 0 11px;
-  border: 1px solid var(--pelo);
-  border-radius: 999px;
-  background: color-mix(in oklch, var(--tinta) 3%, transparent);
-  color: var(--tinta-2);
-  font-size: 13px;
-  text-decoration: none;
-  white-space: nowrap;
-  transition:
-    color 0.2s var(--curva-reaccion),
-    border-color 0.2s var(--curva-reaccion),
-    background-color 0.2s var(--curva-reaccion);
+  .boton {
+    min-height: 46px;
+    padding: 0 20px;
+    font-size: 14.5px;
+    box-shadow:
+      0 0 0 4px oklch(100% 0 0 / 0.1),
+      0 14px 36px -12px oklch(0% 0 0 / 0.8);
+  }
+
+  .rotulo {
+    font-size: 10.5px;
+  }
 }
-
-.chip:hover {
-  color: var(--tinta);
-  border-color: color-mix(in oklch, var(--acento) 55%, transparent);
-  background: color-mix(in oklch, var(--acento) 10%, transparent);
-}
-
-.chip svg {
-  color: var(--acento);
-}
-

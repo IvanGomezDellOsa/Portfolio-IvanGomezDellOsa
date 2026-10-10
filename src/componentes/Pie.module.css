@@ -5,18 +5,24 @@
 }
 
 .interior {
-  width: 100%;
-  max-width: calc(var(--ancho) + 2 * var(--canal));
-  margin: 0 auto;
-  padding: 26px var(--canal) max(34px, env(safe-area-inset-bottom));
-}
-
-.fila {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 12px 24px;
+  gap: 10px 24px;
+  width: 100%;
+  max-width: calc(var(--ancho) + 2 * var(--canal));
+  margin: 0 auto;
+  padding: 24px var(--canal) max(30px, env(safe-area-inset-bottom));
+  font-size: 14px;
+}
+
+.firma {
+  color: var(--tinta-3);
+}
+
+.firma span {
+  font-size: 12.5px;
 }
 
 .enlaces {
@@ -26,7 +32,6 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: 14px;
 }
 
 .enlaces a {
@@ -38,4 +43,3 @@
 .enlaces a:hover {
   color: var(--tinta);
 }
-

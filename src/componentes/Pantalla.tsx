@@ -1,35 +1,41 @@
 "use client";
 
 import type { SalaId } from "@/contenido/salas";
-import { VIDEO } from "@/contenido/sitio";
-import type { Idioma, VideoProyecto } from "@/contenido/tipos";
+import { HERO, SALA, VIDEO } from "@/contenido/sitio";
+import type { Idioma, TipoEnlace, VideoProyecto } from "@/contenido/tipos";
 import { alClicVideo } from "@/lib/teatro";
-import { enYoutube, vistaPrevia } from "@/lib/videos";
+import { duracionIso, enYoutube, reloj, vistaPrevia } from "@/lib/videos";
 import { VideoEnVista } from "./Medios";
-import { Triangulo } from "./Iconos";
+import { Flecha, Triangulo } from "./Iconos";
 import css from "./Pantalla.module.css";
 
 /**
- * LA PANTALLA DE UN PROYECTO: su video, mudo y en loop, con el play encima.
- * Lo que corre es un fragmento sin sonido ni subtítulos (`tools/videos.mjs`);
- * el play abre el video completo en el teatro. Sin JavaScript, el enlace lleva
- * a YouTube.
+ * LA PANTALLA DE UN PROYECTO: lo principal de su página. Corre un fragmento
+ * mudo y en loop (`tools/videos.mjs`) y, en el centro, la acción: «▶ Ver video»
+ * abre el video de presentación completo en el teatro (sin JavaScript, el
+ * enlace lleva a YouTube). Los dos sitios web no tienen video de presentación:
+ * su pantalla muestra el recorrido de la página, que es lo que hay para ver, y
+ * el botón que lleva al sitio va en una esquina, sin taparlo.
  */
 export function Pantalla({
   slug,
   nombre,
   video,
+  sitio,
   lang,
   className,
 }: {
   slug: SalaId;
   nombre: string;
-  video: VideoProyecto;
+  video?: VideoProyecto;
+  /** Para un proyecto sin video: a dónde lleva su pantalla. */
+  sitio?: { href: string; tipo: TipoEnlace };
   lang: Idioma;
   className?: string;
 }) {
   const m = vistaPrevia(slug);
-  const etiqueta = `${VIDEO.vistaPrevia[lang]} ${nombre}`;
+  const etiqueta = `${video ? VIDEO.vistaPrevia[lang] : VIDEO.recorridoDe[lang]} ${nombre}`;
+  const destino = video ? enYoutube(video.id) : sitio?.href;
   return (
     <figure className={`${css.pantalla} ${className ?? ""}`}>
       <div className={css.marco}>
@@ -44,54 +50,58 @@ export function Pantalla({
           className={css.loop}
           claseBoton={css.pausa}
         />
-        <a
-          className={css.reproducir}
-          href={enYoutube(video.id)}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => alClicVideo(e, slug)}
-        >
-          {/* La misma pastilla «▶ Ver video» de las telas del hero. */}
-          <span className={`pastilla ${css.boton}`}>
-            <Triangulo lado={12} />
-            {VIDEO.ver[lang]}
-            <span className="sr">: {nombre}</span>
-          </span>
-        </a>
+        {destino && (
+          <a className={css.accion} data-tipo={video ? "video" : "sitio"} href={destino} target="_blank" rel="noopener noreferrer" onClick={video ? (e) => alClicVideo(e, slug) : undefined}>
+            {/* La pastilla clara del sitio, la misma de las telas, en grande. */}
+            <span className={`pastilla ${css.boton}`}>
+              {video ? (
+                <>
+                  <Triangulo lado={13} />
+                  {VIDEO.ver[lang]}
+                  <span className="sr">: {nombre}</span>
+                  <time className={`${css.duracion} maquina`} dateTime={duracionIso(video.duracion)}>
+                    {reloj(video.duracion)}
+                  </time>
+                </>
+              ) : (
+                <>
+                  {sitio?.tipo === "vista-previa" ? SALA.verVistaPrevia[lang] : HERO.verSitio[lang]}
+                  <span className="sr">: {nombre}</span>
+                  <Flecha lado={13} />
+                </>
+              )}
+            </span>
+            {video && <span className={`etiqueta ${css.rotulo}`}>{VIDEO.presentacion[lang]}</span>}
+          </a>
+        )}
       </div>
     </figure>
   );
 }
 
 /**
- * EL BOTON DE UN VIDEO, para las listas de enlaces y el índice: el triángulo,
- * «Ver video». Es un enlace real a YouTube que, con
- * JavaScript, abre el teatro.
+ * EL BOTON DE UN VIDEO en la lista de proyectos: sólo el triángulo. Es un
+ * enlace real a YouTube que, con JavaScript, abre el teatro.
  */
 export function BotonVideo({
   slug,
   nombre,
   video,
   lang,
-  variante = "hueca",
-  conTexto = true,
   clase,
 }: {
   slug: SalaId;
   nombre: string;
   video: VideoProyecto;
   lang: Idioma;
-  variante?: "pastilla" | "hueca" | "chip";
-  conTexto?: boolean;
-  /** Una clase propia en lugar de la de la variante (el ícono de la lista de proyectos). */
   clase?: string;
 }) {
-  const estilo = clase ?? (variante === "chip" ? css.chip : variante === "pastilla" ? "pastilla" : "pastilla hueca");
   return (
-    <a className={estilo} href={enYoutube(video.id)} target="_blank" rel="noopener noreferrer" onClick={(e) => alClicVideo(e, slug)}>
-      <Triangulo lado={variante === "chip" ? 10 : 12} />
-      {conTexto ? VIDEO.ver[lang] : <span className="sr">{VIDEO.ver[lang]}</span>}
-      <span className="sr">: {nombre}</span>
+    <a className={clase} href={enYoutube(video.id)} target="_blank" rel="noopener noreferrer" title={VIDEO.ver[lang]} onClick={(e) => alClicVideo(e, slug)}>
+      <Triangulo lado={12} />
+      <span className="sr">
+        {VIDEO.ver[lang]}: {nombre}
+      </span>
     </a>
   );
 }

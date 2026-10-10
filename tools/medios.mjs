@@ -76,18 +76,6 @@ async function video(fuente, destino, { desde = 0, duracion, ancho, crf = 29, fp
   console.log("  ✓", path.relative(SALIDA, destino), "(video)");
 }
 
-/** Copia un video que ya está optimizado en su proyecto, y le saca póster. */
-async function copiarVideo(fuente, destino, poster = 0.5, anchoPoster = 1280) {
-  if (!existsSync(fuente)) return console.warn("  falta", fuente);
-  await mkdir(path.dirname(destino), { recursive: true });
-  await copyFile(fuente, `${destino}.mp4`);
-  const png = `${destino}-poster.png`;
-  ffmpeg(["-ss", String(poster), "-i", fuente, "-frames:v", "1", "-vf", `scale=${anchoPoster}:-2`, png]);
-  await sharp(png).webp({ quality: 78 }).toFile(`${destino}.webp`);
-  await import("node:fs/promises").then((fs) => fs.unlink(png));
-  console.log("  ✓", path.relative(SALIDA, destino), "(video copiado)");
-}
-
 /** Marca chica y cuadrada, sobre transparente o con su fondo. */
 async function marca(fuente, destino, { recorte, lado = 160 } = {}) {
   if (!existsSync(fuente)) return console.warn("  falta", fuente);
@@ -119,8 +107,6 @@ async function vectores() {
 async function main() {
   const L = "Repositorio Ask_Leonardo_da_Vinci";
   console.log("Ask Leonardo da Vinci");
-  await copiarVideo(repo(L, "public", "hero-taller.mp4"), out("leonardo", "taller"), 3.2);
-  await copiarVideo(repo(L, "public", "hero-taller-vertical.mp4"), out("leonardo", "taller-vertical"), 3.2, 720);
   for (const idioma of ["es", "en"]) {
     await webp(repo(L, ".github", "readme", `codice-${idioma}.webp`), out("leonardo", `codice-${idioma}`));
     await webp(repo(L, ".github", "readme", `biblioteca-estante-${idioma}.webp`), out("leonardo", `biblioteca-estante-${idioma}`));
@@ -137,15 +123,13 @@ async function main() {
   await marca(repo("Repositorio DatosPautaOficial", "public", "nav-icon.webp"), out("datos-pauta", "marca"));
 
   console.log("SeViVe");
-  await marca(repo("Repositorio PilatesAllCanning-App", "frontend", "assets", "logo.png"), out("sevive", "marca"));
+  // La marca es la de su tela del hero (`espera.webp`, que no sale de acá): el símbolo, sin el nombre.
+  await marca(out("sevive", "espera.webp"), out("sevive", "marca"), { recorte: { left: 490, top: 45, width: 300, height: 300 } });
 
   console.log("Inversiones en Argentina");
   await webp(cap("inversiones.png"), out("inversiones", "sitio"));
-  // El sitio no tiene logo propio (su apple-icon es el que deja v0 por defecto):
-  // la marca es el Sol de Mayo de la bandera que usa su hero. La bandera es
-  // sólo la fuente: queda en tools/_capturas, no se publica.
-  await copiarVideo(repo("Repositorio InversionesArgentina", "public", "bandera-argentina.mp4"), cap("bandera"), 1, 640);
-  await marca(cap("bandera.webp"), out("inversiones", "marca"), { recorte: { left: 256, top: 116, width: 124, height: 124 } });
+  // La marca es la de su tela del hero (`espera.webp`): la bandera en círculo, sin el nombre.
+  await marca(out("inversiones", "espera.webp"), out("inversiones", "marca"), { recorte: { left: 128, top: 212, width: 296, height: 296 } });
 
   console.log("FaceHunt 2");
   await webp(cap("facehunt-2-interfaz.png"), out("facehunt-2", "interfaz"));
@@ -174,7 +158,6 @@ async function main() {
   console.log("Navkok Security Group");
   await webp(cap("navkok.png"), out("navkok", "sitio"));
   await webp(cap("navkok-movil.png"), out("navkok", "movil"), [640]);
-  await video(repo("Repositorio Navkok-W__private", "public", "videos", "background.mp4"), out("navkok", "hero"), { duracion: 12, ancho: 960, crf: 29, poster: 1 });
   await marca(repo("Repositorio Navkok-W__private", "public", "images", "logos", "logo__navkok.png"), out("navkok", "marca"));
 
   console.log("FreeMagicMirror");

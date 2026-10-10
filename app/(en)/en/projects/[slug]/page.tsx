@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PaginaCaso, tituloCaso } from "@/componentes/PaginaCaso";
+import { PaginaProyecto, tituloProyecto } from "@/componentes/PaginaProyecto";
 import { PROYECTOS, proyectoPorSlug } from "@/contenido/proyectos";
 import { caso } from "@/lib/rutas";
 import { metadatosDe } from "../../../../raiz";
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const p = proyectoPorSlug(slug)!;
   return metadatosDe("en", {
-    titulo: tituloCaso(p.nombre),
+    titulo: tituloProyecto(p.nombre),
     descripcion: p.descripcionMeta.en,
     ruta: caso("en", slug),
     rutaOtra: caso("es", slug),
@@ -23,5 +23,5 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  return <PaginaCaso lang="en" slug={slug} />;
+  return <PaginaProyecto lang="en" slug={slug} />;
 }

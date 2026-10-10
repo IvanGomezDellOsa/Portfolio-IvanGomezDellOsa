@@ -1,6 +1,11 @@
 /**
- * LOS TEXTOS DEL SITIO QUE NO SON DE UN PROYECTO: el hero, la galería (la
- * persona), la experiencia, el stack con su evidencia y el contacto.
+ * LOS TEXTOS DEL SITIO QUE NO SON DE UN PROYECTO: el hero, la lista, la persona
+ * (sobre mí y experiencia) y el contacto.
+ *
+ * NO HAY SECCION DE STACK (decisión del dueño, 2026-10-09): enumerar todo lo
+ * que se usó en cada proyecto nunca es preciso ni completo, es difícil de
+ * mantener y nadie busca habilidades así en un sitio personal. Las tecnologías
+ * van con cada proyecto, en su página, y la lista completa está en el CV.
  *
  * Salen del «Acerca de» publicado en LinkedIn, del CV 10-26 v2 y de las reglas
  * de `Mensajes-Postulacion.md`: firma con email y LinkedIn (nunca teléfono),
@@ -80,8 +85,8 @@ export const HERO = {
   rol: b("Full Stack Developer", "Full Stack Developer"),
   verProyectos: b("Ver los proyectos", "See the projects"),
   bajar: b("Seguir bajando", "Keep scrolling"),
-  /** El segundo botón de las telas: lleva a la sección completa del proyecto elegido. */
-  detalles: b("Ver detalles", "View details"),
+  /** El segundo botón de las telas: lleva a la página del proyecto elegido. */
+  proyecto: b("Ver proyecto", "View project"),
   lista: b("Lista de proyectos", "Project list"),
   arriba: b("Volver arriba", "Back to top"),
   reel: b("Los proyectos, en video", "The projects, on video"),
@@ -89,7 +94,7 @@ export const HERO = {
   verSitio: b("Ver sitio web", "Visit the website"),
 };
 
-/** El índice de los nueve proyectos, debajo del hero. */
+/** La lista de los nueve proyectos, debajo de las telas. */
 export const INDICE = {
   titulo: b("Proyectos", "Projects"),
   sitio: b("Sitio web", "Website"),
@@ -102,23 +107,20 @@ export const INDICE = {
 
 export const SALA = {
   stack: b("Stack", "Stack"),
-  enlaces: b("Enlaces", "Links"),
-  stackYEnlaces: b("Stack y enlaces", "Stack and links"),
-  caso: b("Caso completo", "Full case study"),
-  /** El botón que cambia la descripción reducida por la ampliada, y vuelta. */
-  leerMas: b("Leer más", "Read more"),
-  leerMenos: b("Leer menos", "Read less"),
+  descripcion: b("Descripción", "Description"),
+  /** El botón que abre el detalle técnico (arquitectura, decisiones, resultados), y lo cierra. */
+  verCaso: b("Ver el caso completo", "View the full case study"),
+  ocultarCaso: b("Ocultar el caso completo", "Hide the full case study"),
   primeraVersion: b("Primera versión", "First version"),
   sitio: b("Sitio web", "Website"),
   repositorio: b("Repositorio", "Repository"),
   demo: b("Demo", "Demo"),
   vistaPrevia: b("Vista previa", "Preview"),
+  verVistaPrevia: b("Ver la vista previa", "Open the preview"),
   tienda: b("Chrome Web Store", "Chrome Web Store"),
   descarga: b("Descargar", "Download"),
-  pasillo: b("Proyectos", "Projects"),
   anterior: b("Proyecto anterior", "Previous project"),
   siguiente: b("Proyecto siguiente", "Next project"),
-  todos: b("Todos los proyectos", "All projects"),
   pausar: b("Pausar", "Pause"),
   reanudar: b("Reanudar", "Play"),
 };
@@ -126,8 +128,11 @@ export const SALA = {
 /** El video de cada proyecto y su reproductor. */
 export const VIDEO = {
   ver: b("Ver video", "Watch video"),
+  /** El nombre fijo de los videos, el mismo del CV y de LinkedIn. */
+  presentacion: b("Video de presentación", "Presentation video"),
+  /** Los dos sitios web no tienen video: su pantalla muestra el recorrido de la página. */
+  recorridoDe: b("Recorrido sin sonido del sitio de", "Silent walkthrough of the website of"),
   escenas: b("Escenas", "Scenes"),
-  porEscenas: b("El video, por escenas", "The video, scene by scene"),
   cerrar: b("Cerrar", "Close"),
   pausar: b("Pausar", "Pause"),
   reproducir: b("Reproducir", "Play"),
@@ -138,7 +143,7 @@ export const VIDEO = {
   vistaPrevia: b("Vista previa sin sonido del video de", "Silent preview of the video for"),
 };
 
-/** Etiquetas de los visuales de cada sala. */
+/** Etiquetas de los gráficos de cada proyecto. */
 export const VISUALES = {
   barras: {
     titulo: b("Citas atribuidas a Leonardo que no existen en sus cuadernos", "Quotations attributed to Leonardo that do not exist in his notebooks"),
@@ -167,23 +172,6 @@ export const VISUALES = {
       "Nube de 1.402 vectores que gira lentamente; una de sus 22 secciones se enciende por vez.",
       "A cloud of 1,402 vectors rotating slowly; one of its 22 sections lights up at a time.",
     ),
-  },
-  piezas: {
-    pregunta: {
-      titulo: b("Pregunta asistida", "Guided questions"),
-      texto: b(
-        "Un mapa de 22 secciones y 396 temas muestra en segundos sobre qué escribió Leonardo; cada tema se convierte en pregunta con un clic.",
-        "A map of 22 sections and 396 subjects shows in seconds what Leonardo wrote about; any subject becomes a question in one click.",
-      ),
-    },
-    biblioteca: {
-      titulo: b("Biblioteca 3D", "3D Library"),
-      texto: b("Cinco volúmenes con 27 láminas; las hojas se pasan con el pliegue de un libro real.", "Five volumes with 27 plates; leaves turn with the curl of a real book."),
-    },
-    museo: {
-      titulo: b("Museo virtual 3D", "3D Virtual museum"),
-      texto: b("Una sala que se recorre caminando, también desde el teléfono, con nueve de sus obras.", "A gallery you walk through, on mobile too, with nine of his works."),
-    },
   },
   cobertura: {
     titulo: b("Cobertura de la base, por jurisdicción", "Database coverage, by jurisdiction"),
@@ -363,93 +351,10 @@ export const EXPERIENCIA: { titulo: Bilingue; items: Experiencia[] } = {
   ],
 };
 
-export interface Tecnologia {
-  nombre: Bilingue;
-  salas: SalaId[];
-}
-
-/**
- * EL STACK, CON EVIDENCIA. Es la línea de habilidades del CV, pero cada
- * tecnología lleva los proyectos donde se usó de verdad: lo específico y no
- * sólo lo genérico (criterio del dueño para LinkedIn, 2026-09-15). Si una
- * tecnología no tiene dónde apoyarse, no va.
- */
-export const STACK: { titulo: Bilingue; intro: Bilingue; grupos: { titulo: Bilingue; tecnologias: Tecnologia[] }[] } = {
-  titulo: b("Stack, con evidencia", "Stack, with evidence"),
-  intro: b("Cada tecnología, con los proyectos donde se usó.", "Each technology, with the projects where it was used."),
-  grupos: [
-    {
-      titulo: b("Lenguajes", "Languages"),
-      tecnologias: [
-        { nombre: b("Python", "Python"), salas: ["ask-leonardo-da-vinci", "datos-pauta-oficial", "sevive", "inversiones-en-argentina", "facehunt-2", "freemagicmirror"] },
-        { nombre: b("TypeScript", "TypeScript"), salas: ["ask-leonardo-da-vinci", "datos-pauta-oficial", "inversiones-en-argentina", "mementolife", "rugidos-fiestas", "navkok-security-group"] },
-        { nombre: b("JavaScript", "JavaScript"), salas: ["facehunt-2", "rugidos-fiestas"] },
-        { nombre: b("SQL", "SQL"), salas: ["datos-pauta-oficial", "sevive", "inversiones-en-argentina"] },
-        { nombre: b("HTML y CSS", "HTML & CSS"), salas: ["ask-leonardo-da-vinci", "facehunt-2", "mementolife", "rugidos-fiestas"] },
-      ],
-    },
-    {
-      titulo: b("Backend y datos", "Backend & data"),
-      tecnologias: [
-        { nombre: b("FastAPI", "FastAPI"), salas: ["sevive", "inversiones-en-argentina", "facehunt-2"] },
-        { nombre: b("APIs REST", "REST APIs"), salas: ["sevive", "inversiones-en-argentina", "facehunt-2"] },
-        { nombre: b("PostgreSQL", "PostgreSQL"), salas: ["sevive", "inversiones-en-argentina"] },
-        { nombre: b("pgvector", "pgvector"), salas: ["inversiones-en-argentina"] },
-        { nombre: b("SQLite", "SQLite"), salas: ["datos-pauta-oficial"] },
-        { nombre: b("ETL", "ETL"), salas: ["datos-pauta-oficial"] },
-      ],
-    },
-    {
-      titulo: b("IA", "AI"),
-      tecnologias: [
-        { nombre: b("LLM", "LLMs"), salas: ["ask-leonardo-da-vinci", "inversiones-en-argentina"] },
-        { nombre: b("RAG", "RAG"), salas: ["ask-leonardo-da-vinci"] },
-        { nombre: b("Gemini API", "Gemini API"), salas: ["ask-leonardo-da-vinci", "inversiones-en-argentina"] },
-        { nombre: b("Embeddings", "Embeddings"), salas: ["ask-leonardo-da-vinci", "inversiones-en-argentina", "facehunt-2"] },
-        { nombre: b("Jev (TypeSafe)", "Jev (TypeSafe)"), salas: ["inversiones-en-argentina"] },
-        { nombre: b("Visión por computador", "Computer vision"), salas: ["facehunt-2"] },
-      ],
-    },
-    {
-      titulo: b("Frontend y móvil", "Frontend & mobile"),
-      tecnologias: [
-        { nombre: b("React", "React"), salas: ["ask-leonardo-da-vinci", "datos-pauta-oficial", "inversiones-en-argentina", "rugidos-fiestas", "navkok-security-group"] },
-        { nombre: b("Next.js", "Next.js"), salas: ["ask-leonardo-da-vinci", "inversiones-en-argentina", "rugidos-fiestas", "navkok-security-group"] },
-        { nombre: b("Astro", "Astro"), salas: ["datos-pauta-oficial"] },
-        { nombre: b("Tailwind CSS", "Tailwind CSS"), salas: ["inversiones-en-argentina", "rugidos-fiestas", "navkok-security-group"] },
-        { nombre: b("Three.js", "Three.js"), salas: ["ask-leonardo-da-vinci"] },
-        { nombre: b("Flutter", "Flutter"), salas: ["sevive"] },
-      ],
-    },
-    {
-      titulo: b("Diseño", "Design"),
-      tecnologias: [
-        { nombre: b("UX/UI", "UX/UI"), salas: ["ask-leonardo-da-vinci", "sevive", "mementolife", "rugidos-fiestas", "navkok-security-group"] },
-        { nombre: b("Diseño responsive", "Responsive design"), salas: ["ask-leonardo-da-vinci", "datos-pauta-oficial", "inversiones-en-argentina", "rugidos-fiestas", "navkok-security-group"] },
-        { nombre: b("Arquitectura de la información", "Information architecture"), salas: ["ask-leonardo-da-vinci", "navkok-security-group"] },
-      ],
-    },
-    {
-      titulo: b("Testing y DevOps", "Testing & DevOps"),
-      tecnologias: [
-        { nombre: b("pytest", "pytest"), salas: ["facehunt-2"] },
-        { nombre: b("Vitest", "Vitest"), salas: ["mementolife"] },
-        { nombre: b("Playwright", "Playwright"), salas: ["mementolife"] },
-        { nombre: b("GitHub Actions (CI/CD)", "GitHub Actions (CI/CD)"), salas: ["ask-leonardo-da-vinci", "inversiones-en-argentina", "mementolife"] },
-        { nombre: b("Docker", "Docker"), salas: ["sevive", "freemagicmirror"] },
-        { nombre: b("Nginx y Linux/VPS", "Nginx & Linux/VPS"), salas: ["sevive"] },
-        { nombre: b("Vercel", "Vercel"), salas: ["ask-leonardo-da-vinci", "inversiones-en-argentina", "rugidos-fiestas", "navkok-security-group"] },
-        { nombre: b("Cloudflare", "Cloudflare"), salas: ["ask-leonardo-da-vinci", "datos-pauta-oficial"] },
-        { nombre: b("Firebase", "Firebase"), salas: ["sevive"] },
-      ],
-    },
-  ],
-};
-
 export const CONTACTO = {
   titulo: b("Contacto", "Contact"),
-  copiar: b("Copiar", "Copy"),
-  copiado: b("Copiado", "Copied"),
+  copiar: b("Copiar el email", "Copy the email"),
+  copiado: b("Email copiado", "Email copied"),
   escribir: b("Escribir un email", "Send an email"),
 };
 

@@ -101,9 +101,10 @@
 }
 
 /*
- * LA FILA DE CONTROLES: ‹ · Ver video · Ver detalles · ›. Los botones son las
- * pastillas del sitio (la llena para el video, la hueca para los detalles) y
- * las flechas, círculos huecos del mismo alto: todo a 44 px, en una sola línea.
+ * LA FILA DE CONTROLES: ‹ · Ver video · Ver proyecto · ›. Los botones son las
+ * pastillas del sitio (la llena para el video, la hueca para el proyecto). Las
+ * flechas no llevan borde, como los íconos del hero: navegan entre telas, no
+ * hacen nada con la elegida, y así no compiten con los dos botones.
  */
 .botones {
   display: flex;
@@ -119,19 +120,19 @@
   width: 44px;
   height: 44px;
   padding: 0;
-  border: 1px solid color-mix(in oklch, var(--tinta) 18%, transparent);
+  border: 0;
   border-radius: 50%;
-  background: color-mix(in oklch, var(--tinta) 3%, transparent);
-  color: var(--tinta);
+  background: transparent;
+  color: var(--tinta-2);
   cursor: pointer;
   transition:
-    border-color 0.2s var(--curva-reaccion),
+    color 0.2s var(--curva-reaccion),
     background-color 0.2s var(--curva-reaccion),
     transform 0.2s var(--curva-reaccion);
 }
 
 .flecha:hover {
-  border-color: color-mix(in oklch, var(--tinta) 34%, transparent);
+  color: var(--tinta);
   background: color-mix(in oklch, var(--tinta) 8%, transparent);
 }
 
@@ -154,20 +155,6 @@
 
 .ver svg {
   flex: none;
-}
-
-.detalles {
-  padding-right: 15px;
-}
-
-.flechita {
-  display: grid;
-  margin-left: -2px;
-  transition: transform 0.2s var(--curva-reaccion);
-}
-
-.detalles:hover .flechita {
-  transform: translateX(2px);
 }
 
 .barras {

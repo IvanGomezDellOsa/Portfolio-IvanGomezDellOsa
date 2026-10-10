@@ -1,4 +1,9 @@
-.caso {
+/*
+ * LA PAGINA DE UN PROYECTO. El fondo es el tinte de su producto, con la
+ * retícula y la luz del hero detrás del nombre. Una sola columna de 1200 px:
+ * el nombre, el video a todo el ancho y, debajo, lo que se lee.
+ */
+.proyecto {
   position: relative;
   isolation: isolate;
   min-height: 100vh;
@@ -6,7 +11,8 @@
   color: var(--tinta);
 }
 
-.caso::before {
+/* El resplandor del acento, arriba a la derecha: lo que hace del tinte un lugar. */
+.proyecto::before {
   content: "";
   position: absolute;
   inset: 0 0 auto;
@@ -16,8 +22,8 @@
   background: radial-gradient(55% 45% at 88% 6%, var(--luz), transparent 72%);
 }
 
-/* La retícula del hero y de las salas, detrás de la cabecera. */
-.caso::after {
+/* La retícula del hero (y de la tapa del CV), detrás de la cabecera. */
+.proyecto::after {
   content: "";
   position: absolute;
   inset: 0 0 auto;
@@ -33,8 +39,8 @@
 }
 
 .cabecera,
-.material,
-.cuerpo,
+.pantalla,
+.ficha,
 .pasos {
   width: 100%;
   max-width: calc(var(--ancho) + 2 * var(--canal));
@@ -43,81 +49,119 @@
   padding-right: var(--canal);
 }
 
+/* ─── Cabecera: qué es, a la izquierda; a dónde lleva, a la derecha ─── */
+
 .cabecera {
   display: grid;
-  gap: 16px;
-  padding-top: calc(64px + clamp(30px, 7vh, 80px));
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 22px clamp(28px, 4vw, 64px);
+  padding-top: calc(64px + clamp(26px, 5.5vh, 56px));
 }
 
-.migas {
-  margin-bottom: 10px;
+.presentacion {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
 }
 
+.etiqueta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* La marca del proyecto: la misma de su tela, en un cuadrado de puntas redondas. */
+.marca {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  object-fit: cover;
+  background: color-mix(in oklch, var(--tinta) 7%, transparent);
+  box-shadow: 0 0 0 1px var(--pelo);
+}
+
+/* El nombre lleva el degradé del hero (`.degrade`, en globals.css). */
 .titulo {
-  font-size: clamp(42px, 6.6vw, 96px);
+  font-size: clamp(38px, 5.4vw, 76px);
   font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.052em;
+  padding-bottom: 0.06em;
   text-wrap: balance;
 }
 
-.subtitulo {
-  font-size: clamp(18px, 1.7vw, 23px);
-  letter-spacing: -0.02em;
-  color: var(--tinta-2);
-}
-
-.apertura {
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  align-items: end;
-  gap: clamp(26px, 5vw, 80px);
-  margin: 18px 0 10px;
-}
-
 .resumen {
-  max-width: 36em;
-  font-size: clamp(17.5px, 1.4vw, 20.5px);
+  max-width: 40em;
+  font-size: clamp(17px, 1.34vw, 19.5px);
   line-height: 1.55;
   letter-spacing: -0.01em;
+  color: var(--tinta-2);
+  text-wrap: pretty;
 }
 
-.material {
-  padding-top: clamp(40px, 7vh, 76px);
-  padding-bottom: clamp(40px, 7vh, 76px);
+.enlaces {
+  justify-content: flex-end;
+  padding-bottom: 4px;
 }
 
-/* El video grande y, al lado, sus escenas. */
-.conEscenas {
+/* ─── El video: lo principal ─── */
+
+.pantalla {
+  padding-top: clamp(26px, 4.2vh, 42px);
+}
+
+/* ─── La ficha: la descripción ampliada, el dato y el stack ─── */
+
+.ficha {
   display: grid;
-  gap: clamp(22px, 3vw, 40px);
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: start;
+  gap: clamp(30px, 6vw, 96px);
+  padding-top: clamp(44px, 7.5vh, 84px);
 }
 
-@media (min-width: 1000px) {
-  .conEscenas[data-escenas="true"] {
-    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-    align-items: start;
-  }
+.descripcion {
+  display: grid;
+  gap: 16px;
+  max-width: 42em;
+  font-size: 17px;
+  line-height: 1.72;
+  color: var(--tinta-2);
+  text-wrap: pretty;
 }
 
-/* ─── Cuerpo del caso ─── */
+.descripcion p:first-child {
+  color: var(--tinta);
+}
 
-.cuerpo {
+.lateral {
+  display: grid;
+  gap: clamp(26px, 4vh, 38px);
+}
+
+/* ─── El caso completo ─── */
+
+.caso {
   display: grid;
   gap: clamp(46px, 8vh, 90px);
-  padding-bottom: clamp(70px, 12vh, 130px);
+  padding-top: clamp(40px, 6vh, 64px);
 }
 
 .seccion {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
   gap: clamp(18px, 4vw, 60px);
-  padding-top: 24px;
+}
+
+.seccion + .seccion {
+  padding-top: clamp(28px, 4vh, 40px);
   border-top: 1px solid var(--pelo);
 }
 
 .tituloSeccion {
-  font-size: clamp(22px, 2.1vw, 30px);
+  font-size: clamp(21px, 2vw, 28px);
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: -0.035em;
@@ -236,10 +280,7 @@
   align-items: center;
 }
 
-.imagenes[data-cantidad="2"] .grillaImagenes {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-}
-
+.imagenes[data-cantidad="2"] .grillaImagenes,
 .imagenes[data-cantidad="4"] .grillaImagenes {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
@@ -264,15 +305,46 @@
   min-width: 0;
 }
 
-.cita {
+/* ─── La primera versión: una sección más del caso, con su captura ─── */
+
+.primera {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: center;
+  gap: clamp(20px, 3.4vw, 48px);
+}
+
+.primera:not(:has(.imagen)) {
+  grid-template-columns: 1fr;
+}
+
+.primeraTexto {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
   max-width: 40em;
-  padding-left: 20px;
-  border-left: 2px solid var(--acento);
-  font-size: clamp(18px, 1.7vw, 22px);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.45;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--tinta-2);
+}
+
+.primeraNombre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  font-size: clamp(20px, 1.9vw, 25px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
   color: var(--tinta);
+}
+
+.primeraPeriodo {
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--tinta-3);
 }
 
 /* ─── A otro proyecto ─── */
@@ -281,6 +353,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+  padding-top: clamp(64px, 11vh, 120px);
   padding-bottom: clamp(60px, 10vh, 110px);
 }
 
@@ -336,10 +409,56 @@
   color: var(--tinta-2);
 }
 
+/* ─── La entrada: una sola, corta y en orden, como la del hero ─── */
+
+@media (prefers-reduced-motion: no-preference) {
+  .presentacion > *,
+  .enlaces,
+  .pantalla {
+    animation: entrar 0.9s var(--curva-entrada) both;
+  }
+
+  .presentacion > :nth-child(2) {
+    animation-delay: 0.06s;
+  }
+
+  .presentacion > :nth-child(3) {
+    animation-delay: 0.12s;
+  }
+
+  .enlaces {
+    animation-delay: 0.18s;
+  }
+
+  .pantalla {
+    animation-delay: 0.24s;
+  }
+}
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* ─── Teléfono y tableta ─── */
+
 @media (max-width: 900px) {
-  .apertura,
-  .seccion {
+  .cabecera,
+  .ficha,
+  .seccion,
+  .primera {
     grid-template-columns: 1fr;
+  }
+
+  .enlaces {
+    justify-content: flex-start;
+    padding-bottom: 0;
+  }
+
+  .seccion {
+    gap: 16px;
   }
 
   .imagenes[data-cantidad="2"] .grillaImagenes,

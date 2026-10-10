@@ -22,14 +22,11 @@ export interface Enlace {
   hrefEn?: string;
   /** Lo que se lee. Si falta, sale del tipo (`Sitio web`, `Repositorio`...). */
   texto?: Bilingue;
-  /** Una aclaración corta al lado, como «(ES / EN)». */
-  nota?: Bilingue;
 }
 
 /**
- * EL DATO DE UNA SALA: un número medido, con qué mide y de dónde sale. Va en la
- * voz de máquina (monoespaciada) porque es lo verificable del proyecto; lo que
- * se cuenta con palabras va en serif.
+ * EL DATO DE UN PROYECTO: un número medido, con qué mide y de dónde sale. Va en
+ * la voz de máquina (monoespaciada) porque es lo verificable del proyecto.
  */
 export interface Dato {
   valor: Bilingue;
@@ -37,26 +34,13 @@ export interface Dato {
   nota?: Bilingue<Marcado>;
 }
 
-/** El bloque de material visual que muestra cada sala. */
-export type VisualSala =
-  | "leonardo"
-  | "datos-pauta"
-  | "sevive"
-  | "inversiones"
-  | "facehunt"
-  | "mementolife"
-  | "rugidos"
-  | "navkok"
-  | "freemagicmirror";
-
 export type Bloque =
   | { tipo: "parrafos"; texto: Bilingue<Marcado[]> }
   | { tipo: "lista"; items: Bilingue<Marcado[]> }
   | { tipo: "diagrama"; lineas: Bilingue<string[]>; pie?: Bilingue<Marcado> }
   | { tipo: "tabla"; columnas: Bilingue<string[]>; filas: Bilingue<Marcado[][]>; pie?: Bilingue<Marcado> }
   | { tipo: "imagenes"; imagenes: ImagenCaso[]; pie?: Bilingue<Marcado> }
-  | { tipo: "visual"; id: "vectores" | "barras" | "cobertura" | "capas" | "sistema" | "grilla" | "kiosco" }
-  | { tipo: "cita"; texto: Bilingue<Marcado> };
+  | { tipo: "visual"; id: "vectores" | "barras" | "cobertura" | "capas" | "sistema" | "grilla" | "kiosco" };
 
 /** Una escena del video: el segundo en que empieza y cómo se llama. */
 export interface Escena {
@@ -68,7 +52,8 @@ export interface Escena {
  * EL VIDEO DE UN PROYECTO, publicado en YouTube:
  * narrado en inglés, con los subtítulos en español quemados. El sitio no lo
  * aloja; lo reproduce YouTube cuando alguien le da play. La vista previa muda
- * y el póster salen de `tools/videos.mjs` (`/medios/videos/<slug>`).
+ * y el póster salen de `tools/videos.mjs` (`/medios/videos/<slug>`), también
+ * para los dos sitios web, que muestran el recorrido de su página.
  */
 export interface VideoProyecto {
   /** El id de YouTube (`youtu.be/<id>`). */
@@ -117,26 +102,21 @@ export interface Proyecto {
   origen: Bilingue;
   periodo: Bilingue;
   area: Bilingue;
-  /** Una línea debajo del nombre, sólo si el nombre solo no alcanza. */
-  subtitulo?: Bilingue;
-  /** La descripción aprobada: la del caso completo, y el comienzo de la ampliada. */
+  /**
+   * LA DESCRIPCION REDUCIDA: lo primero que se lee, arriba del video (una a
+   * tres líneas). Es la descripción corta aprobada del proyecto.
+   */
   resumen: Bilingue<Marcado>;
   /**
-   * LA DESCRIPCION REDUCIDA: lo que la sala muestra sin abrir nada (una o dos
-   * líneas). Si falta, la reducida es `resumen`, que ya es corto.
-   */
-  breve?: Bilingue<Marcado>;
-  /**
-   * Uno o dos párrafos más. En la sala, `resumen` + `cuerpo` es la
-   * descripción ampliada que reemplaza a la reducida con «Leer más». El
-   * detalle va en el caso.
+   * LA DESCRIPCION AMPLIADA: dos o tres párrafos, debajo del video, con la
+   * redacción del CV. No repite la reducida: la continúa. El detalle técnico
+   * va en `caso`, que la página muestra a pedido.
    */
   cuerpo: Bilingue<Marcado[]>;
   dato?: Dato;
   stack: string[];
   enlaces: Enlace[];
-  visual: VisualSala;
-  /** Los sitios (Rugidos, Navkok) no tienen: se ven con un clic, sin nada que explicar. */
+  /** Los sitios (Rugidos, Navkok) no tienen: su página muestra el recorrido del sitio. */
   video?: VideoProyecto;
   primeraVersion?: PrimeraVersion;
   caso: SeccionCaso[];

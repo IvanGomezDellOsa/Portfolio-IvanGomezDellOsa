@@ -1,15 +1,13 @@
 import type { CSSProperties, ReactNode } from "react";
-import type { SalaId } from "@/contenido/salas";
 import { SALA } from "@/contenido/sitio";
-import type { Dato, Enlace, Idioma, ImagenCaso, VideoProyecto } from "@/contenido/tipos";
-import { Flecha } from "./Iconos";
-import { BotonVideo } from "./Pantalla";
+import type { Dato, Enlace, Idioma, TipoEnlace } from "@/contenido/tipos";
+import { IconoDescarga, IconoExtension, IconoGithub, IconoWeb } from "./Iconos";
 import { Texto } from "./Texto";
 import css from "./Piezas.module.css";
 
 /**
- * LAS PIEZAS COMUNES DE LAS SALAS Y LOS CASOS: la cota del dato, el stack, los
- * enlaces, los marcos de navegador y de teléfono, y la imagen con `srcset`.
+ * LAS PIEZAS COMUNES DE LA PAGINA DE UN PROYECTO: la cota del dato, el stack,
+ * los enlaces, el marco de teléfono y la imagen con `srcset`.
  */
 
 /**
@@ -36,11 +34,11 @@ export function Medicion({ dato, lang, i = 0 }: { dato: Dato; lang: Idioma; i?: 
   );
 }
 
-/** El stack. `enLinea`: el rótulo y los chips en una sola fila, al pie de una sala. */
-export function Stack({ items, lang, i = 0, enLinea = false }: { items: string[]; lang: Idioma; i?: number; enLinea?: boolean }) {
+/** El stack: el rótulo y los chips. `sinRotulo`, sólo los chips (la primera versión). */
+export function Stack({ items, lang, i = 0, sinRotulo = false }: { items: string[]; lang: Idioma; i?: number; sinRotulo?: boolean }) {
   return (
-    <div className={`${css.stack} ${enLinea ? css.stackEnLinea : ""} aparece`} style={{ "--i": i } as CSSProperties}>
-      <p className="etiqueta">{SALA.stack[lang]}</p>
+    <div className={`${css.stack} aparece`} style={{ "--i": i } as CSSProperties}>
+      {!sinRotulo && <p className="etiqueta">{SALA.stack[lang]}</p>}
       <ul className={`${css.lista} maquina`}>
         {items.map((s) => (
           <li key={s}>{s}</li>
@@ -59,56 +57,37 @@ const TEXTO_TIPO = {
   descarga: SALA.descarga,
 } as const;
 
-/** Lo que se ve con un clic: si el proyecto tiene uno, es la acción principal. */
-const EN_VIVO = new Set(["sitio", "tienda", "vista-previa"]);
+/** Lo que se ve con un clic: el producto en vivo. */
+export const EN_VIVO: ReadonlySet<TipoEnlace> = new Set<TipoEnlace>(["sitio", "tienda", "vista-previa"]);
+
+function IconoEnlace({ tipo }: { tipo: TipoEnlace }) {
+  if (tipo === "repositorio") return <IconoGithub lado={16} />;
+  if (tipo === "tienda") return <IconoExtension lado={16} />;
+  if (tipo === "descarga") return <IconoDescarga lado={16} />;
+  return <IconoWeb lado={16} />;
+}
 
 /**
- * LOS ENLACES DE UN PROYECTO. La acción principal (la pastilla) es el producto
- * en vivo (el sitio, la tienda, la vista previa) o, si no lo hay, el video. El
- * video va siempre, como segunda pastilla cuando no es la principal. El resto,
- * enlaces de línea, y el caso completo, interno, al final.
+ * LOS ENLACES DE UN PROYECTO: una sola clase de botón, la pastilla hueca del
+ * sitio, cada una con el ícono de su destino (los mismos de la lista de
+ * proyectos). Todos abren afuera. La acción llena de la página es la del
+ * video, en su pantalla: acá no compite ninguna.
  */
-export function Enlaces({
-  enlaces,
-  lang,
-  caso,
-  video,
-  i = 0,
-  sinPastilla = false,
-}: {
-  enlaces: Enlace[];
-  lang: Idioma;
-  caso?: string;
-  /** El video del proyecto, con lo que el botón necesita para abrirlo. */
-  video?: { slug: SalaId; nombre: string; video: VideoProyecto };
-  i?: number;
-  sinPastilla?: boolean;
-}) {
-  const vivo = !sinPastilla && !!enlaces[0] && EN_VIVO.has(enlaces[0].tipo);
-  const videoPrincipal = !sinPastilla && !vivo && !!video;
+export function Enlaces({ enlaces, lang, className }: { enlaces: Enlace[]; lang: Idioma; className?: string }) {
   return (
-    <div className={`${css.enlaces} aparece`} style={{ "--i": i } as CSSProperties}>
-      {video && videoPrincipal && <BotonVideo {...video} lang={lang} variante="pastilla" />}
-      {enlaces.flatMap((e, n) => {
+    <ul className={`${css.enlaces} ${className ?? ""}`}>
+      {enlaces.map((e) => {
         const href = lang === "en" && e.hrefEn ? e.hrefEn : e.href;
-        const texto = (e.texto ?? TEXTO_TIPO[e.tipo])[lang];
-        const principal = n === 0 && vivo;
-        const enlace = (
-          <a key={href} className={principal ? "pastilla" : "enlace-linea"} href={href} target="_blank" rel="noopener noreferrer">
-            {texto}
-            {e.nota && <span className={css.nota}>{e.nota[lang]}</span>}
-            <Flecha />
-          </a>
+        return (
+          <li key={href}>
+            <a className="pastilla hueca" href={href} target="_blank" rel="noopener noreferrer">
+              <IconoEnlace tipo={e.tipo} />
+              {(e.texto ?? TEXTO_TIPO[e.tipo])[lang]}
+            </a>
+          </li>
         );
-        return principal && video ? [enlace, <BotonVideo key="video" {...video} lang={lang} variante="hueca" />] : [enlace];
       })}
-      {video && sinPastilla && <BotonVideo {...video} lang={lang} variante="chip" />}
-      {caso && (
-        <a className="enlace-linea" href={caso}>
-          {SALA.caso[lang]} <span aria-hidden="true">→</span>
-        </a>
-      )}
-    </div>
+    </ul>
   );
 }
 
@@ -146,26 +125,6 @@ export function Imagen({
       loading={prioridad ? "eager" : "lazy"}
       decoding="async"
     />
-  );
-}
-
-export const imagenDe = (img: ImagenCaso, lang: Idioma, tam?: string) => (
-  <Imagen src={img.src[lang]} alt={img.alt[lang]} ancho={img.ancho} alto={img.alto} anchos={img.anchos} tam={tam} />
-);
-
-/**
- * EL MARCO DE NAVEGADOR. Lleva la dirección real del sitio en la barra: es
- * información (dónde está en producción), no decoración.
- */
-export function Navegador({ url, children, className }: { url: string; children: ReactNode; className?: string }) {
-  return (
-    <figure className={`${css.navegador} ${className ?? ""}`}>
-      <div className={css.barraNav} aria-hidden="true">
-        <span className={css.candado} />
-        <span className={`${css.url} maquina`}>{url}</span>
-      </div>
-      <div className={css.pantalla}>{children}</div>
-    </figure>
   );
 }
 

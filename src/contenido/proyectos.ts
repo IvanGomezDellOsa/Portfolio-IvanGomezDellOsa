@@ -1,5 +1,5 @@
 /**
- * LOS NUEVE PROYECTOS, en el orden de las salas.
+ * LOS NUEVE PROYECTOS, en el orden de la lista.
  *
  * DE DONDE SALEN LOS TEXTOS. De lo que ya está aprobado: el README de cada
  * proyecto, el CV 10-26, el perfil de LinkedIn y las descripciones aprobadas de
@@ -18,13 +18,22 @@
  *   · Inversiones sin enlace al canal de Telegram.
  *   · Rugidos sin «de 16 MB a menos de 1,5 MB». Las cifras que van son las
  *     verificadas del README (2026-09-30): Lighthouse y «~15,6 MB a ~1,8 MB».
- *   · Navkok sin «formulario de contacto» (en el código es una simulación) y
- *     SeViVe sin «acceso controlado» (el código se valida en la app).
+ *   · Navkok nombra sus formularios como parte del diseño (decisión del dueño,
+ *     2026-10-09): el de contacto y el de postulación, con el QR que se arma en
+ *     pantalla. No se afirma que envíen. Su dirección de vista previa no se
+ *     muestra: el enlace dice «Vista previa». «El contenido multimedia», no
+ *     «las imágenes y el video de fondo».
+ *   · SeViVe sin «acceso controlado» (el código se valida en la app).
+ *   · Ninguna frase se presenta como cita: lo que explica algo va en párrafo.
  *   · FaceHunt (2025) y el sitio 2023 de Rugidos van como «primera versión»,
  *     dentro de su sucesor. El de 2023 sin su demo en video: sólo el repositorio.
- *   · Cada proyecto lleva su video de YouTube, el mismo que
- *     enlazan su README y el CV 10-26 v2. Los sitios (Rugidos, Navkok) no
- *     tienen: se ven con un clic y no hay nada que explicar.
+ *   · Cada proyecto lleva su video de presentación de YouTube, el mismo que
+ *     enlazan su README y el CV 10-26 v2, y es lo principal de su página. Los
+ *     sitios (Rugidos, Navkok) no tienen: muestran el recorrido de su página.
+ *
+ * DOS DESCRIPCIONES POR PROYECTO: `resumen` es la reducida (arriba del video,
+ * una a tres líneas) y `cuerpo`, la ampliada (debajo), con la redacción del CV.
+ * El detalle técnico va en `caso`, que la página muestra a pedido.
  *
  * FORMA (docs/29 de Ask Leonardo): impersonal o en primera persona formal,
  * paréntesis en vez de rayas, nada absoluto que no esté medido.
@@ -46,14 +55,8 @@ export const PROYECTOS: Proyecto[] = [
     periodo: b("2026", "2026"),
     area: b("IA aplicada · RAG", "Applied AI · RAG"),
     resumen: b(
-      "**Leonardo da Vinci dejó más de 7.500 páginas escritas.** Por primera vez, un software las utiliza para conversar con él sin inventar respuestas.",
-      "**Leonardo da Vinci left more than 7,500 written pages.** For the first time, software uses them to speak with him without inventing answers.",
-    ),
-    // En su sala la canónica va en la entrada, sobre el taller: la reducida es
-    // la historia corta, junto al espacio vectorial, con el giro de Richter.
-    breve: b(
-      "El proyecto nace de cruzar dos datos: una IA que simula ser una persona real le atribuye frases que nunca dijo, y Leonardo, durante toda su vida, hizo una especie de *transfusión mental a papel*. El sistema consulta los 1.565 pasajes que Jean Paul Richter transcribió y tradujo en 1888.",
-      "The project comes from putting two facts together: an AI that simulates a real person attributes to them phrases they never said, and Leonardo, throughout his life, made a kind of *mind transfusion onto paper*. The system searches the 1,565 passages that Jean Paul Richter transcribed and translated in 1888.",
+      "**Leonardo da Vinci dejó más de 7.500 páginas escritas.** Por primera vez, un software las utiliza para conversar con él sin inventar respuestas. Una red neuronal encuentra, entre 1.565 pasajes de sus cuadernos, los que responden cada pregunta, y el sistema comprueba que cada cita exista en el original.",
+      "**Leonardo da Vinci left more than 7,500 written pages.** For the first time, software uses them to speak with him without inventing answers. A neural network finds, among 1,565 passages from his notebooks, the ones that answer each question, and the system checks that every quotation exists in the original.",
     ),
     cuerpo: b(
       [
@@ -81,11 +84,9 @@ export const PROYECTOS: Proyecto[] = [
         href: "https://www.askleonardodavinci.online",
         hrefEn: "https://www.askleonardodavinci.online/en",
         texto: b("askleonardodavinci.online", "askleonardodavinci.online"),
-        nota: b("(ES / EN)", "(EN / ES)"),
       },
       { tipo: "repositorio", href: `${GH}/Ask_Leonardo_da_Vinci` },
     ],
-    visual: "leonardo",
     video: {
       id: "35xaHDucoX8",
       duracion: 358,
@@ -258,13 +259,6 @@ export const PROYECTOS: Proyecto[] = [
             ),
           },
           {
-            tipo: "cita",
-            texto: b(
-              "Pedirle a un modelo que no invente es una esperanza; comprobarlo por código es una garantía.",
-              "Asking a model not to make things up is a hope; checking it in code is a guarantee.",
-            ),
-          },
-          {
             tipo: "diagrama",
             lineas: b(
               [
@@ -403,10 +397,6 @@ export const PROYECTOS: Proyecto[] = [
       "La primera y única base unificada de pauta oficial argentina: **540.413 órdenes de publicidad** de Nación, CABA, PBA y Santa Fe (2003–2025), con montos deflactados por IPC.",
       "The first and only unified database of Argentine government advertising: **540,413 advertising orders** from the national government, Buenos Aires City, Buenos Aires Province and Santa Fe (2003–2025), with amounts adjusted for inflation (CPI).",
     ),
-    breve: b(
-      "La primera y única base unificada de pauta oficial argentina, con montos deflactados por IPC para que las cifras sean comparables entre años.",
-      "The first and only unified database of Argentine government advertising, with amounts adjusted for inflation (CPI) so figures can be compared across years.",
-    ),
     cuerpo: b(
       [
         "Antes, esos datos estaban dispersos en portales, planillas y PDF de cada jurisdicción, sin forma de compararlos. El ETL en Python incluye un dataset de PBA 2020–2024 reconstruido a partir de más de 500 resoluciones en PDF, datos que no existen en ningún portal de datos abiertos.",
@@ -427,7 +417,6 @@ export const PROYECTOS: Proyecto[] = [
       { tipo: "sitio", href: "https://datospautaoficial.com.ar", texto: b("datospautaoficial.com.ar", "datospautaoficial.com.ar") },
       { tipo: "repositorio", href: `${GH}/DatosPautaOficial` },
     ],
-    visual: "datos-pauta",
     video: {
       id: "o8Ht_Qv4Ji4",
       duracion: 211,
@@ -642,8 +631,8 @@ export const PROYECTOS: Proyecto[] = [
           {
             tipo: "parrafos",
             texto: b(
-              ["Desarrollo apoyado fuertemente en IA a lo largo de todo el ciclo: como motor para acelerar la producción, como segunda opinión ante decisiones técnicas y como complemento de conocimiento en áreas fuera de mi especialidad."],
-              ["Development relied heavily on AI throughout the whole cycle: as an engine to speed up production, as a second opinion on technical decisions and as a complement of knowledge in areas outside my expertise."],
+              ["Desarrollado con asistencia de IA para ganar productividad; las decisiones de producto, arquitectura y lógica de negocio son propias."],
+              ["Built with AI assistance to gain productivity; the product, architecture and business logic decisions are my own."],
             ),
           },
         ],
@@ -659,25 +648,17 @@ export const PROYECTOS: Proyecto[] = [
     origen: b("Freelance", "Freelance"),
     periodo: b("dic. 2025 – jun. 2026", "Dec 2025 – Jun 2026"),
     area: b("Full stack", "Full stack"),
-    subtitulo: b(
-      "Reservas y gestión para un estudio de pilates (ex Pilates All Canning)",
-      "Booking and management for a pilates studio (formerly Pilates All Canning)",
-    ),
     resumen: b(
       "Aplicación de reservas y gestión en producción, con más de 200 usuarios, API REST en Python/FastAPI y PostgreSQL.",
       "A booking and management application in production, with more than 200 users, a REST API in Python/FastAPI and PostgreSQL.",
     ),
-    breve: b(
-      "Aplicación de reservas y gestión en producción, desarrollada como único programador, con una API REST en Python/FastAPI y PostgreSQL.",
-      "A booking and management application in production, built as the sole developer, with a REST API in Python/FastAPI and PostgreSQL.",
-    ),
     cuerpo: b(
       [
-        "La desarrollé como único programador, desde la captación del cliente y la definición de requisitos hasta la puesta en producción. Reservas con control de concurrencia para evitar sobrerreservas, créditos con vencimiento, turnos fijos con reserva automática y calendario con feriados configurables.",
+        "La desarrollé como único programador para un estudio de pilates (ex Pilates All Canning), desde la captación del cliente y la definición de requisitos hasta la puesta en producción. Reservas con control de concurrencia para evitar sobrerreservas, créditos con vencimiento, turnos fijos con reserva automática y calendario con feriados configurables.",
         "Las cuentas que crea la administración se unifican automáticamente con la del alumno cuando se registra (por DNI), preservando historial, créditos y turnos. Finalizado el desarrollo, continúo a cargo del soporte, la administración del servidor y las actualizaciones solicitadas por el cliente.",
       ],
       [
-        "I built it as the sole developer, from client acquisition and requirements definition to production launch. Bookings with concurrency control to prevent overbooking, expiring credits, recurring slots with automatic booking and a calendar with configurable holidays.",
+        "I built it as the sole developer for a pilates studio (formerly Pilates All Canning), from client acquisition and requirements definition to production launch. Bookings with concurrency control to prevent overbooking, expiring credits, recurring slots with automatic booking and a calendar with configurable holidays.",
         "Accounts created by the administration merge automatically with the student's own account at sign-up (by national ID), preserving history, credits and slots. Since development ended, I remain responsible for support, server administration and client-requested updates.",
       ],
     ),
@@ -689,18 +670,17 @@ export const PROYECTOS: Proyecto[] = [
     enlaces: [
       { tipo: "repositorio", href: `${GH}/PilatesAllCanning_App` },
     ],
-    visual: "sevive",
     video: {
       id: "nI6Iz2L-hFs",
       duracion: 221,
       escenas: [
-        { t: 0, titulo: b("La app", "The app") },
+        { t: 0, titulo: b("La aplicación", "The app") },
         { t: 30, titulo: b("Reservas en vivo", "Live booking") },
         { t: 42, titulo: b("Dos alumnos, un solo lugar", "Two members, one spot") },
         { t: 55, titulo: b("Turnos fijos", "Fixed classes") },
         { t: 66, titulo: b("Apto médico y novedades", "Medical certificate and news") },
         { t: 92, titulo: b("El panel del estudio", "The studio panel") },
-        { t: 117, titulo: b("Alumnos sin la app", "Members without the app") },
+        { t: 117, titulo: b("Alumnos sin la aplicación", "Members without the app") },
         { t: 139, titulo: b("Alumnos, calendario y ajustes", "Members, calendar and settings") },
         { t: 177, titulo: b("La rifa mensual", "The monthly raffle") },
         { t: 188, titulo: b("Stack", "Tech stack") },
@@ -718,7 +698,7 @@ export const PROYECTOS: Proyecto[] = [
             tipo: "parrafos",
             texto: b(
               [
-                "App de gestión y reservas para un estudio de pilates de Canning, Buenos Aires (franquicia), usada por alumnos y administración. Proyecto freelance a mi cargo de punta a punta, como único desarrollador: desde la captación del cliente y la definición de requisitos hasta el deploy y la app en producción.",
+                "Aplicación de gestión y reservas para un estudio de pilates de Canning, Buenos Aires (franquicia), usada por alumnos y administración. Proyecto freelance a mi cargo de principio a fin, como único programador: desde la captación del cliente y la definición de requisitos hasta el despliegue y la aplicación en producción.",
                 "El objetivo: una aplicación fácil de usar, que permita delegar y ordenar la gestión del estudio, y que al mismo tiempo impida que un alumno rompa el orden del negocio.",
               ],
               [
@@ -739,8 +719,8 @@ export const PROYECTOS: Proyecto[] = [
                 "**Reservas con control de concurrencia.** El backend valida cupos, créditos y horarios en cada reserva: dos alumnos no pueden quedarse con el mismo último lugar.",
                 "**Turnos fijos y clases recurrentes.** La administración crea una clase una vez y el sistema genera las instancias semanales respetando los feriados; los abonos se reservan solos cada semana.",
                 "**Créditos con vencimiento**, descontados automáticamente con cada reserva, y cancelación con política de sanciones por aviso tardío o ausencia.",
-                "**Fusión de cuentas por DNI.** La administración puede cargar alumnos que todavía no tienen la app, para que los cupos y las estadísticas sean reales. Cuando ese alumno se registra con su DNI, las dos cuentas se unifican y conserva turnos fijos, créditos e historial.",
-                "**Panel de administración:** calendario mensual con la ocupación de cada clase, historial por alumno, bloqueo de usuarios con cancelación de sus reservas futuras y feriados que se cargan desde la app, sin un deploy.",
+                "**Fusión de cuentas por DNI.** La administración puede cargar alumnos que todavía no tienen la aplicación, para que los cupos y las estadísticas sean reales. Cuando ese alumno se registra con su DNI, las dos cuentas se unifican y conserva turnos fijos, créditos e historial.",
+                "**Panel de administración:** calendario mensual con la ocupación de cada clase, historial por alumno, bloqueo de usuarios con cancelación de sus reservas futuras y feriados que se cargan desde la aplicación, sin un nuevo despliegue.",
                 "**Comunicación:** novedades con notificaciones push y feedback después de cada clase, con aviso por email a la administración ante una respuesta negativa.",
                 "**Apto médico:** carga de PDF o imagen, con compresión automática.",
                 "**Rifa mensual** entre alumnos activos, ponderada por asistencia, para incentivar la constancia.",
@@ -766,7 +746,7 @@ export const PROYECTOS: Proyecto[] = [
           {
             tipo: "parrafos",
             texto: b(
-              ["Backend asíncrono con Python, FastAPI y PostgreSQL (asyncpg, Alembic); app en Flutter (Riverpod, Freezed, GoRouter) instalable como PWA, con inicio de sesión de Google mediante Firebase. La infraestructura corre con Docker Compose y Nginx en un VPS que administro: backups, resolución de fallas y mantenimiento."],
+              ["Backend asíncrono con Python, FastAPI y PostgreSQL (asyncpg, Alembic); aplicación en Flutter (Riverpod, Freezed, GoRouter) instalable como PWA, con inicio de sesión de Google mediante Firebase. La infraestructura corre con Docker Compose y Nginx en un VPS que administro: backups, resolución de fallas y mantenimiento."],
               ["An asynchronous backend with Python, FastAPI and PostgreSQL (asyncpg, Alembic); a Flutter app (Riverpod, Freezed, GoRouter) installable as a PWA, with Google sign-in through Firebase. The infrastructure runs on Docker Compose and Nginx on a VPS I manage: backups, troubleshooting and maintenance."],
             ),
           },
@@ -829,21 +809,17 @@ export const PROYECTOS: Proyecto[] = [
     periodo: b("2026", "2026"),
     area: b("IA · Automatización", "AI · Automation"),
     resumen: b(
-      "Automatiza con IA el seguimiento de las inversiones privadas anunciadas en Argentina. Cada 72 horas rastrea noticias, redes y registros oficiales, identifica las inversiones reales y descarta duplicados. Los resultados se publican automáticamente en la web y en un canal de Telegram.",
-      "Uses AI to track the private investments announced in Argentina. Every 72 hours it sweeps news, social media and official registries, identifies the real investments and discards duplicates. The results are published automatically on the website and in a Telegram channel.",
-    ),
-    breve: b(
-      "Automatiza con IA el seguimiento de las inversiones privadas anunciadas en Argentina y publica las nuevas en la web y en un canal de Telegram.",
-      "Uses AI to track the private investments announced in Argentina and publishes the new ones on the website and in a Telegram channel.",
+      "Automatiza con IA el seguimiento de las inversiones privadas anunciadas en Argentina. Identifica las inversiones reales, descarta duplicados y publica los resultados en la web y en un canal de Telegram.",
+      "Uses AI to track the private investments announced in Argentina. It identifies the real investments, discards duplicates and publishes the results on the website and in a Telegram channel.",
     ),
     cuerpo: b(
       [
-        "Un flujo programado en GitHub Actions reúne material de diversas fuentes y rastrea con Gemini y Search Grounding las menciones de inversiones publicadas en la web. Un sistema de capas define qué llega a publicarse: Gemini estructura cada mención, pgvector recupera los registros más parecidos y reglas de identidad junto con Jev (TypeSafe) resuelven qué es una inversión real y qué ya está publicado bajo otro nombre.",
-        "API en FastAPI y frontend en Next.js con render en servidor, sobre Vercel.",
+        "Las inversiones privadas que se anuncian en Argentina estaban dispersas en noticias, cuentas de X y registros oficiales. Cada 72 horas, un flujo programado en GitHub Actions reúne material de diversas fuentes y rastrea con Gemini y Search Grounding las menciones de inversiones publicadas en la web. Un sistema de capas define qué llega a publicarse: Gemini estructura cada mención, pgvector recupera los registros más parecidos y reglas de identidad junto con Jev (TypeSafe) resuelven qué es una inversión real y qué ya está publicado bajo otro nombre.",
+        "Se publica sin intervención en la web y en un canal de Telegram, con API en FastAPI y frontend en Next.js con render en servidor, sobre Vercel.",
       ],
       [
-        "A scheduled GitHub Actions workflow gathers material from a range of sources and sweeps the web for investment mentions with Gemini and Search Grounding. A layered system decides what gets published: Gemini structures each mention, pgvector retrieves the closest records, and identity rules together with Jev (TypeSafe) resolve what is a real investment and what is already published under a different name.",
-        "A FastAPI API and a Next.js frontend with server-side rendering, on Vercel.",
+        "The private investments announced in Argentina were scattered across news outlets, X accounts and official registries. Every 72 hours, a scheduled GitHub Actions workflow gathers material from a range of sources and sweeps the web for investment mentions with Gemini and Search Grounding. A layered system decides what gets published: Gemini structures each mention, pgvector retrieves the closest records, and identity rules together with Jev (TypeSafe) resolve what is a real investment and what is already published under a different name.",
+        "It is published unattended on the website and in a Telegram channel, with a FastAPI API and a Next.js frontend with server-side rendering, on Vercel.",
       ],
     ),
     dato: {
@@ -855,7 +831,6 @@ export const PROYECTOS: Proyecto[] = [
       { tipo: "sitio", href: "https://www.inversionesargentina.com.ar", texto: b("inversionesargentina.com.ar", "inversionesargentina.com.ar") },
       { tipo: "repositorio", href: `${GH}/Inversiones_Argentina` },
     ],
-    visual: "inversiones",
     video: {
       id: "aFhefFVcW4M",
       duracion: 176,
@@ -916,10 +891,10 @@ export const PROYECTOS: Proyecto[] = [
             ),
           },
           {
-            tipo: "cita",
+            tipo: "parrafos",
             texto: b(
-              "Por qué la similitud recupera pero no decide: sobre un corpus temáticamente estrecho, el espacio vectorial se comprime. Dos proyectos distintos del mismo rubro y la misma región pueden parecerse tanto como el mismo proyecto contado por dos medios, y no hay un umbral que separe esos dos casos.",
-              "Why similarity retrieves but does not decide: over a thematically narrow corpus, the vector space compresses. Two distinct projects in the same sector and region can look as alike as the same project reported by two outlets, and no threshold separates those two cases.",
+              ["**Por qué la similitud recupera pero no decide.** Sobre un corpus temáticamente estrecho, el espacio vectorial se comprime. Dos proyectos distintos del mismo rubro y la misma región pueden parecerse tanto como el mismo proyecto contado por dos medios, y no hay un umbral que separe esos dos casos."],
+              ["**Why similarity retrieves but does not decide.** Over a thematically narrow corpus, the vector space compresses. Two distinct projects in the same sector and region can look as alike as the same project reported by two outlets, and no threshold separates those two cases."],
             ),
           },
         ],
@@ -1001,22 +976,17 @@ export const PROYECTOS: Proyecto[] = [
     origen: b("Proyecto propio", "Personal project"),
     periodo: b("2026", "2026"),
     area: b("Visión por computador", "Computer vision"),
-    subtitulo: b("Reconocimiento facial en video", "Facial recognition in video"),
     resumen: b(
-      "Sistema de reconocimiento facial con IA y deep learning que, a partir de una foto, localiza cada aparición de una persona en horas de video, incluso de perfil, parcialmente cubierta o en baja resolución. Procesa todo en local con aceleración por GPU, sin enviar datos a la nube.",
-      "A facial recognition system with AI and deep learning that, from a photo, finds every appearance of a person in hours of video, even in profile, partially covered or at low resolution. Everything is processed locally with GPU acceleration, without sending data to the cloud.",
-    ),
-    breve: b(
-      "A partir de una foto, localiza con IA cada aparición de una persona en horas de video. Procesa todo en local, sin enviar datos a la nube.",
-      "From a photo, it uses AI to find every appearance of a person in hours of video. Everything is processed locally, without sending data to the cloud.",
+      "Sistema de reconocimiento facial con IA y deep learning que, a partir de una foto, localiza cada aparición de una persona en horas de video, incluso de perfil, parcialmente cubierta o en baja resolución.",
+      "A facial recognition system with AI and deep learning that, from a photo, finds every appearance of a person in hours of video, even in profile, partially covered or at low resolution.",
     ),
     cuerpo: b(
       [
-        "Aplicación de escritorio que devuelve los intervalos de tiempo exactos, con miniatura, mini-clip y acceso directo a cada momento, para un archivo local o un video de YouTube. Aplicable a seguridad, investigación y análisis de video.",
+        "Procesa todo en local con aceleración por GPU, sin enviar datos a la nube. Es una aplicación de escritorio que devuelve los intervalos de tiempo exactos, con miniatura, mini-clip y acceso directo a cada momento, para un archivo local o un video de YouTube. Aplicable a seguridad, investigación y análisis de video.",
         "Reconocimiento facial con InsightFace (ArcFace, embeddings de 512 dimensiones) sobre ONNX Runtime, con aceleración por GPU según el hardware disponible y seguimiento entre cuadros. Es la reconstrucción integral de la primera versión, FaceHunt (2025): de TensorFlow en CPU a ONNX Runtime con GPU.",
       ],
       [
-        "A desktop application that returns exact time ranges, with a thumbnail, a mini-clip and direct access to each moment, for a local file or a YouTube video. Applicable to security, investigation and video analysis.",
+        "Everything is processed locally with GPU acceleration, without sending data to the cloud. It is a desktop application that returns exact time ranges, with a thumbnail, a mini-clip and direct access to each moment, for a local file or a YouTube video. Applicable to security, investigation and video analysis.",
         "Facial recognition with InsightFace (ArcFace, 512-dimensional embeddings) on ONNX Runtime, with GPU acceleration based on the available hardware and cross-frame tracking. It is a full rebuild of the first version, FaceHunt (2025): from TensorFlow on CPU to ONNX Runtime on GPU.",
       ],
     ),
@@ -1032,7 +1002,6 @@ export const PROYECTOS: Proyecto[] = [
       { tipo: "repositorio", href: `${GH}/FaceHunt-2` },
       { tipo: "descarga", href: `${GH}/FaceHunt-2/releases`, texto: b("Descargar (Windows)", "Download (Windows)") },
     ],
-    visual: "facehunt",
     video: {
       id: "huNRQiAW_ss",
       duracion: 195,
@@ -1217,10 +1186,6 @@ export const PROYECTOS: Proyecto[] = [
       "Extensión de Chrome publicada en la Chrome Web Store que reemplaza la pestaña nueva por una grilla con las semanas de la vida, calculada a partir de la fecha de nacimiento.",
       "A Chrome extension published on the Chrome Web Store that replaces the new tab with a grid of the weeks of a life, calculated from the date of birth.",
     ),
-    breve: b(
-      "Extensión de Chrome publicada en la Chrome Web Store que reemplaza la pestaña nueva por una grilla con las semanas de la vida.",
-      "A Chrome extension published on the Chrome Web Store that replaces the new tab with a grid of the weeks of a life.",
-    ),
     cuerpo: b(
       [
         "Tema claro, oscuro o del sistema, interfaz completa en 6 idiomas y una efeméride histórica para cada uno de los 366 días del año. Ninguna conexión de red y un solo permiso (storage): la fecha de nacimiento se guarda sólo en el equipo.",
@@ -1243,7 +1208,6 @@ export const PROYECTOS: Proyecto[] = [
       { tipo: "tienda", href: "https://chromewebstore.google.com/detail/mementolife/eackmngdibobdeciapcedkmjoecaiblp", texto: b("Chrome Web Store", "Chrome Web Store") },
       { tipo: "repositorio", href: `${GH}/MementoLife` },
     ],
-    visual: "mementolife",
     video: {
       id: "tZbJvq8xoBk",
       duracion: 34,
@@ -1367,7 +1331,7 @@ export const PROYECTOS: Proyecto[] = [
           {
             tipo: "parrafos",
             texto: b(
-              ["MementoLife empezó como una app de Android que ponía la grilla en la pantalla de bloqueo. Funcionaba, pero MIUI y One UI ignoran en silencio los intentos de actualizar sólo la pantalla de bloqueo (`setBitmap(..., FLAG_LOCK)` no falla: no hace nada). En vez de romper una decisión de diseño del proyecto, se cambió de plataforma."],
+              ["MementoLife empezó como una aplicación de Android que ponía la grilla en la pantalla de bloqueo. Funcionaba, pero MIUI y One UI ignoran en silencio los intentos de actualizar sólo la pantalla de bloqueo (`setBitmap(..., FLAG_LOCK)` no falla: no hace nada). En vez de romper una decisión de diseño del proyecto, se cambió de plataforma."],
               ["MementoLife started as an Android app that put the grid on the lock screen. It worked, but MIUI and One UI silently ignore attempts to update only the lock screen (`setBitmap(..., FLAG_LOCK)` does not fail: it does nothing). Rather than break one of the project's design decisions, the platform changed."],
             ),
           },
@@ -1415,7 +1379,6 @@ export const PROYECTOS: Proyecto[] = [
       { tipo: "sitio", href: "https://www.rugidosfiestas.com.ar", texto: b("rugidosfiestas.com.ar", "rugidosfiestas.com.ar") },
       { tipo: "repositorio", href: `${GH}/RugidosWebSite` },
     ],
-    visual: "rugidos",
     primeraVersion: {
       nombre: "RugidosWebSite 2023",
       periodo: b("2023 – 2026", "2023 – 2026"),
@@ -1592,18 +1555,14 @@ export const PROYECTOS: Proyecto[] = [
       "Rediseño completo del sitio institucional de una empresa de seguridad privada con más de 30 años de trayectoria y certificaciones ISO 9001, 14001 y 45001.",
       "A complete redesign of the corporate website of a private security company with more than 30 years in business and ISO 9001, 14001 and 45001 certifications.",
     ),
-    breve: b(
-      "Rediseño completo del sitio institucional de una empresa de seguridad privada con más de 30 años de trayectoria.",
-      "A complete redesign of the corporate website of a private security company with more than 30 years in business.",
-    ),
     cuerpo: b(
       [
-        "Proyecto freelance a mi cargo de punta a punta, desde la venta al cliente hasta el sitio terminado. Definí la arquitectura de información y el diseño UX/UI, y redacté los textos institucionales con el tono de la empresa.",
-        "Las imágenes y el video de fondo del hero se produjeron con herramientas de IA y se curaron para la identidad de la marca. Next.js, React, TypeScript y Tailwind CSS, con microanimaciones y diseño responsive.",
+        "Proyecto freelance a mi cargo de principio a fin, desde la venta del proyecto hasta su finalización. Definí la arquitectura de información y el diseño UX/UI, redacté los textos institucionales y produje con herramientas de IA el contenido multimedia.",
+        "El diseño incluye el formulario de contacto y la sección «Trabajá con nosotros», donde un código QR se arma pieza por pieza al entrar en pantalla y lleva al formulario de postulación. Next.js, React, TypeScript y Tailwind CSS, con microanimaciones y diseño responsive.",
       ],
       [
-        "A freelance project I handled end to end, from selling it to the client to the finished site. I defined the information architecture and the UX/UI design, and wrote the corporate copy in the company's tone.",
-        "The images and the hero background video were produced with AI tools and curated for the brand identity. Next.js, React, TypeScript and Tailwind CSS, with micro-animations and responsive design.",
+        "A freelance project I handled end to end, from selling the project to its completion. I defined the information architecture and the UX/UI design, wrote the corporate copy and produced the multimedia content with AI tools.",
+        "The design includes the contact form and the “Work with us” section, where a QR code assembles itself piece by piece as it enters the screen and leads to the application form. Next.js, React, TypeScript and Tailwind CSS, with micro-animations and responsive design.",
       ],
     ),
     stack: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
@@ -1611,7 +1570,6 @@ export const PROYECTOS: Proyecto[] = [
       { tipo: "vista-previa", href: "https://navkok-website-private.vercel.app", texto: b("Vista previa", "Preview") },
       { tipo: "repositorio", href: `${GH}/NavkokSecurityGroup_Website` },
     ],
-    visual: "navkok",
     descripcionMeta: b(
       "Proyecto freelance: rediseño completo del sitio institucional de una empresa de seguridad privada con más de 30 años de trayectoria.",
       "Freelance project: a complete redesign of the corporate website of a private security company with more than 30 years in business.",
@@ -1626,13 +1584,15 @@ export const PROYECTOS: Proyecto[] = [
               [
                 "**Relación con el cliente:** venta del proyecto y trato directo durante todo el desarrollo.",
                 "**Contenido:** definí las secciones del sitio y redacté los textos institucionales con el tono de la empresa.",
-                "**Material visual:** imágenes y video de fondo del hero generados con herramientas de IA y curados para la identidad de la marca.",
+                "**Contenido multimedia:** producido con herramientas de IA y curado para la identidad de la marca.",
+                "**Formularios:** el de contacto, con validación de campos, y el de postulación, al que lleva un código QR que se arma pieza por pieza al entrar en pantalla.",
                 "**Desarrollo:** Next.js, React, TypeScript y Tailwind CSS, con microanimaciones y diseño responsive.",
               ],
               [
                 "**Client relationship:** selling the project and direct contact throughout development.",
                 "**Content:** I defined the site's sections and wrote the corporate copy in the company's tone.",
-                "**Visual material:** images and the hero background video generated with AI tools and curated for the brand identity.",
+                "**Multimedia content:** produced with AI tools and curated for the brand identity.",
+                "**Forms:** the contact form, with field validation, and the application form, reached through a QR code that assembles itself piece by piece as it enters the screen.",
                 "**Development:** Next.js, React, TypeScript and Tailwind CSS, with micro-animations and responsive design.",
               ],
             ),
@@ -1645,8 +1605,8 @@ export const PROYECTOS: Proyecto[] = [
           {
             tipo: "parrafos",
             texto: b(
-              ["Un sistema visual oscuro con acento dorado: la paleta, la tipografía y los componentes se definieron desde cero para transmitir la experiencia y las credenciales de la empresa. El video de fondo se procesó con FFmpeg para comprimirlo y recortarlo, y las imágenes se optimizaron en lote con Sharp."],
-              ["A dark visual system with a gold accent: the palette, typography and components were defined from scratch to convey the company's track record and credentials. The background video was processed with FFmpeg to compress and trim it, and the images were batch-optimized with Sharp."],
+              ["Un sistema visual oscuro con acento dorado: la paleta, la tipografía y los componentes se definieron desde cero para transmitir la experiencia y las credenciales de la empresa. El contenido multimedia se optimizó con FFmpeg (compresión y recorte del video) y con Sharp (las imágenes, en lote)."],
+              ["A dark visual system with a gold accent: the palette, typography and components were defined from scratch to convey the company's track record and credentials. The multimedia content was optimized with FFmpeg (compressing and trimming the video) and with Sharp (the images, in batch)."],
             ),
           },
           {
@@ -1692,7 +1652,6 @@ export const PROYECTOS: Proyecto[] = [
     origen: b("Rugidos Fiestas Tandil", "Rugidos Fiestas Tandil"),
     periodo: b("2025", "2025"),
     area: b("Aplicación de escritorio", "Desktop application"),
-    subtitulo: b("Fotomatón táctil", "Touchscreen photo booth"),
     resumen: b(
       "Aplicación de fotomatón táctil en uso en el salón de Rugidos, distribuida como ejecutable portable para Windows.",
       "A touchscreen photo booth application in use at the Rugidos venue, distributed as a portable Windows executable.",
@@ -1712,7 +1671,6 @@ export const PROYECTOS: Proyecto[] = [
       { tipo: "repositorio", href: `${GH}/FreeMagicMirror` },
       { tipo: "descarga", href: `${GH}/FreeMagicMirror/releases`, texto: b("Descargar (Windows)", "Download (Windows)") },
     ],
-    visual: "freemagicmirror",
     video: {
       id: "UjSz98p7nPk",
       duracion: 87,

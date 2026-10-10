@@ -1,0 +1,54 @@
+/*
+ * EL BOTON DEL CASO COMPLETO: la pastilla hueca del sitio, sola, sobre un pelo
+ * que cruza la página. Es la única acción de esa franja.
+ */
+.caso {
+  width: 100%;
+  max-width: calc(var(--ancho) + 2 * var(--canal));
+  margin: 0 auto;
+  padding: clamp(44px, 7vh, 76px) var(--canal) 0;
+}
+
+.linea {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 24px);
+}
+
+.linea::before,
+.linea::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--pelo);
+}
+
+.boton {
+  flex: none;
+}
+
+.chevron {
+  flex: none;
+  margin-right: -3px;
+  transition: transform 0.3s var(--curva-reaccion);
+}
+
+.boton[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+}
+
+.contenido {
+  display: none;
+}
+
+.contenido[data-abierto="true"] {
+  display: block;
+  animation: abrir 0.6s var(--curva-entrada) both;
+}
+
+@keyframes abrir {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}

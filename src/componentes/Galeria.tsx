@@ -1,33 +1,32 @@
 import type { CSSProperties } from "react";
 import { PROYECTOS } from "@/contenido/proyectos";
-import { SALAS, type SalaId } from "@/contenido/salas";
-import { CONTACTO, EMAIL, EXPERIENCIA, GITHUB, LINKEDIN, PERSONA, STACK } from "@/contenido/sitio";
+import { SALAS, variablesDe, type SalaId } from "@/contenido/salas";
+import { CONTACTO, EMAIL, EXPERIENCIA, GITHUB, LINKEDIN, PERSONA } from "@/contenido/sitio";
 import type { Idioma } from "@/contenido/tipos";
+import { caso } from "@/lib/rutas";
 import { CopiarEmail } from "./CopiarEmail";
+import { IconoGithub, IconoLinkedin } from "./Iconos";
 import { MenuCV } from "./MenuCV";
-import { estiloSala } from "./Sala";
 import { Texto } from "./Texto";
 import css from "./Galeria.module.css";
+import hero from "./Hero.module.css";
 
-type SalaProyecto = Exclude<SalaId, "taller" | "galeria">;
 const nombreDe = (slug: SalaId) => PROYECTOS.find((p) => p.slug === slug)?.nombre ?? slug;
 
-/** El punto del proyecto, en su acento: el mismo del índice. */
-function Punto({ slug }: { slug: SalaProyecto }) {
-  return <span className={css.punto} style={{ "--tinte": SALAS[slug].acento } as CSSProperties} aria-hidden="true" />;
-}
+const REDES = [
+  { nombre: "GitHub", href: GITHUB, Icono: IconoGithub },
+  { nombre: "LinkedIn", href: LINKEDIN, Icono: IconoLinkedin },
+];
 
 /**
- * LA PERSONA. Es la salida del recorrido, otra vez en negro neutro: después
- * de ver el trabajo, quién lo hizo. Sobre mí, experiencia, el stack con su
- * evidencia y el contacto.
+ * LA PERSONA, después de la lista de proyectos: sobre mí, experiencia y
+ * contacto. En el mismo negro neutro del hero, y con sus mismas piezas: los
+ * títulos de sección de la lista y, en el contacto, el nombre de la sección con
+ * el degradé del hero, la pastilla y los íconos de las redes.
  */
 export function Galeria({ lang }: { lang: Idioma }) {
-  const salas = PROYECTOS.map((p) => p.slug as SalaProyecto);
   return (
-    <div className={css.galeria} data-sala-id="galeria" style={estiloSala("galeria", "freemagicmirror")}>
-      <div className={css.umbral} aria-hidden="true" />
-
+    <div className={css.galeria} data-sala-id="galeria" style={variablesDe("galeria")}>
       <section id="sobre-mi" className={css.interior} aria-labelledby="t-sobre-mi">
         <div className={css.persona} data-revelar="">
           <figure className={`${css.foto} aparece`}>
@@ -43,7 +42,7 @@ export function Galeria({ lang }: { lang: Idioma }) {
             />
           </figure>
           <div className={css.sobre}>
-            <h2 id="t-sobre-mi" className={`${css.tituloGaleria} aparece`} style={{ "--i": 1 } as CSSProperties}>
+            <h2 id="t-sobre-mi" className={`${css.titulo} aparece`} style={{ "--i": 1 } as CSSProperties}>
               {PERSONA.titulo[lang]}
             </h2>
             <div className={`${css.parrafos} texto aparece`} style={{ "--i": 2 } as CSSProperties}>
@@ -66,26 +65,25 @@ export function Galeria({ lang }: { lang: Idioma }) {
       </section>
 
       <section className={css.interior} aria-labelledby="t-experiencia">
-        <div className={css.bloque} data-revelar="">
-          <h2 id="t-experiencia" className={`${css.tituloGaleria} aparece`}>
+        <div data-revelar="">
+          <h2 id="t-experiencia" className={`${css.titulo} aparece`}>
             {EXPERIENCIA.titulo[lang]}
           </h2>
           <ol className={css.experiencia}>
             {EXPERIENCIA.items.map((x, i) => (
               <li key={x.empresa} className={`${css.puesto} aparece`} style={{ "--i": i + 1 } as CSSProperties}>
-                <div className={css.periodos}>
-                  {x.puestos.map((pu) => (
-                    <p key={pu.cargo.es} className="maquina">
-                      {pu.periodo[lang]}
-                    </p>
-                  ))}
-                </div>
-                <div className={css.puestoCuerpo}>
+                <div className={css.donde}>
                   <h3 className={css.empresa}>{x.empresa}</h3>
                   <p className={css.descripcionEmpresa}>{x.descripcion[lang]}</p>
+                </div>
+                <div className={css.puestoCuerpo}>
+                  {/* Cada cargo con su período al lado: no hay que adivinar cuál es de cuál. */}
                   <ul className={css.cargos}>
                     {x.puestos.map((pu) => (
-                      <li key={pu.cargo.es}>{pu.cargo[lang]}</li>
+                      <li key={pu.cargo.es}>
+                        <span className={css.cargo}>{pu.cargo[lang]}</span>
+                        <span className={`${css.periodo} maquina`}>{pu.periodo[lang]}</span>
+                      </li>
                     ))}
                   </ul>
                   <ul className={`${css.logros} texto`}>
@@ -95,10 +93,10 @@ export function Galeria({ lang }: { lang: Idioma }) {
                       </li>
                     ))}
                   </ul>
-                  <p className={css.salasPuesto}>
+                  <p className={css.proyectosPuesto}>
                     {x.salas.map((s) => (
-                      <a key={s} href={`#${s}`} className={css.enlaceSala}>
-                        <Punto slug={s as SalaProyecto} />
+                      <a key={s} href={caso(lang, s)} className={css.enlaceProyecto} style={{ "--tinte": SALAS[s].acento } as CSSProperties}>
+                        <span className={css.punto} aria-hidden="true" />
                         {nombreDe(s)}
                       </a>
                     ))}
@@ -110,103 +108,31 @@ export function Galeria({ lang }: { lang: Idioma }) {
         </div>
       </section>
 
-      <section className={css.interior} aria-labelledby="t-stack">
-        <div className={css.bloque} data-revelar="">
-          <h2 id="t-stack" className={`${css.tituloGaleria} aparece`}>
-            {STACK.titulo[lang]}
-          </h2>
-          <p className={`${css.introStack} aparece`} style={{ "--i": 1 } as CSSProperties}>
-            {STACK.intro[lang]}
-          </p>
-
-          <ol className={`${css.leyenda} aparece`} style={{ "--i": 2 } as CSSProperties} aria-hidden="true">
-            {salas.map((s, n) => (
-              <li key={s}>
-                <span className={`${css.numeroLeyenda} maquina`}>{n + 1}</span>
-                <Punto slug={s} />
-                {nombreDe(s)}
-              </li>
-            ))}
-          </ol>
-
-          <div className={css.grupos}>
-            {STACK.grupos.map((g, gi) => (
-              <div key={g.titulo.es} className={`${css.grupo} aparece`} style={{ "--i": gi + 3 } as CSSProperties}>
-                <table className={css.matriz}>
-                  <caption className="etiqueta">{g.titulo[lang]}</caption>
-                  <thead>
-                    <tr>
-                      <th scope="col" className="sr">
-                        {lang === "es" ? "Tecnología" : "Technology"}
-                      </th>
-                      {salas.map((s, n) => (
-                        <th key={s} scope="col" title={nombreDe(s)}>
-                          <span className="maquina" aria-hidden="true">
-                            {n + 1}
-                          </span>
-                          <span className="sr">{nombreDe(s)}</span>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {g.tecnologias.map((tec) => (
-                      <tr key={tec.nombre.es}>
-                        <th scope="row">
-                          {tec.nombre[lang]}
-
-                        </th>
-                        {salas.map((s) => {
-                          const usada = tec.salas.includes(s);
-                          return (
-                            <td key={s}>
-                              <span className={usada ? css.usada : css.vacia} style={usada ? ({ "--tinte": SALAS[s].acento } as CSSProperties) : undefined} />
-                              {usada && <span className="sr">{nombreDe(s)}</span>}
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {/* En teléfono, la misma evidencia en palabras: la matriz no entra. */}
-                <dl className={css.listaStack}>
-                  <dt className="etiqueta">{g.titulo[lang]}</dt>
-                  {g.tecnologias.map((tec) => (
-                    <dd key={tec.nombre.es}>
-                      <strong>{tec.nombre[lang]}</strong>{" "}
-                      <span>{tec.salas.map(nombreDe).join(" · ")}</span>
-                    </dd>
-                  ))}
-                </dl>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="contacto" className={`${css.interior} ${css.contacto}`} aria-labelledby="t-contacto">
-        <div data-revelar="">
+      <section id="contacto" className={css.contacto} aria-labelledby="t-contacto">
+        <div className={css.fondoContacto} aria-hidden="true" />
+        <div className={css.contactoContenido} data-revelar="">
           <h2 id="t-contacto" className={`${css.tituloContacto} aparece`}>
-            {CONTACTO.titulo[lang]}
+            <span className="degrade">{CONTACTO.titulo[lang]}</span>
           </h2>
-          <div className={`${css.email} aparece`} style={{ "--i": 2 } as CSSProperties}>
-            <a href={`mailto:${EMAIL}`} className={`${css.direccion} maquina`}>
-              {EMAIL}
-            </a>
+          <div className="aparece" style={{ "--i": 1 } as CSSProperties}>
             <CopiarEmail email={EMAIL} lang={lang} />
           </div>
-          <div className={`${css.canales} aparece`} style={{ "--i": 3 } as CSSProperties}>
+          <div className={`${hero.acciones} aparece`} style={{ "--i": 2 } as CSSProperties}>
             <a className="pastilla" href={`mailto:${EMAIL}`}>
               {CONTACTO.escribir[lang]}
             </a>
-            <a className="enlace-linea" href={LINKEDIN} target="_blank" rel="noopener noreferrer">
-              LinkedIn ↗
-            </a>
-            <a className="enlace-linea" href={GITHUB} target="_blank" rel="noopener noreferrer">
-              GitHub ↗
-            </a>
-            <MenuCV lang={lang} variante="pastilla" />
+            <ul className={hero.redes}>
+              {REDES.map(({ nombre, href, Icono }) => (
+                <li key={nombre}>
+                  <a className={hero.red} href={href} target="_blank" rel="noopener noreferrer" aria-label={nombre}>
+                    <Icono />
+                  </a>
+                </li>
+              ))}
+              <li>
+                <MenuCV lang={lang} variante="icono" />
+              </li>
+            </ul>
           </div>
         </div>
       </section>

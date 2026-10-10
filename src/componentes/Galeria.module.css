@@ -1,6 +1,6 @@
 /*
- * LA PERSONA: otra vez el negro neutro del hero. Después de nueve proyectos
- * con tinte propio, la salida se calma a propósito: acá se lee.
+ * LA PERSONA: el negro neutro del hero. Tres secciones (sobre mí, experiencia,
+ * contacto) con el mismo ancho y los mismos títulos que la lista de proyectos.
  */
 .galeria {
   position: relative;
@@ -8,25 +8,20 @@
   color: var(--tinta);
 }
 
-.umbral {
-  height: clamp(70px, 14vh, 150px);
-  background: linear-gradient(to bottom, var(--previo), var(--fondo));
-  background: linear-gradient(in oklch to bottom, var(--previo), var(--fondo));
-}
-
 .interior {
   width: 100%;
   max-width: calc(var(--ancho) + 2 * var(--canal));
   margin: 0 auto;
-  padding: 0 var(--canal) clamp(80px, 13vh, 140px);
+  padding: clamp(30px, 6vh, 64px) var(--canal) clamp(60px, 10vh, 110px);
 }
 
-.tituloGaleria {
-  margin-bottom: clamp(22px, 3vh, 32px);
-  font-size: clamp(34px, 4.4vw, 60px);
+/* El título de sección: el mismo de «Proyectos», en la lista. */
+.titulo {
+  margin-bottom: clamp(18px, 2.6vh, 26px);
+  font-size: clamp(28px, 3vw, 40px);
   font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.05em;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
   color: var(--tinta);
 }
 
@@ -34,7 +29,7 @@
 
 .persona {
   display: grid;
-  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
   align-items: start;
   gap: clamp(28px, 6vw, 96px);
 }
@@ -61,10 +56,11 @@
 .parrafos {
   display: grid;
   gap: 16px;
-  max-width: 38em;
+  max-width: 40em;
   font-size: 17px;
   line-height: 1.72;
   color: var(--tinta-2);
+  text-wrap: pretty;
 }
 
 .parrafos p:first-child {
@@ -75,7 +71,7 @@
   display: grid;
   gap: 0;
   margin-top: 34px;
-  max-width: 40em;
+  max-width: 42em;
 }
 
 .detalles > div {
@@ -99,77 +95,84 @@
   color: var(--tinta);
 }
 
-/* ─── Bloques (experiencia, stack) ─── */
-
-.bloque {
-  padding-top: clamp(20px, 3vh, 40px);
-}
+/* ─── Experiencia: la empresa a la izquierda; a la derecha, sus cargos y lo hecho ─── */
 
 .experiencia {
   display: grid;
   margin: 0;
   padding: 0;
   list-style: none;
+  border-bottom: 1px solid var(--pelo);
 }
 
 .puesto {
   display: grid;
-  grid-template-columns: minmax(150px, 3fr) minmax(0, 9fr);
-  gap: clamp(16px, 4vw, 56px);
-  padding: 28px 0;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: clamp(16px, 6vw, 96px);
+  padding: clamp(24px, 3.6vh, 34px) 0;
   border-top: 1px solid var(--pelo);
 }
 
-.periodos {
+.donde {
   display: grid;
   align-content: start;
   gap: 6px;
-  padding-top: 7px;
-  font-size: 12.5px;
-  color: var(--tinta-3);
-}
-
-.puestoCuerpo {
-  display: grid;
-  gap: 10px;
 }
 
 .empresa {
-  font-size: clamp(22px, 2.2vw, 28px);
+  font-size: clamp(20px, 1.9vw, 25px);
   font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1.15;
+  letter-spacing: -0.032em;
+  line-height: 1.2;
   color: var(--tinta);
 }
 
 .descripcionEmpresa {
   font-size: 14.5px;
+  line-height: 1.5;
   color: var(--tinta-3);
 }
 
+.puestoCuerpo {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
 .cargos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 4px 0 0;
+  display: grid;
+  gap: 6px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .cargos li {
-  padding: 4px 12px;
-  border: 1px solid color-mix(in oklch, var(--tinta) 18%, transparent);
-  border-radius: 999px;
-  font-size: 13.5px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2px 20px;
+}
+
+.cargo {
+  font-size: 16px;
   font-weight: 500;
+  letter-spacing: -0.012em;
   color: var(--tinta);
+}
+
+.periodo {
+  font-size: 12.5px;
+  color: var(--tinta-3);
+  white-space: nowrap;
 }
 
 .logros {
   display: grid;
   gap: 8px;
   max-width: 46em;
-  margin: 6px 0 0;
+  margin: 0;
   padding-left: 1.1em;
   font-size: 15.5px;
   line-height: 1.62;
@@ -180,219 +183,133 @@
   color: var(--tinta-3);
 }
 
-.salasPuesto {
+.proyectosPuesto {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 18px;
-  margin-top: 6px;
+  gap: 8px 20px;
+  margin-top: 2px;
 }
 
-.enlaceSala {
+/* El proyecto, como en la lista: su punto de color y el nombre. Lleva a su página. */
+.enlaceProyecto {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  font-size: 14px;
+  padding: 4px 0;
+  font-size: 14.5px;
   font-weight: 500;
-  color: var(--tinta);
+  color: var(--tinta-2);
   text-decoration: none;
-  border-bottom: 1px solid var(--pelo);
-  padding-bottom: 2px;
-  transition: border-color 0.2s;
+  transition: color 0.2s var(--curva-reaccion);
 }
 
-.enlaceSala:hover {
-  border-color: var(--tinta);
+.enlaceProyecto:hover {
+  color: var(--tinta);
 }
 
-/* El punto de cada proyecto, en su acento: el mismo del índice. */
 .punto {
   flex: none;
-  display: inline-block;
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--tinte);
+  transition: box-shadow 0.2s var(--curva-reaccion);
 }
 
-/* ─── Stack con evidencia ─── */
-
-.introStack {
-  max-width: 40em;
-  margin: -10px 0 26px;
-  font-size: 16px;
-  color: var(--tinta-2);
+.enlaceProyecto:hover .punto {
+  box-shadow: 0 0 0 4px color-mix(in oklch, var(--tinte) 22%, transparent);
 }
 
-.leyenda {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px 26px;
-  margin: 0 0 34px;
-  padding: 18px 0;
-  border-block: 1px solid var(--pelo);
-  list-style: none;
-}
-
-.leyenda li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14.5px;
-  color: var(--tinta);
-}
-
-.numeroLeyenda {
-  width: 1.6em;
-  font-size: 12px;
-  color: var(--tinta-3);
-}
-
-.grupos {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 34px clamp(28px, 4vw, 64px);
-}
-
-.matriz {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.matriz caption {
-  padding-bottom: 10px;
-  text-align: left;
-}
-
-.matriz th,
-.matriz td {
-  padding: 0;
-  font-weight: 400;
-}
-
-.matriz thead th {
-  height: 26px;
-  font-size: 11px;
-  color: var(--tinta-3);
-  text-align: center;
-  vertical-align: bottom;
-}
-
-.matriz tbody tr {
-  border-top: 1px solid var(--pelo);
-}
-
-.matriz tbody th {
-  padding: 9px 12px 9px 0;
-  font-size: 14.5px;
-  text-align: left;
-  color: var(--tinta);
-  white-space: nowrap;
-}
-
-.matriz td {
-  width: 26px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.usada,
-.vacia {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  vertical-align: middle;
-}
-
-.usada {
-  background: var(--tinte);
-  box-shadow: 0 0 8px color-mix(in oklch, var(--tinte) 45%, transparent);
-}
-
-.vacia {
-  width: 3px;
-  height: 3px;
-  background: color-mix(in oklch, var(--tinta) 18%, transparent);
-}
-
-.listaStack {
-  display: none;
-}
-
-/* ─── Contacto ─── */
+/* ─── Contacto: el cierre, con la composición del hero ─── */
 
 .contacto {
-  padding-top: clamp(40px, 8vh, 90px);
-  padding-bottom: clamp(90px, 15vh, 170px);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  align-content: center;
+  min-height: min(78svh, 720px);
+  padding: clamp(70px, 12vh, 130px) var(--canal);
+}
+
+/* La retícula y la luz del hero, esta vez desde abajo: la página cierra como abrió. */
+.fondoContacto {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 50% at 50% 100%, oklch(100% 0 0 / 0.06), transparent 72%),
+    linear-gradient(oklch(100% 0 0 / 0.045) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, oklch(100% 0 0 / 0.045) 1px, transparent 1px) 0 0 / 64px 64px;
+  background-position: center bottom;
+  -webkit-mask-image: radial-gradient(70% 70% at 50% 62%, #000 24%, transparent 78%);
+  mask-image: radial-gradient(70% 70% at 50% 62%, #000 24%, transparent 78%);
+}
+
+.contactoContenido {
+  display: grid;
+  justify-items: center;
+  text-align: center;
 }
 
 .tituloContacto {
-  font-size: clamp(48px, 8vw, 120px);
+  font-size: clamp(40px, 6vw, 84px);
   font-weight: 600;
-  line-height: 0.95;
-  letter-spacing: -0.06em;
-  background: linear-gradient(to bottom, oklch(98% 0 0) 30%, oklch(70% 0 0));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  line-height: 1;
+  letter-spacing: -0.055em;
+  padding-bottom: 0.08em;
 }
 
-.email {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 14px 18px;
-  margin-top: 30px;
-}
-
+/* La dirección: del tamaño del puesto en el hero. Un clic la copia. */
 .direccion {
-  font-size: clamp(17px, 2.4vw, 30px);
-  letter-spacing: -0.02em;
-  color: var(--tinta);
-  text-decoration: none;
-  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
-  padding-bottom: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  margin-top: clamp(6px, 1vh, 12px);
+  padding: 6px 12px 6px 14px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--tinta-2);
+  font-size: clamp(17px, 2vw, 26px);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  cursor: pointer;
+  transition:
+    color 0.2s var(--curva-reaccion),
+    background-color 0.2s var(--curva-reaccion);
+}
+
+.direccion > span:first-child {
   overflow-wrap: anywhere;
 }
 
-.copiar {
-  height: 34px;
-  padding: 0 16px;
-  border: 1px solid color-mix(in oklch, var(--tinta) 20%, transparent);
-  border-radius: 999px;
-  background: color-mix(in oklch, var(--tinta) 3%, transparent);
-  font-size: 13.5px;
-  font-weight: 500;
-  cursor: pointer;
-  transition:
-    border-color 0.2s,
-    transform 0.2s var(--curva-reaccion);
+.direccion:hover,
+.direccion[data-copiado="true"] {
+  color: var(--tinta);
+  background: color-mix(in oklch, var(--tinta) 6%, transparent);
 }
 
-.copiar:hover {
-  border-color: var(--tinta);
+.iconoCopiar {
+  flex: none;
+  display: grid;
+  color: var(--tinta-3);
+  transition: color 0.2s var(--curva-reaccion);
 }
 
-.copiar:active {
-  transform: scale(0.96);
+.direccion:hover .iconoCopiar,
+.direccion[data-copiado="true"] .iconoCopiar {
+  color: var(--tinta);
 }
 
-.canales {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 24px;
-  margin-top: 34px;
-}
-
-@media (max-width: 1000px) {
-  .grupos {
-    grid-template-columns: 1fr;
-  }
-}
+/* ─── Teléfono y tableta ─── */
 
 @media (max-width: 900px) {
-  .persona {
+  .persona,
+  .puesto {
     grid-template-columns: 1fr;
   }
 
@@ -401,37 +318,11 @@
   }
 
   .puesto {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  .leyenda {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
   }
 }
 
 @media (max-width: 640px) {
-  .matriz,
-  .leyenda {
-    display: none;
-  }
-
-  .listaStack {
-    display: grid;
-    gap: 8px;
-  }
-
-  .listaStack dd {
-    padding: 8px 0;
-    border-top: 1px solid var(--pelo);
-    font-size: 14.5px;
-    color: var(--tinta-2);
-  }
-
-  .listaStack strong {
-    color: var(--tinta);
-  }
-
   .detalles > div {
     grid-template-columns: 1fr;
     gap: 4px;

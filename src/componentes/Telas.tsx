@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } f
 import { HERO, SALA, VIDEO } from "@/contenido/sitio";
 import type { Idioma } from "@/contenido/tipos";
 import type { MotorTelas } from "@/lib/telas/comun";
+import { caso } from "@/lib/rutas";
 import { alClicVideo } from "@/lib/teatro";
 import { enYoutube, vistaPrevia, type Funcion, type ItemVitrina } from "@/lib/videos";
 import { Flecha, Triangulo } from "./Iconos";
@@ -13,7 +14,7 @@ import css from "./Telas.module.css";
 
 function Chevron() {
   return (
-    <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true">
       <path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -111,7 +112,7 @@ export function Telas({ lang, items, funciones }: { lang: Idioma; items: ItemVit
         <p className={css.titulo} aria-hidden="true">
           {f.nombre}
         </p>
-        {/* Todo lo que se hace con la tela, en una fila: las flechas a los costados y en el medio sus dos botones, las pastillas del sitio. */}
+        {/* Todo lo que se hace con la tela, en una fila: en el medio sus dos botones, las pastillas del sitio, y a los costados las flechas, sin borde (navegan, no hacen). */}
         <div className={css.botones}>
           <button type="button" className={`${css.flecha} ${css.anterior}`} onClick={() => ir((i - 1 + lista.length) % lista.length)} aria-label={SALA.anterior[lang]}>
             <Chevron />
@@ -129,12 +130,9 @@ export function Telas({ lang, items, funciones }: { lang: Idioma; items: ItemVit
               <Flecha lado={13} />
             </a>
           ) : null}
-          <a className={`pastilla hueca ${css.detalles}`} href={`#${f.slug}`}>
-            {HERO.detalles[lang]}
+          <a className="pastilla hueca" href={caso(lang, f.slug)}>
+            {HERO.proyecto[lang]}
             <span className="sr">: {f.nombre}</span>
-            <span className={css.flechita} aria-hidden="true">
-              <Chevron />
-            </span>
           </a>
           <button type="button" className={`${css.flecha} ${css.siguiente}`} onClick={() => ir((i + 1) % lista.length)} aria-label={SALA.siguiente[lang]}>
             <Chevron />

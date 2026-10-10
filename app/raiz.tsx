@@ -103,10 +103,7 @@ function persona(lang: Idioma) {
 const CSS_NAV = Object.entries(SALAS)
   .map(
     ([id, a]) =>
-      `:root[data-sala="${id}"]{--nav-fondo:${a.fondo};--nav-tinta:${a.tinta};--nav-tinta-2:${a.tinta2};--nav-pelo:${a.pelo};--nav-acento:${a.acento}}` +
-      // El índice lateral enciende el proyecto actual con la misma regla, sin
-      // estado en JavaScript.
-      `:root[data-sala="${id}"] [data-pasillo="${id}"]{--encendida:1}`,
+      `:root[data-sala="${id}"]{--nav-fondo:${a.fondo};--nav-tinta:${a.tinta};--nav-tinta-2:${a.tinta2};--nav-pelo:${a.pelo};--nav-acento:${a.acento}}`,
   )
   .join("");
 

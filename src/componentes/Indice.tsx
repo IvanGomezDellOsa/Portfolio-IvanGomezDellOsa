@@ -3,6 +3,7 @@ import { PROYECTOS } from "@/contenido/proyectos";
 import { SALAS } from "@/contenido/salas";
 import { INDICE, SALA } from "@/contenido/sitio";
 import type { Enlace, Idioma } from "@/contenido/tipos";
+import { caso } from "@/lib/rutas";
 import { IconoDescarga, IconoExtension, IconoGithub, IconoWeb } from "./Iconos";
 import { BotonVideo } from "./Pantalla";
 import css from "./Indice.module.css";
@@ -22,10 +23,10 @@ function Celda({ children }: { children?: ReactNode }) {
 }
 
 /**
- * EL INDICE: los nueve proyectos en una tabla, antes de recorrerlos. Cada fila
- * lleva a su sección; a la derecha, tres columnas con título (video,
- * repositorio y enlace: el sitio, la vista previa, la extensión o la descarga),
- * cada una con un ícono sutil. Donde un proyecto no tiene algo, una raya.
+ * LA LISTA DE PROYECTOS: los nueve en una tabla. Cada fila lleva a la página
+ * de su proyecto; a la derecha, tres columnas con título (video, repositorio y
+ * enlace: el sitio, la vista previa, la extensión o la descarga), cada una con
+ * un ícono sutil. Donde un proyecto no tiene algo, una raya.
  */
 export function Indice({ lang }: { lang: Idioma }) {
   return (
@@ -48,11 +49,11 @@ export function Indice({ lang }: { lang: Idioma }) {
             const vivo = p.enlaces.find((e) => ENLACE_VIVO.includes(e.tipo));
             return (
               <li key={p.slug} className={css.fila} style={{ "--tinte": SALAS[p.slug].acento } as CSSProperties}>
-                <a className={css.enlace} href={`#${p.slug}`}>
+                <a className={css.enlace} href={caso(lang, p.slug)}>
                   <span className={css.punto} aria-hidden="true" />
                   <span className={css.nombre}>{p.nombre}</span>
                 </a>
-                <Celda>{p.video ? <BotonVideo slug={p.slug} nombre={p.nombre} video={p.video} lang={lang} conTexto={false} clase={css.icono} /> : undefined}</Celda>
+                <Celda>{p.video ? <BotonVideo slug={p.slug} nombre={p.nombre} video={p.video} lang={lang} clase={css.icono} /> : undefined}</Celda>
                 <Celda>
                   {repo ? (
                     <a className={css.icono} href={repo.href} target="_blank" rel="noopener noreferrer" title={SALA.repositorio[lang]}>
