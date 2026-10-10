@@ -138,9 +138,9 @@ async function dibujarTapa(acciones: { copiar: () => void; abrir: () => void; ro
   ctx.fillStyle = "rgb(255 255 255 / 0.58)";
   ctx.fillText("Full Stack Developer", M, base + 130);
 
-  // A la derecha del puesto: «Abrir», la pastilla hueca del sitio, para quien no sabe que la tapa se da vuelta.
+  // A la derecha, al medio y arriba del nombre: «Abrir», la pastilla hueca del sitio, para quien no sabe que la tapa se da vuelta.
   espaciado(-0.005, 46);
-  const abrir = pastilla(ctx, { x: W - M, y: base + 104, texto: acciones.rotuloAbrir, trazo: CHEVRON, cuerpo: 46, alto: 140, trazoAntes: false, derecha: true, fuente: sans });
+  const abrir = pastilla(ctx, { x: W - M, y: 1000, texto: acciones.rotuloAbrir, trazo: CHEVRON, cuerpo: 46, alto: 140, trazoAntes: false, derecha: true, fuente: sans });
 
   // Abajo: los contactos, cada uno con el ícono de su red; a la derecha, copiar o abrir. Una sola línea fina arriba.
   const zonas: Zona[] = [
