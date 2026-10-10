@@ -12,9 +12,15 @@ import type { NextConfig } from "next";
  * `images.unoptimized`: el optimizador de `next/image` necesita un servidor.
  * Las imágenes ya salen optimizadas de `tools/medios.mjs` (WebP en dos anchos),
  * así que no hace falta.
+ *
+ * `allowedDevOrigins`: sólo cuenta en `next dev`. Para probar en el teléfono se
+ * entra por la IP de la PC en la red de casa (`http://192.168.x.x:3210`), y sin
+ * esto Next le corta la conexión de desarrollo: la página se ve, pero no
+ * arranca (ningún botón responde).
  */
 const config: NextConfig = {
   output: "export",
+  allowedDevOrigins: ["192.168.*.*", "10.*.*.*"],
   trailingSlash: true,
   images: { unoptimized: true },
   reactStrictMode: true,
