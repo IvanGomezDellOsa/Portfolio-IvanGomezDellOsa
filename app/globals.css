@@ -60,6 +60,30 @@ html {
   color-scheme: dark;
 }
 
+/*
+ * EN EL TELEFONO, nada se resalta al tocar: ni el destello azul del toque sobre
+ * enlaces y botones, ni la selección de texto que se dispara sola al dejar el
+ * dedo apoyado o al arrastrar (y el menú de «copiar» que trae). Los campos
+ * donde se escribe siguen siendo seleccionables.
+ */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  body {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  input,
+  textarea {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+}
+
 /* Con el reproductor abierto, la página de atrás no se desplaza. */
 html:has(dialog[open]) {
   overflow: hidden;

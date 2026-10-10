@@ -124,11 +124,6 @@
   color: var(--nav-tinta);
 }
 
-/* Ahí «CV» es texto, como las otras filas: sin gota detrás. */
-.menu[data-hacia="derecha"] .gota {
-  visibility: hidden;
-}
-
 /* En el hero, las gotas caen sobre lo que haya debajo. */
 .menu[data-hacia="abajo"] {
   z-index: 5;

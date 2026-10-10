@@ -502,11 +502,15 @@ export type Golpe = {
   x: number;
   y: number;
   alTerminar?: () => void;
+  /** La foto queda rota en su lugar (no cae): el lienzo sigue puesto hasta `recomponer`. */
+  seQueda?: boolean;
 };
 
 export type Rotura = {
   /** Parte el retrato y pinta el primer cuadro antes de volver. `false` si no pudo: nada cambió. */
   romper(g: Golpe): boolean;
+  /** Saca los pedazos que quedaron en su lugar. */
+  recomponer(): void;
   destruir(): void;
 };
 
@@ -557,7 +561,7 @@ export function prepararRotura(): Rotura {
   let cuadro = 0;
   let limpiar: (() => void) | null = null;
 
-  const romper = ({ caja, escenario, fuente, x, y, alTerminar }: Golpe) => {
+  const romper = ({ caja, escenario, fuente, x, y, alTerminar, seQueda = false }: Golpe) => {
     if (limpiar || renderer.getContext().isContextLost()) return false;
     const r = caja.getBoundingClientRect();
     const e = escenario.getBoundingClientRect();
@@ -602,6 +606,8 @@ export function prepararRotura(): Rotura {
     const ny = (b[0] - a[0]) / largoEje;
     const omega = new Vector3();
     const aux = new Quaternion();
+    const fijos = new Map<Pedazo, { base: Vector3; corre: Vector3; eje: Vector3; vuelco: number; torcido: number }>();
+    const EJE_Z = new Vector3(0, 0, 1);
     const mayor = pedazos.reduce((m, p) => (p.lado && p.alcance > m.alcance ? p : m), pedazos[0]!);
     // Cuánto empuja: lo que haga girar a la mitad más grande a un ritmo que se alcance a ver.
     mayor.momento.set(-(gy - mayor.centro[1]) * fuera, (gx - mayor.centro[0]) * fuera, 0);
@@ -619,6 +625,21 @@ export function prepararRotura(): Rotura {
         const rapidez = azar(150, 330);
         p.vel.set((dx / d) * rapidez, (dy / d) * rapidez + azar(60, 220), azar(120, 320));
         p.momento.set(azar(-1, 1), azar(-1, 1), azar(-1, 1)).normalize().multiplyScalar(p.menor * azar(9, 20));
+      }
+      // Si la foto se queda rota en su lugar, las mitades no caen: se abren
+      // apenas (un par de píxeles y unos grados, hacia donde las empujó el
+      // golpe) y ahí quedan. Sólo saltan las astillas y el polvo.
+      if (seQueda && p.lado) {
+        const eje = new Vector3(p.momento.x, p.momento.y, 0);
+        if (eje.lengthSq() < 1e-12) eje.set(ny, -nx, 0);
+        const corre = azar(1.1, 2.2);
+        fijos.set(p, {
+          base: p.pos.clone(),
+          corre: new Vector3(nx * p.lado * corre, ny * p.lado * corre - azar(0.3, 1), 0),
+          eje: eje.normalize(),
+          vuelco: azar(0.05, 0.1),
+          torcido: p.lado * azar(0.012, 0.03),
+        });
       }
       // Ninguno gira más de lo que el ojo puede seguir.
       const tope = p.menor * (p.lado ? 11 : 26);
@@ -677,6 +698,7 @@ export function prepararRotura(): Rotura {
 
     const avanzar = (dt: number) => {
       for (const p of pedazos) {
+        if (fijos.has(p)) continue;
         p.vel.y -= GRAVEDAD * dt;
         p.pos.addScaledVector(p.vel, dt);
         velocidadAngular(p, omega, aux);
@@ -723,19 +745,29 @@ export function prepararRotura(): Rotura {
         avanzar(PASO);
         resto -= PASO;
       }
+      // Terminó cuando todo lo que cae pasó por debajo del hero (más cerca del ojo, un pedazo se ve más abajo).
+      const afuera = pedazos.every((p) => fijos.has(p) || (p.pos.y + p.alcance * 1.5) * (OJO / Math.max(OJO - p.pos.z, 1)) < piso);
+      // O cuando pasó el tope, por el reloj: una pestaña que estuvo oculta no retoma la caída a medias.
+      const fin = (afuera && t > 1.2) || (ahora - inicio) / 1000 > TOPE_S;
       for (const p of pedazos) {
+        const f = fijos.get(p);
+        if (f) {
+          // El sacudón del golpe: se pasa un poco de su lugar roto y vuelve a él.
+          const s = fin ? 1 : 1 - Math.exp(-8 * t) * Math.cos(21 * t);
+          p.pos.copy(f.base).addScaledVector(f.corre, s);
+          p.giro.setFromAxisAngle(f.eje, f.vuelco * s).premultiply(dq.setFromAxisAngle(EJE_Z, f.torcido * s));
+        } else if (fin) p.malla.visible = false;
         p.malla.matrix.compose(p.pos, p.giro, p.malla.scale);
         p.malla.matrixWorldNeedsUpdate = true;
       }
-      pintarPolvo(t);
+      pintarPolvo(fin ? 99 : t);
       renderer.render(escena, camara);
-      // Terminó cuando todo cayó por debajo del hero (más cerca del ojo, un pedazo se ve más abajo).
-      const afuera = pedazos.every((p) => (p.pos.y + p.alcance * 1.5) * (OJO / Math.max(OJO - p.pos.z, 1)) < piso);
-      // O cuando pasó el tope, por el reloj: una pestaña que estuvo oculta no retoma la caída a medias.
-      if (afuera || (ahora - inicio) / 1000 > TOPE_S) {
+      if (!fin) cuadro = requestAnimationFrame(tic);
+      else if (fijos.size) alTerminar?.();
+      else {
         limpiar?.();
         alTerminar?.();
-      } else cuadro = requestAnimationFrame(tic);
+      }
     };
     cuadro = requestAnimationFrame(tic);
     return true;
@@ -743,6 +775,9 @@ export function prepararRotura(): Rotura {
 
   return {
     romper,
+    recomponer() {
+      limpiar?.();
+    },
     destruir() {
       limpiar?.();
       triangulo.dispose();

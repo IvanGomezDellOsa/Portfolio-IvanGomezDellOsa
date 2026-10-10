@@ -114,9 +114,12 @@ export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: 
     <div ref={raiz} className={css.menu} data-abierto={abierto || undefined} data-hacia={hacia}>
       {/* El líquido, detrás del botón: una gota del tamaño del botón y las dos opciones, escondidas debajo hasta abrir. */}
       <Liquid className={css.liquido} blur={5} contrast={20} fill="oklch(22% 0 0)" shadow="0 16px 36px -14px oklch(0% 0 0 / 0.75)" filterPadding={hacia === "derecha" ? 300 : 140}>
-        <Liquid.Item className={css.gota} scale={abierto ? 1 : 0} transition="bouncy">
-          <div className={css.relleno} />
-        </Liquid.Item>
+        {/* En el menú del teléfono «CV» es texto, como las otras filas: sin gota detrás. */}
+        {hacia !== "derecha" && (
+          <Liquid.Item className={css.gota} scale={abierto ? 1 : 0} transition="bouncy">
+            <div className={css.relleno} />
+          </Liquid.Item>
+        )}
         <ul id={id} className={css.opciones} aria-hidden={!abierto}>
           {CV_OPCIONES.map((o, i) => (
             <Liquid.Item

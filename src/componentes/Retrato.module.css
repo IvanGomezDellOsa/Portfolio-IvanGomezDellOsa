@@ -37,9 +37,9 @@
   opacity: 0;
 }
 
-/* Roto (`lib/rotura.ts`): los pedazos se llevaron la foto. Queda un borde fino y limpio donde estaba. */
+/* Roto (`lib/rotura.ts`): la foto la pintan los pedazos, que llevan su propio aro. */
 .retrato[data-roto] {
-  box-shadow: 0 0 0 1px oklch(100% 0 0 / 0.22);
+  box-shadow: none;
 }
 
 .retrato[data-roto] .capa {

@@ -65,9 +65,8 @@ const posicion = (n: number) => `${((n % COLUMNAS) / (COLUMNAS - 1)) * 100}% ${(
  * caminando y mira de nuevo.
  *
  * En una pantalla táctil no hay cursor que seguir: ahí el toque no lo hace
- * irse, lo rompe. El retrato se parte en dos donde cayó el dedo y los pedazos
- * caen (`lib/rotura.ts`); queda el aro vacío y a los diez segundos está otra
- * vez entero.
+ * irse, lo rompe. El retrato se parte en dos donde cayó el dedo y queda roto
+ * en su lugar (`lib/rotura.ts`); otro toque lo recompone.
  *
  * Todo sale de la misma sesión, llevado a un solo encuadre
  * (`tools/retrato.mjs`). Primero se pinta el frente solo; el anillo de poses y
@@ -111,6 +110,7 @@ export function Retrato({ className = "" }: { className?: string }) {
     let px: number | null = null;
     let py = 0;
     let rotura: Rotura | null = null;
+    let roto = false;
     let hoja: HTMLImageElement | null = null;
 
     // Un cuadro. Si no es vecino del anterior (o es el frente, que sale de
@@ -241,29 +241,24 @@ export function Retrato({ className = "" }: { className?: string }) {
     // Recompuesto: el retrato vuelve a aparecer en su lugar, entero.
     const recomponer = () => {
       if (!vivo) return;
+      roto = false;
+      rotura?.recomponer();
       delete el.dataset.roto;
       for (const capa of [frente.current, b]) capa?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, easing: "cubic-bezier(0.22, 1, 0.36, 1)" });
       quedarse(700);
     };
 
     // El toque, en una pantalla táctil: no hay cursor que seguir, así que el
-    // retrato se parte donde cayó el dedo (`lib/rotura.ts`) y a los diez
-    // segundos está otra vez. Si no se pudo armar la rotura, se va caminando.
+    // retrato se parte donde cayó el dedo (`lib/rotura.ts`) y queda roto en
+    // su lugar. Si no se pudo armar la rotura, se va caminando.
     const romper = (e: MouseEvent) => {
       const escenario = el.closest("section");
       const foto = frente.current;
       if (yendose || !rotura || !escenario || !foto?.complete || !foto.naturalWidth) return false;
       const celda = hoja && actual !== FRENTE ? ([(actual % COLUMNAS) * (hoja.naturalWidth / COLUMNAS), Math.floor(actual / COLUMNAS) * (hoja.naturalHeight / FILAS), hoja.naturalWidth / COLUMNAS, hoja.naturalHeight / FILAS] as const) : undefined;
-      // Vuelve a los diez segundos, pero nunca con los pedazos todavía en el aire.
-      let cayendo = true;
-      let vencido = false;
-      const alTerminar = () => {
-        cayendo = false;
-        if (vencido) recomponer();
-      };
       let hecho = false;
       try {
-        hecho = rotura.romper({ caja: el, escenario, fuente: celda && hoja ? { imagen: hoja, recorte: celda } : { imagen: foto }, x: e.clientX, y: e.clientY, alTerminar });
+        hecho = rotura.romper({ caja: el, escenario, fuente: celda && hoja ? { imagen: hoja, recorte: celda } : { imagen: foto }, x: e.clientX, y: e.clientY, seQueda: true });
       } catch {
         hecho = false;
       }
@@ -280,17 +275,25 @@ export function Retrato({ className = "" }: { className?: string }) {
       }
       destino = FRENTE;
       navigator.vibrate?.(14);
-      regreso = window.setTimeout(() => {
-        vencido = true;
-        if (!cayendo) recomponer();
-      }, VUELVE_MS);
+      roto = true;
       return true;
     };
 
+    // Rota, la foto se queda así: otro toque la recompone. También si cambia
+    // el tamaño de la pantalla, porque los pedazos quedarían corridos.
     const alClic = (e: MouseEvent) => {
-      if (!romper(e)) irse();
+      if (roto) recomponer();
+      else if (!romper(e)) irse();
+    };
+    // (Sólo el ancho: en el teléfono el alto cambia cada vez que la barra del navegador se esconde.)
+    let anchoVentana = window.innerWidth;
+    const alCambiarTamano = () => {
+      if (window.innerWidth === anchoVentana) return;
+      anchoVentana = window.innerWidth;
+      if (roto) recomponer();
     };
     el.addEventListener("click", alClic);
+    window.addEventListener("resize", alCambiarTamano);
 
     const empezar = async () => {
       if (tactil && !quieto && !ahorro)
@@ -336,6 +339,7 @@ export function Retrato({ className = "" }: { className?: string }) {
       el.removeEventListener("click", alClic);
       rotura?.destruir();
       delete el.dataset.roto;
+      window.removeEventListener("resize", alCambiarTamano);
       window.removeEventListener("load", empezar);
       window.removeEventListener("pointermove", alMover);
       window.removeEventListener("pointerdown", alMover);
