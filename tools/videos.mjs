@@ -1,6 +1,6 @@
 /**
  * LOS VIDEOS DEL SITIO: la vista previa muda de cada proyecto (la que se ve en
- * su sala y en su tela del hero) y el reel. Se corre a mano cuando cambia un
+ * su página y en su tela del hero) y el reel. Se corre a mano cuando cambia un
  * video:
  *
  *   npm run videos
@@ -8,7 +8,7 @@
  * DE DONDE SALEN. Cada proyecto con video tiene el suyo en YouTube,
  * hecho con Remotion en el repo hermano `portfolio-videos`.
  * El sitio no aloja esos videos (los reproduce YouTube, con su sonido): acá se
- * generan sólo fragmentos mudos, para que cada sala muestre el producto en
+ * generan sólo fragmentos mudos, para que cada página muestre el producto en
  * movimiento antes de que alguien le dé play.
  *
  *   1. Se renderizan los tramos elegidos de la composición «-SinSubtitulos»
@@ -17,7 +17,8 @@
  *      tools/_videos/ con sus tiempos en el nombre y no se repite si ya existe.
  *      Los dos sitios web no tienen video publicado: Rugidos sale de su propia
  *      composición (un recorrido del sitio, sin narración) y Navkok, de una
- *      grabación del sitio publicado, cuadro por cuadro.
+ *      grabación del sitio completo, de arriba abajo, cuadro por cuadro. En
+ *      su página son lo principal, como el video en los demás.
  *   2. Cada tramo se vuelve un loop sin costura: el último medio segundo funde
  *      con el primero. H.264 sin audio, a 1280 y a 854 px, con su póster.
  *   3. El reel (lo que se ve en lugar de las telas con movimiento reducido)
@@ -71,8 +72,15 @@ const TRAMOS = [
   // El sitio de Rugidos, de su composición: el inicio, «¿por qué elegirnos?»,
   // el salón y los servicios adicionales.
   { slug: "rugidos-fiestas", comp: "Rugidos", partes: [[6, 9.5], [14, 17], [21.5, 24.5], [32, 35]], poster: 1.5 },
-  // Navkok: el sitio publicado, recorrido de arriba abajo.
-  { slug: "navkok-security-group", captura: { url: "https://navkok-website-private.vercel.app", segundos: 12 }, poster: 1 },
+  // Navkok: el sitio entero, recorrido de arriba abajo, con una parada en
+  // «Trabajá con nosotros», donde el código QR se arma pieza por pieza. La tela
+  // lo pasa al doble de velocidad: ahí alcanza con ver que es un sitio.
+  {
+    slug: "navkok-security-group",
+    captura: { url: "https://navkok-website-private.vercel.app", segundos: 24, pausas: [{ selector: "img[alt*='QR']", segundos: 2.6 }] },
+    poster: 1,
+    velocidadTela: 2,
+  },
 ];
 
 /** El fundido entre los tramos de un mismo tráiler. */
@@ -114,41 +122,126 @@ function renderizarParte(t, [desde, hasta]) {
 }
 
 /**
- * 1b. La grabación de un sitio: se baja de arriba abajo con un recorrido suave
- * y se saca un cuadro por paso (no un video en tiempo real: así el movimiento
- * no depende de lo que tarde la página en pintar).
+ * 1b. La grabación de un sitio: se baja de arriba abajo a velocidad pareja y
+ * se saca un cuadro por paso (no un video en tiempo real: así el recorrido no
+ * depende de lo que tarde la página en pintar). `pausas` detiene el recorrido
+ * con un elemento en el centro de la pantalla; si lo que hay ahí se anima al
+ * entrar en pantalla, el aviso se retiene hasta la parada (`retenerAvisos`),
+ * para que la animación se vea entera y en el centro, no mientras va subiendo.
+ *
+ * Sacar un cuadro tarda más que 1/30 s, así que el reloj de la página corre
+ * más rápido que el del video. Para que las animaciones del sitio se vean a su
+ * velocidad, se mide cuánto tarda un cuadro y se frenan en esa proporción las
+ * animaciones CSS (con el protocolo del navegador) y los videos de la página.
  */
 async function capturar(t) {
-  const destino = path.join(RENDERS, `${t.slug}-captura.mp4`);
+  const { url, segundos, pausas = [] } = t.captura;
+  const destino = path.join(RENDERS, `${t.slug}-captura-${segundos}.mp4`);
   if (existsSync(destino)) return destino;
   const { chromium } = await import("playwright-core");
   const carpeta = path.join(RENDERS, `${t.slug}-cuadros`);
   await mkdir(carpeta, { recursive: true });
   const b = await chromium.launch({ executablePath: NAVEGADOR, headless: true, args: ["--mute-audio", "--hide-scrollbars"] });
   const p = await b.newPage({ viewport: { width: 1280, height: 720 } });
-  await p.goto(t.captura.url, { waitUntil: "networkidle" });
-  // Se recorre una vez entera para que carguen las imágenes diferidas.
-  const alto = await p.evaluate(() => document.documentElement.scrollHeight - innerHeight);
+  await p.addInitScript(retenerAvisos, pausas.map((x) => x.selector));
+  await p.goto(url, { waitUntil: "networkidle" });
+  // Se recorre una vez entera para que carguen las imágenes diferidas, y se
+  // vuelve a cargar: lo que se anima al entrar en pantalla lo hace una sola vez.
+  let alto = await p.evaluate(() => document.documentElement.scrollHeight - innerHeight);
   for (let y = 0; y <= alto; y += 400) {
     await p.evaluate((v) => scrollTo(0, v), y);
     await p.waitForTimeout(120);
   }
-  await p.evaluate(() => scrollTo(0, 0));
-  await p.waitForTimeout(1500);
-  const n = Math.round(t.captura.segundos * FPS);
-  // Un segundo quieto arriba, después baja con una curva suave hasta el final.
-  const quieto = FPS;
-  for (let i = 0; i < n; i++) {
-    const s = Math.max(0, (i - quieto) / (n - quieto - 1));
-    const e = s < 0.5 ? 4 * s * s * s : 1 - (-2 * s + 2) ** 3 / 2;
-    await p.evaluate((v) => scrollTo(0, v), Math.round(e * alto));
-    await p.waitForTimeout(30);
+  const centros = await p.evaluate(
+    (selectores) =>
+      selectores.map((s) => {
+        const r = document.querySelector(s)?.getBoundingClientRect();
+        return r ? Math.round(r.top + scrollY - (innerHeight - r.height) / 2) : null;
+      }),
+    pausas.map((x) => x.selector),
+  );
+  await p.reload({ waitUntil: "networkidle" });
+  alto = await p.evaluate(() => document.documentElement.scrollHeight - innerHeight);
+  await p.waitForTimeout(1200);
+
+  // Cuánto tarda un cuadro, y con eso el ritmo de las animaciones del sitio.
+  const t0 = Date.now();
+  for (let i = 0; i < 10; i++) await p.screenshot({ type: "jpeg", quality: 92 });
+  const ritmo = Math.min(1, 1000 / FPS / ((Date.now() - t0) / 10));
+  const cdp = await p.context().newCDPSession(p);
+  await cdp.send("Animation.enable");
+  await cdp.send("Animation.setPlaybackRate", { playbackRate: ritmo });
+  await p.evaluate((r) => document.querySelectorAll("video").forEach((v) => (v.playbackRate = Math.max(0.1, r))), ritmo);
+
+  // Las paradas: arriba, cada pausa y el final. Entre una y otra, un tramo que
+  // arranca y frena suave y en el medio va a velocidad pareja.
+  const paradas = [
+    { y: 0, quieto: 0.8 },
+    ...pausas.flatMap((x, i) => (centros[i] === null ? [] : [{ y: Math.min(alto, Math.max(0, centros[i])), quieto: x.segundos }])),
+    { y: alto, quieto: 0.9 },
+  ];
+  const viaje = segundos - paradas.reduce((a, x) => a + x.quieto, 0);
+  const posiciones = [];
+  const soltar = new Set();
+  for (let k = 0; k < paradas.length; k++) {
+    const a = paradas[k];
+    if (k > 0 && k < paradas.length - 1) soltar.add(posiciones.length);
+    for (let i = 0; i < Math.round(a.quieto * FPS); i++) posiciones.push(a.y);
+    const z = paradas[k + 1];
+    if (!z) break;
+    const n = Math.max(2, Math.round(((z.y - a.y) / alto) * viaje * FPS));
+    // La velocidad sube en el primer 14 % del tramo y baja en el último.
+    const rampa = 0.14;
+    const velocidad = (s) => {
+      const u = Math.min(1, Math.min(s, 1 - s) / rampa);
+      return u * u * (3 - 2 * u);
+    };
+    const pasos = Array.from({ length: n }, (_, i) => velocidad((i + 0.5) / n));
+    const total = pasos.reduce((x, v) => x + v, 0);
+    let hecho = 0;
+    for (const v of pasos) {
+      hecho += v;
+      posiciones.push(a.y + ((z.y - a.y) * hecho) / total);
+    }
+  }
+  console.log(`  capturando ${posiciones.length} cuadros (ritmo de las animaciones: ${ritmo.toFixed(2)})…`);
+  for (let i = 0; i < posiciones.length; i++) {
+    await p.evaluate((v) => scrollTo(0, v), Math.round(posiciones[i]));
+    if (soltar.has(i)) await p.evaluate(() => window.__soltarAvisos?.());
     await p.screenshot({ path: path.join(carpeta, `${String(i).padStart(4, "0")}.jpg`), type: "jpeg", quality: 92 });
   }
   await b.close();
   ffmpeg(["-framerate", String(FPS), "-i", path.join(carpeta, "%04d.jpg"), "-c:v", "libx264", "-crf", "16", "-pix_fmt", "yuv420p", destino]);
   await rm(carpeta, { recursive: true, force: true });
   return destino;
+}
+
+/**
+ * Corre dentro de la página, antes que su código: envuelve
+ * `IntersectionObserver` para guardar el aviso de «entró en pantalla» de los
+ * bloques que contienen una pausa (y que no son más altos que la ventana: una
+ * sección entera no se retiene) hasta que la captura llama `__soltarAvisos`.
+ */
+function retenerAvisos(selectores) {
+  const Nativo = window.IntersectionObserver;
+  const guardados = [];
+  let suelto = !selectores.length;
+  window.__soltarAvisos = () => {
+    suelto = true;
+    for (const avisar of guardados.splice(0)) avisar();
+  };
+  const esDePausa = (el) => el.getBoundingClientRect().height <= innerHeight && selectores.some((s) => el.matches(s) || el.querySelector(s));
+  window.IntersectionObserver = class extends Nativo {
+    constructor(alVer, opciones) {
+      super((entradas, observador) => {
+        const ahora = [];
+        const despues = [];
+        for (const e of entradas) (!suelto && e.isIntersecting && esDePausa(e.target) ? despues : ahora).push(e);
+        if (ahora.length) alVer(ahora, observador);
+        if (despues.length) guardados.push(() => alVer(despues, observador));
+      }, opciones);
+    }
+  };
 }
 
 /** 1. El tráiler entero: sus tramos, unidos con fundidos cortos. */
@@ -175,10 +268,10 @@ async function renderizar(t) {
  * final, el tramo funde con ese mismo principio: el último cuadro del loop es
  * el primero, y la vuelta no se nota.
  */
-function loop(fuente, destino, ancho, crf) {
-  const largo = duracionDe(fuente);
+function loop(fuente, destino, ancho, crf, velocidad = 1) {
+  const largo = duracionDe(fuente) / velocidad;
   const filtro =
-    `[0:v]split[a][b];` +
+    `[0:v]setpts=PTS/${velocidad},fps=${FPS},split[a][b];` +
     `[a]trim=start=${COSTURA},setpts=PTS-STARTPTS[resto];` +
     `[b]trim=end=${COSTURA},setpts=PTS-STARTPTS[inicio];` +
     `[resto][inicio]xfade=transition=fade:duration=${COSTURA}:offset=${(largo - 2 * COSTURA).toFixed(3)},` +
@@ -243,13 +336,12 @@ async function main() {
     const archivo = await renderizar(t);
     if (t.reel !== undefined) renders.push({ archivo, t });
     const base = path.join(SALIDA, t.slug);
-    // Los dos sitios web sólo se ven en las telas, que usan la versión de 854 px:
-    // no llevan la de 1280, y la de 854 se comprime un poco más (un sitio que se
-    // desplaza pesa mucho).
-    const soloTela = t.reel === undefined;
-    if (!soloTela) loop(archivo, `${base}.mp4`, 1280, 26);
-    loop(archivo, `${base}-480.mp4`, 854, soloTela ? 31 : 28);
-    await poster(soloTela ? `${base}-480.mp4` : `${base}.mp4`, t.poster, base);
+    // Los dos sitios web se comprimen un poco más: un sitio que se desplaza
+    // pesa mucho. La versión de 1280 es la de su página; la de 854, la de su tela.
+    const sitio = t.reel === undefined;
+    loop(archivo, `${base}.mp4`, 1280, sitio ? 31 : 26);
+    loop(archivo, `${base}-480.mp4`, 854, sitio ? 31 : 28, t.velocidadTela);
+    await poster(`${base}.mp4`, t.poster, base);
     console.log("  ✓", path.relative(RAIZ, `${base}-480.mp4`));
   }
   console.log("· reel");
