@@ -327,12 +327,12 @@ export const EXPERIENCIA: { titulo: Bilingue; items: Experiencia[] } = {
       logros: b(
         [
           "Diseñé, desarrollé y mantengo el sitio web comercial de la empresa, en producción: primera versión en 2023 y rediseño integral en 2026, con diseño UX/UI propio.",
-          "Desarrollé FreeMagicMirror, la aplicación de fotomatón táctil que se usa en el salón.",
+          "Desarrollé FreeMagicMirror, la aplicación de fotomatón táctil que se usa en eventos.",
           "Gestiono la operación diaria: organización de los eventos, optimización de procesos internos y mejoras del modelo de servicio, parte de ellas implementadas con software propio.",
         ],
         [
           "Designed, built and maintain the company's commercial website, in production: first version in 2023 and a full redesign in 2026, with my own UX/UI design.",
-          "Built FreeMagicMirror, the touchscreen photo booth application used at the venue.",
+          "Built FreeMagicMirror, the touchscreen photo booth application used at events.",
           "Manage daily operations: event organization, internal process optimization and service model improvements, some of them implemented with in-house software.",
         ],
       ),
@@ -340,15 +340,15 @@ export const EXPERIENCIA: { titulo: Bilingue; items: Experiencia[] } = {
     },
     {
       empresa: "SeViVe",
-      descripcion: b("Ex Pilates All Canning · estudio de pilates (franquicia), Canning", "Formerly Pilates All Canning · pilates studio (franchise), Canning"),
+      descripcion: b("Estudio de pilates (franquicia) · Canning, Buenos Aires", "Pilates studio (franchise) · Canning, Buenos Aires"),
       puestos: [{ cargo: b("Desarrollador Full Stack Freelance", "Freelance Full Stack Developer"), periodo: b("dic. 2025 – jun. 2026", "Dec 2025 – Jun 2026") }],
       logros: b(
         [
-          "Desarrollé como único programador una aplicación de reservas y gestión con más de 200 usuarios, desde la captación del cliente y la definición de requisitos hasta la puesta en producción.",
+          "Desarrollé como único programador una aplicación de reservas y gestión con más de 200 usuarios, desde la definición de requisitos con el cliente hasta la puesta en producción: reservas con control de concurrencia, créditos con vencimiento, turnos fijos y panel de administración.",
           "Finalizado el desarrollo, continúo a cargo del soporte, la administración del servidor y las actualizaciones solicitadas por el cliente.",
         ],
         [
-          "Built, as the sole developer, a booking and management application with more than 200 users, from client acquisition and requirements definition to production launch.",
+          "Built, as the sole developer, a booking and management application with more than 200 users, from defining requirements with the client to production launch: bookings with concurrency control, expiring credits, recurring slots and an admin panel.",
           "Since development ended, I remain responsible for support, server administration and client-requested updates.",
         ],
       ),

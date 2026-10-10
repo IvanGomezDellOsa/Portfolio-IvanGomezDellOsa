@@ -545,12 +545,12 @@ export const PROYECTOS: Proyecto[] = [
     ),
     cuerpo: b(
       [
-        "La desarrollé como único programador para un estudio de Canning, Buenos Aires (ex Pilates All Canning, franquicia), desde la captación del cliente y la definición de requisitos hasta la puesta en producción. Finalizado el desarrollo, continúo a cargo del soporte, la administración del servidor y las actualizaciones solicitadas por el cliente.",
+        "La desarrollé como único programador para un estudio de Canning, Buenos Aires (franquicia), desde la definición de requisitos con el cliente hasta la puesta en producción. Finalizado el desarrollo, continúo a cargo del soporte, la administración del servidor y las actualizaciones solicitadas por el cliente.",
         "Reservas con control de concurrencia para evitar sobrerreservas, créditos con vencimiento, turnos fijos con reserva automática, toma de asistencia y calendario con feriados configurables. Las cuentas que crea la administración se unifican automáticamente con la del alumno cuando se registra (por DNI), preservando historial, créditos y turnos.",
         "Se instala como PWA en cualquier dispositivo, con una guía paso a paso pensada para usuarios no técnicos.",
       ],
       [
-        "I built it as the sole developer for a studio in Canning, Buenos Aires (formerly Pilates All Canning, a franchise), from client acquisition and requirements definition to production launch. Since development ended, I remain responsible for support, server administration and client-requested updates.",
+        "I built it as the sole developer for a studio in Canning, Buenos Aires (a franchise), from defining requirements with the client to production launch. Since development ended, I remain responsible for support, server administration and client-requested updates.",
         "Bookings with concurrency control to prevent overbooking, expiring credits, recurring slots with automatic booking, attendance tracking and a calendar with configurable holidays. Accounts created by the administration merge automatically with the student's own account at sign-up (by national ID), preserving history, credits and slots.",
         "It installs as a PWA on any device, with a step-by-step guide designed for non-technical users.",
       ],
