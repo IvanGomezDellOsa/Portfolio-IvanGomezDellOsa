@@ -282,18 +282,18 @@ export const PERSONA = {
   parrafos: b<Marcado[]>(
     [
       "Desarrollo productos de software completos, desde el diseño hasta la puesta en producción, con foco en backend e inteligencia artificial aplicada. Tengo experiencia en proyectos de principio a fin, propios y freelance, con clientes y usuarios reales, con Python, React y Next.js, PostgreSQL y APIs REST.",
-      "Sobre la base que me da la carrera de Ingeniería de Sistemas (lógica de programación, análisis matemático y diseño de algoritmos), trabajo de forma autodidacta con tecnologías actuales. Lo combino con la gestión operativa de una PyME, donde sumo conocimientos de administración de empresas, producto y manejo de equipos.",
-      "Domino la IA aplicada al trabajo y a soluciones de producto: la uso para desarrollar más rápido y la integro en lo que construyo. Las decisiones de producto, diseño y arquitectura son mías.",
+      "Sobre la base que me da la carrera de Ingeniería de Sistemas (lógica de programación, análisis matemático y diseño de algoritmos), trabajo de forma autodidacta con tecnologías actuales, que aplico en proyectos propios con el código publicado. Lo combino con la gestión operativa de una PyME, donde sumo conocimientos de administración de empresas, producto y manejo de equipos.",
+      "Domino la IA aplicada al trabajo y a soluciones de producto: forma parte de mi proceso de desarrollo y de los productos que construyo. Las decisiones de producto, diseño y arquitectura son propias.",
     ],
     [
       "I build complete software products, from design to production, with a focus on backend and applied artificial intelligence. I have experience with end-to-end projects, personal and freelance, with real clients and users, using Python, React and Next.js, PostgreSQL and REST APIs.",
-      "Building on the foundation my Systems Engineering studies give me (programming logic, mathematical analysis and algorithm design), I teach myself current technologies. I combine this with running the operations of a small business, where I am gaining knowledge of business administration, product and team management.",
-      "I am proficient in AI applied to work and to product solutions: I use it to develop faster and I build it into what I make. The product, design and architecture decisions are my own.",
+      "Building on the foundation my Systems Engineering studies give me (programming logic, mathematical analysis and algorithm design), I teach myself current technologies and apply them in personal projects with published code. I combine this with running the operations of a small business, where I am gaining knowledge of business administration, product and team management.",
+      "I am proficient in AI applied to work and to product solutions: it is part of my development process and of the products I build. The product, design and architecture decisions are my own.",
     ],
   ),
   fotoAlt: b("Iván Gómez Dell’Osa", "Iván Gómez Dell’Osa"),
   detalles: [
-    { clave: b("Ubicación", "Location"), valor: b("Argentina · trabajo remoto", "Argentina · remote work") },
+    { clave: b("Ubicación", "Location"), valor: b("Argentina · Trabajo remoto", "Argentina · Remote work") },
     { clave: b("Idiomas", "Languages"), valor: b("Español (nativo) · Inglés (B2)", "Spanish (native) · English (B2)") },
     { clave: b("Ciudadanía", "Citizenship"), valor: b("Argentina e italiana (pasaporte de la UE)", "Argentine and Italian (EU passport)") },
     { clave: b("Formación", "Education"), valor: b("Ingeniería de Sistemas · UNICEN · 2022 – actualidad", "Systems Engineering · UNICEN · 2022 – present") },
@@ -327,12 +327,12 @@ export const EXPERIENCIA: { titulo: Bilingue; items: Experiencia[] } = {
       logros: b(
         [
           "Diseñé, desarrollé y mantengo el sitio web comercial de la empresa, en producción: primera versión en 2023 y rediseño integral en 2026, con diseño UX/UI propio.",
-          "Desarrollé FreeMagicMirror, la aplicación de fotomatón táctil que se usa en eventos.",
+          "Desarrollé FreeMagicMirror, una aplicación de fotomatón táctil que se usa en eventos.",
           "Gestiono la operación diaria: organización de los eventos, optimización de procesos internos y mejoras del modelo de servicio, parte de ellas implementadas con software propio.",
         ],
         [
           "Designed, built and maintain the company's commercial website, in production: first version in 2023 and a full redesign in 2026, with my own UX/UI design.",
-          "Built FreeMagicMirror, the touchscreen photo booth application used at events.",
+          "Built FreeMagicMirror, a touchscreen photo booth application used at events.",
           "Manage daily operations: event organization, internal process optimization and service model improvements, some of them implemented with in-house software.",
         ],
       ),

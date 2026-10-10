@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { NAV, NOMBRE } from "@/contenido/sitio";
 import type { Idioma } from "@/contenido/tipos";
+import { senalarContacto } from "@/lib/contacto";
 import { MenuCV } from "./MenuCV";
 import css from "./Encabezado.module.css";
 
@@ -45,7 +46,16 @@ export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string 
         <a className={css.enlace} href={ancla("sobre-mi")}>
           {NAV.sobreMi[lang]}
         </a>
-        <a className={css.enlace} href={ancla("contacto")}>
+        {/* Prueba: «Contacto» vuelve al hero y señala los íconos (`lib/contacto.ts`). Sin JavaScript, baja a la sección. */}
+        <a
+          className={css.enlace}
+          href={ancla("contacto")}
+          onClick={(e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            e.preventDefault();
+            void senalarContacto(e.currentTarget);
+          }}
+        >
           {NAV.contacto[lang]}
         </a>
         <MenuCV lang={lang} />

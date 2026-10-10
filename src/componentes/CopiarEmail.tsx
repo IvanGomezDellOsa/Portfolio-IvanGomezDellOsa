@@ -25,7 +25,7 @@ export function CopiarEmail({ email, lang }: { email: string; lang: Idioma }) {
     <button type="button" className={css.direccion} onClick={copiar} data-copiado={copiado} title={CONTACTO.copiar[lang]}>
       <span>{email}</span>
       <span className={css.iconoCopiar} aria-hidden="true">
-        {copiado ? <IconoListo lado={17} /> : <IconoCopiar lado={17} />}
+        {copiado ? <IconoListo lado={14} /> : <IconoCopiar lado={14} />}
       </span>
       <span className="sr" aria-live="polite">
         {copiado ? CONTACTO.copiado[lang] : `(${CONTACTO.copiar[lang]})`}

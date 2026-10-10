@@ -1,28 +1,27 @@
 import type { CSSProperties } from "react";
 import { PROYECTOS } from "@/contenido/proyectos";
 import { SALAS, variablesDe, type SalaId } from "@/contenido/salas";
-import { CONTACTO, EMAIL, EXPERIENCIA, GITHUB, LINKEDIN, PERSONA } from "@/contenido/sitio";
+import { CONTACTO, EMAIL, EXPERIENCIA, GITHUB, LINKEDIN, NAV, PERSONA } from "@/contenido/sitio";
 import type { Idioma } from "@/contenido/tipos";
 import { caso } from "@/lib/rutas";
 import { CopiarEmail } from "./CopiarEmail";
-import { IconoGithub, IconoLinkedin } from "./Iconos";
+import { Flecha } from "./Iconos";
 import { MenuCV } from "./MenuCV";
 import { Texto } from "./Texto";
 import css from "./Galeria.module.css";
-import hero from "./Hero.module.css";
 
 const nombreDe = (slug: SalaId) => PROYECTOS.find((p) => p.slug === slug)?.nombre ?? slug;
 
-const REDES = [
-  { nombre: "GitHub", href: GITHUB, Icono: IconoGithub },
-  { nombre: "LinkedIn", href: LINKEDIN, Icono: IconoLinkedin },
+const VIAS = [
+  { nombre: "LinkedIn", href: LINKEDIN },
+  { nombre: "GitHub", href: GITHUB },
 ];
 
 /**
  * LA PERSONA, después de la lista de proyectos: sobre mí, experiencia y
- * contacto. En el mismo negro neutro del hero, y con sus mismas piezas: los
- * títulos de sección de la lista y, en el contacto, el nombre de la sección con
- * el degradé del hero, el email que se copia y los íconos de las redes.
+ * contacto. En el mismo negro neutro del hero. Las tres secciones comparten
+ * la retícula (un tercio y dos tercios), el título y las filas con pelos: el
+ * contacto es una sección más, no un cierre con otra composición.
  */
 export function Galeria({ lang }: { lang: Idioma }) {
   return (
@@ -109,29 +108,36 @@ export function Galeria({ lang }: { lang: Idioma }) {
         </div>
       </section>
 
-      <section id="contacto" className={css.contacto} aria-labelledby="t-contacto">
-        <div className={css.fondoContacto} aria-hidden="true" />
-        <div className={css.contactoContenido} data-revelar="">
-          <h2 id="t-contacto" className={`${css.tituloContacto} aparece`}>
-            <span className="degrade">{CONTACTO.titulo[lang]}</span>
+      <section id="contacto" className={css.interior} aria-labelledby="t-contacto">
+        <div className={css.contacto} data-revelar="">
+          <h2 id="t-contacto" className={`${css.titulo} aparece`}>
+            {CONTACTO.titulo[lang]}
           </h2>
-          <div className="aparece" style={{ "--i": 1 } as CSSProperties}>
-            <CopiarEmail email={EMAIL} lang={lang} />
-          </div>
-          <div className={`${hero.acciones} aparece`} style={{ "--i": 2 } as CSSProperties}>
-            <ul className={hero.redes}>
-              {REDES.map(({ nombre, href, Icono }) => (
-                <li key={nombre}>
-                  <a className={hero.red} href={href} target="_blank" rel="noopener noreferrer" aria-label={nombre} data-pista={nombre}>
-                    <Icono />
+          <dl className={`${css.detalles} ${css.vias} aparece`} style={{ "--i": 1 } as CSSProperties}>
+            <div>
+              <dt className="etiqueta">Email</dt>
+              <dd>
+                <CopiarEmail email={EMAIL} lang={lang} />
+              </dd>
+            </div>
+            {VIAS.map((v) => (
+              <div key={v.nombre}>
+                <dt className="etiqueta">{v.nombre}</dt>
+                <dd>
+                  <a className={css.via} href={v.href} target="_blank" rel="noopener noreferrer">
+                    {v.href.replace(/^https:\/\/(www\.)?/, "").replace(/\/$/, "")}
+                    <Flecha lado={11} />
                   </a>
-                </li>
-              ))}
-              <li>
-                <MenuCV lang={lang} variante="icono" />
-              </li>
-            </ul>
-          </div>
+                </dd>
+              </div>
+            ))}
+            <div>
+              <dt className="etiqueta">{NAV.cv[lang]}</dt>
+              <dd>
+                <MenuCV lang={lang} variante="texto" />
+              </dd>
+            </div>
+          </dl>
         </div>
       </section>
     </div>

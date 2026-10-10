@@ -24,7 +24,7 @@ const ALTO_OPCION = 36;
  * enlaces (el patrón de «disclosure»): se abre con clic o teclado, se cierra
  * con Esc, con un clic afuera o al elegir.
  */
-export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: "barra" | "icono" | "pastilla" | "descarga" | "pestana" }) {
+export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: "barra" | "icono" | "pastilla" | "texto" | "descarga" | "pestana" }) {
   const descarga = variante === "descarga";
   const pestana = variante === "pestana";
   const enVisor = descarga || pestana;
@@ -79,13 +79,14 @@ export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: 
       <>
         <button
           type="button"
-          className={variante === "icono" ? css.icono : variante === "pastilla" ? "pastilla hueca" : css.boton}
+          className={variante === "icono" ? css.icono : variante === "pastilla" ? "pastilla hueca" : variante === "texto" ? css.texto : css.boton}
+          data-contacto={variante === "icono" ? "cv" : undefined}
           aria-label={variante === "icono" ? NAV.cvVer[lang] : undefined}
           data-pista={variante === "icono" ? NAV.cvLargo[lang] : undefined}
           aria-haspopup="dialog"
           onClick={() => setViendo(true)}
         >
-          {variante === "icono" ? <IconoCV /> : NAV.cv[lang]}
+          {variante === "icono" ? <IconoCV /> : variante === "texto" ? NAV.cvVer[lang] : NAV.cv[lang]}
         </button>
         {viendo && <VisorCV idioma={lang} alCerrar={cerrarVisor} />}
       </>

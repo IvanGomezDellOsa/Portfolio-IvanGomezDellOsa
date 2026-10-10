@@ -271,6 +271,35 @@ dd {
   }
 }
 
+/*
+ * LA GUIA DEL CONTACTO (`lib/contacto.ts`): un anillo de luz que vuela desde
+ * «Contacto», en la barra, y rodea uno por uno los íconos del hero. Blanco y
+ * fino, como la luz del hero; el ícono que rodea se enciende.
+ */
+.guia-contacto {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  width: 52px;
+  height: 52px;
+  border: 1px solid oklch(100% 0 0 / 0.7);
+  border-radius: 50%;
+  box-shadow:
+    0 0 22px oklch(100% 0 0 / 0.28),
+    inset 0 0 14px oklch(100% 0 0 / 0.12);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    translate 0.56s var(--curva-entrada),
+    scale 0.56s var(--curva-entrada),
+    opacity 0.35s var(--curva-entrada);
+}
+
+[data-senalado] {
+  color: var(--tinta) !important;
+}
+
 /* El enlace secundario: texto gris que se aclara, con la flecha que avanza. */
 .enlace-linea {
   display: inline-flex;

@@ -18,6 +18,23 @@
   color: var(--nav-tinta);
 }
 
+/* En una fila del contacto: texto, como las otras vías. */
+.texto {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--tinta);
+  font-size: inherit;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.texto:hover {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, var(--tinta) 45%, transparent);
+  text-underline-offset: 0.25em;
+}
+
 /* El botón del hero: sutil, como GitHub, LinkedIn y el mail. */
 .icono {
   position: relative;

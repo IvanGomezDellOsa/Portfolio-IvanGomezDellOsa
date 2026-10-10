@@ -229,80 +229,47 @@
   box-shadow: 0 0 0 4px color-mix(in oklch, var(--tinte) 22%, transparent);
 }
 
-/* ─── Contacto: el cierre, con la composición del hero ─── */
+/* ─── Contacto: el título a la izquierda y las vías a la derecha, con las filas de «Sobre mí» ─── */
 
 .contacto {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
   display: grid;
-  align-content: center;
-  min-height: min(58svh, 520px);
-  padding: clamp(60px, 10vh, 110px) var(--canal);
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  align-items: start;
+  gap: clamp(16px, 6vw, 96px);
 }
 
-/* La retícula y la luz del hero, esta vez desde abajo: la página cierra como abrió. */
-.fondoContacto {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(60% 50% at 50% 100%, oklch(100% 0 0 / 0.06), transparent 72%),
-    linear-gradient(oklch(100% 0 0 / 0.045) 1px, transparent 1px) 0 0 / 64px 64px,
-    linear-gradient(90deg, oklch(100% 0 0 / 0.045) 1px, transparent 1px) 0 0 / 64px 64px;
-  background-position: center bottom;
-  -webkit-mask-image: radial-gradient(70% 70% at 50% 62%, #000 24%, transparent 78%);
-  mask-image: radial-gradient(70% 70% at 50% 62%, #000 24%, transparent 78%);
+.vias {
+  max-width: none;
+  margin-top: 6px;
 }
 
-.contactoContenido {
-  display: grid;
-  justify-items: center;
-  text-align: center;
+.vias > div {
+  align-items: center;
 }
 
-/* El título, a la escala de la dirección que tiene debajo: ninguno de los dos grita. */
-.tituloContacto {
-  font-size: clamp(30px, 3.6vw, 48px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.055em;
-  padding-bottom: 0.08em;
+.vias dt {
+  padding-top: 0;
 }
 
-/* La dirección: del tamaño del puesto en el hero. Un clic la copia. */
+/* Una vía: la dirección, en la tinta del texto, con su flecha o su símbolo de copiar. */
+.via,
 .direccion {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   max-width: 100%;
-  margin-top: clamp(6px, 1vh, 12px);
-  padding: 6px 12px 6px 14px;
+  padding: 0;
   border: 0;
-  border-radius: 12px;
   background: transparent;
-  color: var(--tinta-2);
-  font-size: clamp(17px, 2vw, 26px);
-  font-weight: 400;
-  letter-spacing: -0.025em;
-  line-height: 1.25;
-  cursor: pointer;
-  transition:
-    color 0.2s var(--curva-reaccion),
-    background-color 0.2s var(--curva-reaccion);
-}
-
-.direccion > span:first-child {
-  overflow-wrap: anywhere;
-}
-
-.direccion:hover,
-.direccion[data-copiado="true"] {
   color: var(--tinta);
-  background: color-mix(in oklch, var(--tinta) 6%, transparent);
+  font-size: inherit;
+  line-height: 1.4;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s var(--curva-reaccion);
 }
 
+.via svg,
 .iconoCopiar {
   flex: none;
   display: grid;
@@ -310,6 +277,18 @@
   transition: color 0.2s var(--curva-reaccion);
 }
 
+.direccion > span:first-child {
+  overflow-wrap: anywhere;
+}
+
+.via:hover,
+.direccion:hover {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, var(--tinta) 45%, transparent);
+  text-underline-offset: 0.25em;
+}
+
+.via:hover svg,
 .direccion:hover .iconoCopiar,
 .direccion[data-copiado="true"] .iconoCopiar {
   color: var(--tinta);
@@ -319,6 +298,7 @@
 
 @media (max-width: 900px) {
   .persona,
+  .contacto,
   .puesto {
     grid-template-columns: 1fr;
   }
@@ -337,9 +317,4 @@
     grid-template-columns: 1fr;
     gap: 4px;
   }
-}
-
-/* Sin la pastilla al lado, la fila de íconos queda centrada. */
-.contactoContenido ul {
-  margin-left: 0;
 }
