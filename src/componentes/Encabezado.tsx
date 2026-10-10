@@ -19,10 +19,10 @@ import css from "./Encabezado.module.css";
  * ancla. Todo es texto, sin cajas: los enlaces, «CV» (que abre la vista
  * previa) y, al final, el idioma.
  *
- * EN EL TELEFONO es una barra de verdad, siempre con su vidrio: el nombre
- * adentro, a la izquierda, y a la derecha el idioma y el botón del menú. Los
- * enlaces no entran en una fila: se despliegan debajo, dentro de la misma
- * barra, y se cierran al elegir, con Esc o al tocar afuera.
+ * EN EL TELEFONO, cerrada, la barra muestra sólo el botón del menú: el nombre
+ * ya está, grande, en el hero. Todo lo demás va adentro del menú, que se
+ * despliega en la misma barra: el nombre arriba, los enlaces, «CV» y, al
+ * final, el idioma. Se cierra al elegir, con Esc o al tocar afuera.
  */
 export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string }) {
   const [conFondo, setConFondo] = useState(false);
@@ -90,21 +90,21 @@ export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string 
               {NAV.contacto[lang]}
             </a>
             <MenuCV lang={lang} />
+            <div className={css.idiomas} role="group" aria-label={NAV.idioma[lang]}>
+              {(["es", "en"] as const).map((l) =>
+                l === lang ? (
+                  <span key={l} className={css.idioma} aria-current="true" lang={l}>
+                    {l.toUpperCase()}
+                  </span>
+                ) : (
+                  <a key={l} className={css.idioma} href={rutaOtra} hrefLang={l} lang={l}>
+                    {l.toUpperCase()}
+                  </a>
+                ),
+              )}
+            </div>
           </div>
         </nav>
-        <div className={css.idiomas} role="group" aria-label={NAV.idioma[lang]}>
-          {(["es", "en"] as const).map((l) =>
-            l === lang ? (
-              <span key={l} className={css.idioma} aria-current="true" lang={l}>
-                {l.toUpperCase()}
-              </span>
-            ) : (
-              <a key={l} className={css.idioma} href={rutaOtra} hrefLang={l} lang={l}>
-                {l.toUpperCase()}
-              </a>
-            ),
-          )}
-        </div>
         <button ref={boton} type="button" className={css.menu} aria-label={NAV.menu[lang]} aria-expanded={abierto} aria-controls={idNav} onClick={() => setAbierto((a) => !a)}>
           <span className={css.rayas} aria-hidden="true" />
         </button>

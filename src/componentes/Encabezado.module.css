@@ -116,10 +116,10 @@ a.idioma:hover {
 }
 
 /*
- * EL TELEFONO: una barra de verdad, siempre con su vidrio. El nombre adentro, a
- * la izquierda; a la derecha el idioma y el botón del menú. Los enlaces se
- * despliegan debajo, dentro de la misma barra (que crece), no en un panel aparte:
- * un solo vidrio.
+ * EL TELEFONO: cerrada, la barra muestra sólo el botón del menú (transparente
+ * sobre el hero y vidrio al bajar, como siempre). Todo lo demás va adentro del
+ * menú, que se despliega en la misma barra (que crece), no en un panel aparte:
+ * el nombre arriba, los enlaces y, al final, el idioma.
  */
 @media (max-width: 860px) {
   .barra {
@@ -127,33 +127,53 @@ a.idioma:hover {
     align-content: flex-start;
     gap: 0 4px;
     height: auto;
-    background: color-mix(in oklch, var(--nav-fondo) 72%, transparent);
+  }
+
+  /* Abierta, vidrio casi opaco: los enlaces se leen sobre lo que haya debajo. */
+  .barra[data-abierto] {
+    background: color-mix(in oklch, var(--nav-fondo) 94%, transparent);
     -webkit-backdrop-filter: blur(16px) saturate(140%);
     backdrop-filter: blur(16px) saturate(140%);
     border-bottom-color: var(--nav-pelo);
-  }
-
-  /* Abierta, más opaca: los enlaces se leen sobre lo que haya debajo. */
-  .barra[data-abierto] {
-    background: color-mix(in oklch, var(--nav-fondo) 94%, transparent);
   }
 
   .derecha {
     display: contents;
   }
 
-  /* La primera fila mide lo que la barra de siempre (64px, con su pelo). */
+  /* El nombre: en la primera fila (64px, con su pelo), pero sólo con el menú abierto. */
   .firma {
     display: flex;
     align-items: center;
     height: 63px;
     margin-right: auto;
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      opacity 0.25s var(--curva-entrada),
+      visibility 0s 0.25s;
   }
 
+  .barra[data-abierto] .firma {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+  }
+
+  /* El idioma: la última fila del menú. */
   .idiomas {
-    order: 1;
-    padding-left: 0;
+    height: auto;
+    padding: 9px 0;
     border-left: 0;
+    border-top: 1px solid var(--nav-pelo);
+  }
+
+  .idioma {
+    font-size: 13px;
+  }
+
+  .idioma:first-child {
+    padding-left: 0;
   }
 
   .menu {
