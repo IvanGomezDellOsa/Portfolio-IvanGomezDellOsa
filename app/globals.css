@@ -220,6 +220,57 @@ dd {
   background: color-mix(in oklch, var(--tinta) 8%, transparent);
 }
 
+/*
+ * LA PISTA: el nombre de un botón que es sólo un ícono, al posarse sobre él o
+ * al enfocarlo (`data-pista="GitHub"`). Aparece enseguida, a diferencia del
+ * `title` del navegador, y con la letra del sitio. Si el botón abrió algo
+ * debajo (el mail), se retira.
+ */
+[data-pista] {
+  position: relative;
+}
+
+[data-pista]::after {
+  content: attr(data-pista);
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  z-index: 60;
+  translate: -50% -3px;
+  padding: 6px 10px;
+  border: 1px solid oklch(96% 0 0 / 0.12);
+  border-radius: 8px;
+  background: oklch(17% 0 0 / 0.96);
+  color: oklch(96% 0 0);
+  font-family: var(--f-sans);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.15s var(--curva-reaccion),
+    translate 0.15s var(--curva-reaccion);
+}
+
+[data-pista]:hover::after,
+[data-pista]:focus-visible::after {
+  opacity: 1;
+  translate: -50% 0;
+}
+
+[data-pista][aria-expanded="true"]::after {
+  opacity: 0;
+}
+
+@media (hover: none) {
+  [data-pista]::after {
+    display: none;
+  }
+}
+
 /* El enlace secundario: texto gris que se aclara, con la flecha que avanza. */
 .enlace-linea {
   display: inline-flex;

@@ -15,7 +15,8 @@ import css from "./Encabezado.module.css";
  * LA BARRA. Transparente sobre el hero; al bajar se vuelve vidrio oscuro con
  * el tinte del proyecto en el que se está (ver `ObservadorSalas`). En la
  * portada los enlaces son anclas; en un caso, vuelven a la portada con el
- * ancla. El botón «CV» ofrece siempre los dos idiomas.
+ * ancla. Una sola jerarquía: los enlaces y el idioma son texto; el único
+ * botón es «CV», lleno, al final.
  */
 export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string }) {
   const [conFondo, setConFondo] = useState(false);
@@ -47,7 +48,6 @@ export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string 
         <a className={css.enlace} href={ancla("contacto")}>
           {NAV.contacto[lang]}
         </a>
-        <MenuCV lang={lang} />
         <div className={css.idiomas} role="group" aria-label={NAV.idioma[lang]}>
           {(["es", "en"] as const).map((l) =>
             l === lang ? (
@@ -61,6 +61,7 @@ export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string 
             ),
           )}
         </div>
+        <MenuCV lang={lang} />
       </nav>
     </header>
   );

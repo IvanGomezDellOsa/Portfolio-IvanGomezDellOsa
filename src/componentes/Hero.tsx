@@ -41,7 +41,7 @@ export function Hero({ lang, funciones, vitrina }: { lang: Idioma; funciones: Fu
             <ul className={css.redes}>
               {REDES.map(({ nombre, href, Icono }) => (
                 <li key={nombre}>
-                  <a className={css.red} href={href} target="_blank" rel="noopener noreferrer" aria-label={nombre}>
+                  <a className={css.red} href={href} target="_blank" rel="noopener noreferrer" aria-label={nombre} data-pista={nombre}>
                     <Icono />
                   </a>
                 </li>

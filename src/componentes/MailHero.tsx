@@ -42,7 +42,7 @@ export function MailHero({ lang }: { lang: Idioma }) {
 
   return (
     <div ref={caja} className={css.mail}>
-      <button type="button" className={css.red} aria-label="Email" aria-expanded={abierto} onClick={() => setAbierto((v) => !v)}>
+      <button type="button" className={css.red} aria-label="Email" data-pista="Email" aria-expanded={abierto} onClick={() => setAbierto((v) => !v)}>
         <IconoMail />
       </button>
       {abierto && (

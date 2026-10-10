@@ -266,12 +266,13 @@ export function Retrato({ className = "" }: { className?: string }) {
   }, []);
 
   return (
-    <div ref={caja} className={`${className} ${css.retrato}`} aria-hidden="true">
-      <img className={css.capa} src={`${RUTA}/frente.webp`} alt="" width={300} height={300} fetchPriority="high" decoding="async" />
+    // Sin menú contextual ni arrastre: guardar o ampliar la foto y los videos no queda a un clic.
+    <div ref={caja} className={`${className} ${css.retrato}`} aria-hidden="true" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>
+      <img className={css.capa} src={`${RUTA}/frente.webp`} alt="" width={300} height={300} fetchPriority="high" decoding="async" draggable={false} />
       <div ref={base} className={`${css.capa} ${css.anillo}`} />
       <div ref={velo} className={`${css.capa} ${css.anillo} ${css.velo}`} />
-      <video ref={salida} className={`${css.capa} ${css.video}`} src={`${RUTA}/salida.mp4`} muted playsInline preload="none" tabIndex={-1} />
-      <video ref={vuelta} className={`${css.capa} ${css.video}`} src={`${RUTA}/vuelta.mp4`} muted playsInline preload="none" tabIndex={-1} />
+      <video ref={salida} className={`${css.capa} ${css.video}`} src={`${RUTA}/salida.mp4`} muted playsInline preload="none" tabIndex={-1} disablePictureInPicture controlsList="nodownload noremoteplayback" />
+      <video ref={vuelta} className={`${css.capa} ${css.video}`} src={`${RUTA}/vuelta.mp4`} muted playsInline preload="none" tabIndex={-1} disablePictureInPicture controlsList="nodownload noremoteplayback" />
     </div>
   );
 }

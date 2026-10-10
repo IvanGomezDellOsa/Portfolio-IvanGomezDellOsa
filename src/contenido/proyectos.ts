@@ -698,10 +698,6 @@ export const PROYECTOS: Proyecto[] = [
         "A layered system decides what gets published: Gemini structures each mention, deterministic rules and Jev (TypeSafe) separate the real investments from everything else, and pgvector retrieves similar records. The same project, reported by two outlets, can read very differently, and two distinct projects in the same region can look almost identical: that is why similarity only suggests candidates, and the decision is made by identity rules and a decision model (Jev). FastAPI API and a Next.js frontend with server-side rendering, on Vercel.",
       ],
     ),
-    dato: {
-      valor: b("72 h", "72 h"),
-      etiqueta: b("entre cada corrida automática: recolecta, depura y publica sin intervención", "between automatic runs: it collects, cleans up and publishes unattended"),
-    },
     stack: ["Python", "FastAPI", "Gemini", "Jev (TypeSafe)", "PostgreSQL/pgvector", "GitHub Actions", "Next.js"],
     enlaces: [
       { tipo: "sitio", href: "https://www.inversionesargentina.com.ar", texto: b("inversionesargentina.com.ar", "inversionesargentina.com.ar") },
@@ -723,8 +719,8 @@ export const PROYECTOS: Proyecto[] = [
       ],
     },
     descripcionMeta: b(
-      "Cada 72 horas, un flujo con Gemini, pgvector y Jev rastrea las inversiones privadas en Argentina y publica sólo las reales, sin repetidos.",
-      "Every 72 hours, a pipeline with Gemini, pgvector and Jev tracks private investments in Argentina and publishes only the real ones, without duplicates.",
+      "Un flujo automático con Gemini, pgvector y Jev rastrea las inversiones privadas en Argentina y publica sólo las reales, sin repetidos.",
+      "An automated pipeline with Gemini, pgvector and Jev tracks private investments in Argentina and publishes only the real ones, without duplicates.",
     ),
     caso: [
       {
@@ -860,7 +856,6 @@ export const PROYECTOS: Proyecto[] = [
         "para encontrar una aparición de un segundo en un video de 70 segundos",
         "to find a one-second appearance in a 70-second video",
       ),
-      nota: b("Corrida real · Radeon RX 7600 · modo rápido", "Real run · Radeon RX 7600 · fast mode"),
       visual: "busqueda",
     },
     stack: ["Python", "InsightFace", "ArcFace", "ONNX Runtime", "FastAPI", "pywebview", "pytest"],

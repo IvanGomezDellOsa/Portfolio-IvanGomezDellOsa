@@ -62,6 +62,8 @@ export const NAV = {
   sobreMi: b("Sobre mí", "About"),
   contacto: b("Contacto", "Contact"),
   cv: b("CV", "Resume"),
+  /** El nombre completo: lo que dice el ícono del CV al posarse sobre él. */
+  cvLargo: b("Currículum Vitae", "Resume"),
   /** El menú del botón «CV»: el nombre accesible del botón y de la lista. */
   /** El botón «CV» del sitio: abre la vista previa (con los dos idiomas adentro). */
   cvVer: b("Ver el CV", "View the resume"),

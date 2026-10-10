@@ -2,30 +2,27 @@
   position: relative;
 }
 
-/* En la barra: un botón chico de borde. En el contacto, la pastilla hueca. */
+/* En la barra: el único botón, lleno y chico (la pastilla clara del sitio). En el contacto, la pastilla hueca. */
 .boton {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
   height: 32px;
-  padding: 0 14px;
-  border: 1px solid color-mix(in oklch, var(--nav-tinta) 20%, transparent);
+  padding: 0 15px;
+  border: 0;
   border-radius: 999px;
-  background: color-mix(in oklch, var(--nav-tinta) 4%, transparent);
-  color: var(--nav-tinta);
+  background: var(--nav-tinta);
+  color: oklch(14.5% 0 0);
   font-size: 13.5px;
   font-weight: 500;
+  letter-spacing: -0.005em;
   cursor: pointer;
   transition:
-    border-color 0.2s var(--curva-reaccion),
     background-color 0.2s var(--curva-reaccion),
     transform 0.2s var(--curva-reaccion);
 }
 
-.boton:hover,
-.boton[aria-expanded="true"] {
-  border-color: color-mix(in oklch, var(--nav-tinta) 40%, transparent);
-  background: color-mix(in oklch, var(--nav-tinta) 9%, transparent);
+.boton:hover {
+  background: color-mix(in oklch, var(--nav-tinta) 86%, oklch(14.5% 0 0));
 }
 
 .boton:active {

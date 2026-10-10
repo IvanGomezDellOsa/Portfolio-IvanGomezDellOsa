@@ -36,3 +36,12 @@
 .video {
   opacity: 0;
 }
+
+/* Nada del retrato se selecciona, se arrastra ni abre el menú de «guardar» al mantener apretado. */
+.retrato,
+.retrato * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}

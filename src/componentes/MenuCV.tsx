@@ -81,7 +81,7 @@ export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: 
           type="button"
           className={variante === "icono" ? css.icono : variante === "pastilla" ? "pastilla hueca" : css.boton}
           aria-label={variante === "icono" ? NAV.cvVer[lang] : undefined}
-          title={variante === "icono" ? NAV.cv[lang] : undefined}
+          data-pista={variante === "icono" ? NAV.cvLargo[lang] : undefined}
           aria-haspopup="dialog"
           onClick={() => setViendo(true)}
         >

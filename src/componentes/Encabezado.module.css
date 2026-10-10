@@ -56,32 +56,41 @@
   color: var(--nav-tinta);
 }
 
+/* El idioma: dos siglas, sin caja. La actual, encendida; un pelo las separa de los enlaces. */
 .idiomas {
   display: inline-flex;
-  padding: 2px;
-  border: 1px solid color-mix(in oklch, var(--nav-tinta) 16%, transparent);
-  border-radius: 999px;
+  align-items: center;
+  height: 18px;
+  padding-left: clamp(10px, 1.8vw, 26px);
+  border-left: 1px solid var(--nav-pelo);
 }
 
 .idioma {
   display: inline-grid;
   place-items: center;
-  min-width: 34px;
-  height: 26px;
-  padding: 0 8px;
-  border-radius: 999px;
+  height: 32px;
+  padding: 0 5px;
   font-family: var(--f-maquina);
-  font-size: 11.5px;
+  font-size: 12px;
   letter-spacing: 0.04em;
   text-decoration: none;
-  color: var(--nav-tinta-2);
-  transition:
-    color 0.2s,
-    background-color 0.2s;
+  color: color-mix(in oklch, var(--nav-tinta-2) 62%, transparent);
+  transition: color 0.2s var(--curva-reaccion);
+}
+
+.idioma + .idioma {
+  position: relative;
+  margin-left: 9px;
+}
+
+.idioma + .idioma::before {
+  content: "/";
+  position: absolute;
+  left: -8px;
+  color: color-mix(in oklch, var(--nav-tinta-2) 40%, transparent);
 }
 
 .idioma[aria-current] {
-  background: color-mix(in oklch, var(--nav-tinta) 14%, transparent);
   color: var(--nav-tinta);
 }
 
@@ -92,6 +101,11 @@ a.idioma:hover {
 @media (max-width: 860px) {
   .enlace {
     display: none;
+  }
+
+  .idiomas {
+    padding-left: 0;
+    border-left: 0;
   }
 }
 
