@@ -42,6 +42,8 @@
 }
 
 .foto {
+  /* Más chica que su columna: acompaña al texto, no compite con él. */
+  max-width: 260px;
   overflow: hidden;
   border-radius: 16px;
   background: var(--fondo-2);
@@ -235,8 +237,8 @@
   overflow: hidden;
   display: grid;
   align-content: center;
-  min-height: min(78svh, 720px);
-  padding: clamp(70px, 12vh, 130px) var(--canal);
+  min-height: min(58svh, 520px);
+  padding: clamp(60px, 10vh, 110px) var(--canal);
 }
 
 /* La retícula y la luz del hero, esta vez desde abajo: la página cierra como abrió. */
@@ -260,8 +262,9 @@
   text-align: center;
 }
 
+/* El título, a la escala de la dirección que tiene debajo: ninguno de los dos grita. */
 .tituloContacto {
-  font-size: clamp(40px, 6vw, 84px);
+  font-size: clamp(30px, 3.6vw, 48px);
   font-weight: 600;
   line-height: 1;
   letter-spacing: -0.055em;
@@ -321,7 +324,7 @@
   }
 
   .foto {
-    max-width: 360px;
+    max-width: 220px;
   }
 
   .puesto {

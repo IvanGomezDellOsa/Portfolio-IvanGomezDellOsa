@@ -2,31 +2,20 @@
   position: relative;
 }
 
-/* En la barra: el único botón, lleno y chico (la pastilla clara del sitio). En el contacto, la pastilla hueca. */
+/* En la barra: un enlace más, con la letra de los otros. En el contacto, la pastilla hueca. */
 .boton {
-  display: inline-flex;
-  align-items: center;
-  height: 32px;
-  padding: 0 15px;
+  padding: 8px 2px;
   border: 0;
-  border-radius: 999px;
-  background: var(--nav-tinta);
-  color: oklch(14.5% 0 0);
-  font-size: 13.5px;
-  font-weight: 500;
-  letter-spacing: -0.005em;
+  background: transparent;
+  color: var(--nav-tinta-2);
+  font-size: 14px;
+  font-weight: 450;
   cursor: pointer;
-  transition:
-    background-color 0.2s var(--curva-reaccion),
-    transform 0.2s var(--curva-reaccion);
+  transition: color 0.2s var(--curva-reaccion);
 }
 
 .boton:hover {
-  background: color-mix(in oklch, var(--nav-tinta) 86%, oklch(14.5% 0 0));
-}
-
-.boton:active {
-  transform: scale(0.96);
+  color: var(--nav-tinta);
 }
 
 /* El botón del hero: sutil, como GitHub, LinkedIn y el mail. */

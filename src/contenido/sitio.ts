@@ -9,7 +9,7 @@
  *
  * Salen del «Acerca de» publicado en LinkedIn, del CV 10-26 v2 y de las reglas
  * de `Mensajes-Postulacion.md`: firma con email y LinkedIn (nunca teléfono),
- * «más de 2 años», «Full Stack Developer» como puesto (no «Software Engineer»:
+ * «tengo experiencia», sin años (decisión del dueño, 2026-10-10), «Full Stack Developer» como puesto (no «Software Engineer»:
  * en un sitio personal, como en el CV, puede leerse como título terminado).
  *
  * El hero lleva sólo el nombre y el puesto (pedido del dueño, 2026-10-06): sin
@@ -281,21 +281,21 @@ export const PERSONA = {
   titulo: b("Sobre mí", "About"),
   parrafos: b<Marcado[]>(
     [
-      "Desarrollo productos de software completos, desde el diseño hasta la puesta en producción, con foco en backend e inteligencia artificial aplicada. Tengo más de 2 años de experiencia en proyectos de principio a fin, propios y freelance, con clientes y usuarios reales.",
+      "Desarrollo productos de software completos, desde el diseño hasta la puesta en producción, con foco en backend e inteligencia artificial aplicada. Tengo experiencia en proyectos de principio a fin, propios y freelance, con clientes y usuarios reales, con Python, React y Next.js, PostgreSQL y APIs REST.",
       "Sobre la base que me da la carrera de Ingeniería de Sistemas (lógica de programación, análisis matemático y diseño de algoritmos), trabajo de forma autodidacta con tecnologías actuales. Lo combino con la gestión operativa de una PyME, donde sumo conocimientos de administración de empresas, producto y manejo de equipos.",
-      "Desarrollo con asistencia de IA para ganar productividad; las decisiones de producto, diseño y arquitectura son propias.",
+      "Domino la IA aplicada al trabajo y a soluciones de producto: la uso para desarrollar más rápido y la integro en lo que construyo. Las decisiones de producto, diseño y arquitectura son mías.",
     ],
     [
-      "I build complete software products, from design to production, with a focus on backend and applied artificial intelligence. I have more than 2 years of experience with end-to-end projects, personal and freelance, with real clients and users.",
+      "I build complete software products, from design to production, with a focus on backend and applied artificial intelligence. I have experience with end-to-end projects, personal and freelance, with real clients and users, using Python, React and Next.js, PostgreSQL and REST APIs.",
       "Building on the foundation my Systems Engineering studies give me (programming logic, mathematical analysis and algorithm design), I teach myself current technologies. I combine this with running the operations of a small business, where I am gaining knowledge of business administration, product and team management.",
-      "I develop with AI assistance to gain productivity; the product, design and architecture decisions are my own.",
+      "I am proficient in AI applied to work and to product solutions: I use it to develop faster and I build it into what I make. The product, design and architecture decisions are my own.",
     ],
   ),
   fotoAlt: b("Iván Gómez Dell’Osa", "Iván Gómez Dell’Osa"),
   detalles: [
-    { clave: b("Ubicación", "Location"), valor: b("Tandil, Buenos Aires, Argentina · trabajo remoto", "Tandil, Buenos Aires, Argentina · remote work") },
+    { clave: b("Ubicación", "Location"), valor: b("Argentina · trabajo remoto", "Argentina · remote work") },
     { clave: b("Idiomas", "Languages"), valor: b("Español (nativo) · Inglés (B2)", "Spanish (native) · English (B2)") },
-    { clave: b("Ciudadanía", "Citizenship"), valor: b("Argentina e Italia (pasaporte de la UE)", "Argentina and Italy (EU passport)") },
+    { clave: b("Ciudadanía", "Citizenship"), valor: b("Argentina e italiana (pasaporte de la UE)", "Argentine and Italian (EU passport)") },
     { clave: b("Formación", "Education"), valor: b("Ingeniería de Sistemas · UNICEN · 2022 – actualidad", "Systems Engineering · UNICEN · 2022 – present") },
     { clave: b("Certificación", "Certification"), valor: b("Scrum Fundamentals Certified (SFC) · VMEdu · 2024", "Scrum Fundamentals Certified (SFC) · VMEdu · 2024") },
   ],

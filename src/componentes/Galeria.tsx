@@ -34,7 +34,7 @@ export function Galeria({ lang }: { lang: Idioma }) {
             <img
               src="/medios/persona/foto-900.webp"
               srcSet="/medios/persona/foto-480.webp 480w, /medios/persona/foto-900.webp 900w"
-              sizes="(max-width: 900px) 70vw, 30vw"
+              sizes="260px"
               alt={PERSONA.fotoAlt[lang]}
               width={900}
               height={994}
@@ -122,7 +122,7 @@ export function Galeria({ lang }: { lang: Idioma }) {
             <ul className={hero.redes}>
               {REDES.map(({ nombre, href, Icono }) => (
                 <li key={nombre}>
-                  <a className={hero.red} href={href} target="_blank" rel="noopener noreferrer" aria-label={nombre}>
+                  <a className={hero.red} href={href} target="_blank" rel="noopener noreferrer" aria-label={nombre} data-pista={nombre}>
                     <Icono />
                   </a>
                 </li>
