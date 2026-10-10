@@ -124,7 +124,7 @@ export function Cobertura({ lang }: { lang: Idioma }) {
 const CAPAS = {
   es: [
     ["Fuentes", "X · RSS · RIGI", "Cuentas especializadas, medios por rubro y el registro oficial."],
-    ["Filtro", "determinista", "Descarta el ruido antes de gastar un token."],
+    ["Filtro", "determinista", "Saca el ruido: menos tokens y decisiones más simples después."],
     ["Extracción", "Gemini + Grounding", "Cada mención pasa a datos estructurados."],
     ["Validación", "reglas", "Fuera deuda, préstamos, compraventa de acciones y lanzamientos."],
     ["Juicio", "Jev (TypeSafe)", "¿Es una inversión privada concreta?"],
@@ -133,7 +133,7 @@ const CAPAS = {
   ],
   en: [
     ["Sources", "X · RSS · RIGI", "Specialised accounts, outlets by sector and the official registry."],
-    ["Filter", "deterministic", "Discards the noise before spending a token."],
+    ["Filter", "deterministic", "Removes the noise: fewer tokens and simpler decisions downstream."],
     ["Extraction", "Gemini + Grounding", "Every mention becomes structured data."],
     ["Validation", "rules", "Out go debt, loans, share purchases and launches."],
     ["Judgement", "Jev (TypeSafe)", "Is it a concrete private investment?"],
@@ -142,13 +142,13 @@ const CAPAS = {
   ],
 } as const;
 
-export function Capas({ lang }: { lang: Idioma }) {
-  const t = VISUALES.capas;
+/** Los pasos de un flujo, uno debajo del otro sobre un hilo: qué es cada uno, con qué se hace y qué deja. */
+function Pasos({ titulo, pasos, pie }: { titulo: string; pasos: readonly (readonly [string, string, string])[]; pie?: string }) {
   return (
     <figure className={css.capas} data-revelar="">
-      <figcaption className={`${css.tituloGrafico} aparece`}>{t.titulo[lang]}</figcaption>
+      <figcaption className={`${css.tituloGrafico} aparece`}>{titulo}</figcaption>
       <ol className={css.listaCapas}>
-        {CAPAS[lang].map(([nombre, herramienta, que], i) => (
+        {pasos.map(([nombre, herramienta, que], i) => (
           <li key={nombre} className="aparece" style={{ "--i": i + 1 } as CSSProperties}>
             <span className={css.punto} aria-hidden="true" />
             <span className={css.nombreCapa}>{nombre}</span>
@@ -157,11 +157,71 @@ export function Capas({ lang }: { lang: Idioma }) {
           </li>
         ))}
       </ol>
-      <p className={`${css.pie} aparece`} style={{ "--i": 9 } as CSSProperties}>
-        {t.pie[lang]}
-      </p>
+      {pie && (
+        <p className={`${css.pie} aparece`} style={{ "--i": pasos.length + 2 } as CSSProperties}>
+          {pie}
+        </p>
+      )}
     </figure>
   );
+}
+
+export function Capas({ lang }: { lang: Idioma }) {
+  const t = VISUALES.capas;
+  return <Pasos titulo={t.titulo[lang]} pasos={CAPAS[lang]} pie={t.pie[lang]} />;
+}
+
+/** La arquitectura de Datos Pauta Oficial: de lo que publica cada jurisdicción a la consulta en el navegador. */
+const TUBERIA = {
+  es: [
+    ["Fuentes oficiales", "CSV · Excel · PDF", "Cada jurisdicción publica a su manera."],
+    ["Extracción", "Python", "Un extractor por jurisdicción."],
+    ["Unificación", "unificar.py · validar.py", "Un solo CSV canónico y validado: 8 columnas, 540.413 filas."],
+    ["Base de datos", "build_db.py · SQLite", "Montos deflactados por IPC (INDEC) y cachés precomputados."],
+    ["Almacenamiento", "Cloudflare R2", "La base, partida en bloques de 20 MiB."],
+    ["Consulta", "sql.js-httpvfs", "SQL desde el navegador, que pide sólo los bloques que necesita."],
+    ["Sitio", "Astro · React · Cloudflare Pages", "Estático, con islas de React: sin backend ni servidores."],
+  ],
+  en: [
+    ["Official sources", "CSV · Excel · PDF", "Each jurisdiction publishes in its own way."],
+    ["Extraction", "Python", "One extractor per jurisdiction."],
+    ["Unification", "unificar.py · validar.py", "A single validated canonical CSV: 8 columns, 540,413 rows."],
+    ["Database", "build_db.py · SQLite", "Amounts deflated by CPI (INDEC) and precomputed caches."],
+    ["Storage", "Cloudflare R2", "The database, split into 20 MiB chunks."],
+    ["Querying", "sql.js-httpvfs", "SQL from the browser, which requests only the chunks it needs."],
+    ["Website", "Astro · React · Cloudflare Pages", "Static, with React islands: no backend or servers."],
+  ],
+} as const;
+
+/** El pipeline de Ask Leonardo: lo que recorre una pregunta hasta volver como respuesta verificada. */
+const RECORRIDO = {
+  es: [
+    ["Pregunta", "embedding en el navegador", "Se vuelve vector en el dispositivo de quien pregunta, sin API."],
+    ["Casos curados", "capa 0", "Lo que se sabe que no está en los cuadernos: abstención con la evidencia citada."],
+    ["Umbral de similitud", "capa 1", "Si ningún pasaje se le parece lo suficiente, se abstiene sin llamar al modelo."],
+    ["Recuperación híbrida", "coseno + BM25 · RRF", "Elige los tres pasajes que van a sostener la respuesta."],
+    ["Generación", "capa 2 · Gemini", "El modelo responde, o se abstiene, con los pasajes delante."],
+    ["Verificación", "capa 3 · código", "Cada cita se compara con el pasaje original."],
+    ["Respuesta", "con sus fuentes", "En la voz de Leonardo, con los pasajes a la vista."],
+  ],
+  en: [
+    ["Question", "embedding in the browser", "It becomes a vector on the asker's device, with no API."],
+    ["Curated cases", "layer 0", "What is known not to be in the notebooks: a refusal with the evidence cited."],
+    ["Similarity threshold", "layer 1", "If no passage is close enough, it abstains without calling the model."],
+    ["Hybrid retrieval", "cosine + BM25 · RRF", "Picks the three passages that will back the answer."],
+    ["Generation", "layer 2 · Gemini", "The model answers, or declines, with the passages in front of it."],
+    ["Verification", "layer 3 · code", "Every quotation is compared against the original passage."],
+    ["Answer", "with its sources", "In Leonardo's voice, with the passages in plain view."],
+  ],
+} as const;
+
+export function Recorrido({ lang }: { lang: Idioma }) {
+  const t = VISUALES.recorrido;
+  return <Pasos titulo={t.titulo[lang]} pasos={RECORRIDO[lang]} pie={t.pie[lang]} />;
+}
+
+export function Tuberia({ lang }: { lang: Idioma }) {
+  return <Pasos titulo={VISUALES.tuberia.titulo[lang]} pasos={TUBERIA[lang]} />;
 }
 
 /** La arquitectura de SeViVe: quién habla con quién, y dónde corre cada parte. */

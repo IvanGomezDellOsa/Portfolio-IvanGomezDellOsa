@@ -11,8 +11,8 @@ import css from "./Pantalla.module.css";
 
 /**
  * LA PANTALLA DE UN PROYECTO: lo principal de su sección. Corre un fragmento
- * mudo y en loop (`tools/videos.mjs`) y, en el centro, la acción: «▶ Ver video
- * de presentación» abre el video de presentación completo en el teatro (sin JavaScript, el
+ * mudo y en loop (`tools/videos.mjs`) y, en el centro, la acción: «▶ Video de
+ * presentación» abre el video completo en el teatro (sin JavaScript, el
  * enlace lleva a YouTube). Los dos sitios web no tienen video de presentación:
  * su pantalla muestra el recorrido de la página, que es lo que hay para ver, y
  * el botón que lleva al sitio va en una esquina, sin taparlo.
@@ -57,7 +57,7 @@ export function Pantalla({
               {video ? (
                 <>
                   <Triangulo lado={13} />
-                  {VIDEO.verPresentacion[lang]}
+                  {VIDEO.presentacion[lang]}
                   <span className="sr">: {nombre}</span>
                 </>
               ) : (
@@ -93,10 +93,10 @@ export function BotonVideo({
   clase?: string;
 }) {
   return (
-    <a className={clase} href={enYoutube(video.id)} target="_blank" rel="noopener noreferrer" title={VIDEO.ver[lang]} onClick={(e) => alClicVideo(e, slug)}>
+    <a className={clase} href={enYoutube(video.id)} target="_blank" rel="noopener noreferrer" title={VIDEO.presentacion[lang]} onClick={(e) => alClicVideo(e, slug)}>
       <Triangulo lado={12} />
       <span className="sr">
-        {VIDEO.ver[lang]}: {nombre}
+        {VIDEO.presentacion[lang]}: {nombre}
       </span>
     </a>
   );

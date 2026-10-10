@@ -81,42 +81,75 @@
   margin: 0 auto;
 }
 
-/* ─── Debajo: qué proyecto es, su play y las barras ─── */
+/* ─── Debajo: qué proyecto es, sus dos botones y dónde se está ─── */
 
+/* Una columna centrada, del ancho de la composición: el mismo eje que el hero. */
 .pie {
   display: grid;
   justify-items: center;
-  gap: 22px;
-  width: min(100% - 2 * var(--canal), 1240px);
+  gap: 18px;
+  width: min(100% - 2 * var(--canal), var(--ancho));
   margin: 0 auto;
 }
 
-/* El nombre del proyecto elegido: sólo cuando las barras no lo muestran. */
-.titulo {
-  display: none;
-  margin: 0;
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+/*
+ * EL ELEGIDO: su punto y su nombre, con la letra de una fila de la lista de
+ * proyectos, entre las dos flechas. El ancho es fijo: las flechas no se mueven
+ * de lugar cuando cambia el nombre.
+ */
+.elegido {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  width: min(100%, 420px);
 }
 
-/*
- * LA FILA DE CONTROLES: ‹ · Ver video · Ver proyecto · ›. Los botones son las
- * pastillas del sitio (la llena para el video, la hueca para el proyecto). Las
- * flechas no llevan borde, como los íconos del hero: navegan entre telas, no
- * hacen nada con la elegida, y así no compiten con los dos botones.
- */
-.botones {
+.titulo {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+  font-size: clamp(17px, 1.5vw, 20px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
 }
 
+/* El punto de la lista: el color del proyecto, con su resplandor. */
+.punto {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tinte);
+  box-shadow: 0 0 12px color-mix(in oklch, var(--tinte) 60%, transparent);
+}
+
+.nombre {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .titulo {
+    animation: cambiar 0.4s var(--curva-entrada);
+  }
+}
+
+@keyframes cambiar {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+/* Las flechas no llevan borde, como los íconos del hero: navegan entre telas, no hacen nada con la elegida. */
 .flecha {
   display: grid;
   place-items: center;
-  flex: none;
   width: 44px;
   height: 44px;
   padding: 0;
@@ -140,28 +173,27 @@
   transform: scale(0.94);
 }
 
-/* Separadas de los botones: navegan, no hacen. */
-.anterior {
-  margin-right: 8px;
-}
-
-.siguiente {
-  margin-left: 8px;
-}
-
 .anterior svg {
   transform: scaleX(-1);
+}
+
+/* Las pastillas del sitio: la llena para el video, la hueca para el proyecto. */
+.botones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .ver svg {
   flex: none;
 }
 
+/* Los nueve tramos: el elegido, más largo y del color de su proyecto. */
 .barras {
-  display: grid;
-  grid-template-columns: repeat(var(--n, 9), minmax(0, 1fr));
-  gap: 12px;
-  width: 100%;
+  display: flex;
+  justify-content: center;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -169,39 +201,31 @@
 
 .barras button {
   display: grid;
-  align-content: start;
-  gap: 10px;
-  width: 100%;
-  padding: 10px 0 8px;
+  place-items: center;
+  height: 32px;
+  padding: 0 3px;
   border: 0;
   background: transparent;
-  color: oklch(64% 0 0);
-  font-size: 13.5px;
-  line-height: 1.3;
-  text-align: left;
   cursor: pointer;
-  transition: color 0.2s var(--curva-reaccion);
-}
-
-.barras button:hover,
-.barras button[aria-current] {
-  color: oklch(96% 0 0);
 }
 
 .pista {
+  width: 16px;
   height: 2px;
   border-radius: 2px;
   background: oklch(96% 0 0 / 0.16);
-  transition: background-color 0.4s var(--curva-entrada);
+  transition:
+    width 0.5s var(--curva-entrada),
+    background-color 0.3s var(--curva-entrada);
+}
+
+.barras button:hover .pista {
+  background: oklch(96% 0 0 / 0.4);
 }
 
 .barras button[aria-current] .pista {
+  width: 32px;
   background: var(--tinte);
-}
-
-/* El nombre completo: si no entra en una línea, baja a la segunda. */
-.rotulo {
-  text-wrap: balance;
 }
 
 @media (max-width: 1099px) {
@@ -211,34 +235,6 @@
 
   .espera {
     width: 50%;
-  }
-}
-
-/* Los nombres ya no entran debajo de cada barra (se pisan): el del elegido va arriba de los botones. */
-@media (max-width: 1199px) {
-  .titulo {
-    display: block;
-  }
-
-  .pie {
-    gap: 16px;
-  }
-
-  .botones {
-    margin-bottom: 6px;
-  }
-
-  .rotulo {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
-  }
-
-  .barras button {
-    padding: 11px 0;
   }
 }
 
@@ -257,29 +253,16 @@
     filter: blur(70px);
   }
 
-  .barras {
-    gap: 5px;
+  .pie {
+    gap: 14px;
   }
 
-  /* Que la fila entre en un teléfono: flechas y pastillas un poco más justas. */
+  /* Que las dos pastillas entren en una fila de teléfono. */
   .botones {
-    gap: 6px;
-  }
-
-  .flecha {
-    width: 40px;
-    height: 40px;
+    gap: 8px;
   }
 
   .botones :global(.pastilla) {
     padding: 0 15px;
-  }
-
-  .anterior {
-    margin-right: 0;
-  }
-
-  .siguiente {
-    margin-left: 0;
   }
 }

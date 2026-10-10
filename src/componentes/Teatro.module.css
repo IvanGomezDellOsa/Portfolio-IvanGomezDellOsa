@@ -98,55 +98,10 @@
 }
 
 .titulo {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px 14px;
   font-size: clamp(22px, 2.3vw, 30px);
   font-weight: 600;
   letter-spacing: -0.035em;
   line-height: 1.1;
-}
-
-.duracion {
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0;
-  color: var(--tinta-3);
-}
-
-.controles {
-  flex: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Pausa y reproducir: redondo, del alto de «Cerrar». */
-.alternar {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  border: 1px solid var(--pelo);
-  border-radius: 50%;
-  background: color-mix(in oklch, var(--tinta) 4%, transparent);
-  color: var(--tinta-2);
-  cursor: pointer;
-  transition:
-    color 0.2s var(--curva-reaccion),
-    border-color 0.2s var(--curva-reaccion);
-}
-
-.alternar:hover:not(:disabled) {
-  color: var(--tinta);
-  border-color: color-mix(in oklch, var(--acento) 55%, transparent);
-}
-
-.alternar:disabled {
-  opacity: 0.4;
-  cursor: default;
 }
 
 .cerrar {
@@ -195,19 +150,32 @@
   }
 }
 
-/* El video entra entero en la altura de la pantalla, con lugar para la barra y el pie. */
+/* El video y su mando entran enteros en la altura de la pantalla, con lugar para la barra y el pie. */
 .pantalla {
   position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
   justify-self: center;
-  width: min(100%, calc((100svh - 230px) * 16 / 9));
+  width: min(100%, calc((100svh - 290px) * 16 / 9));
   min-width: min(100%, 320px);
-  aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: var(--radio);
   background: oklch(9% 0 0);
   box-shadow:
     0 0 0 1px var(--pelo),
     0 40px 140px -30px color-mix(in oklch, var(--acento) 30%, transparent);
+}
+
+/* La imagen: el póster, el video de YouTube y el velo que recibe los clics. */
+.imagen {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pantalla:fullscreen .imagen {
+  aspect-ratio: auto;
 }
 
 .poster,
@@ -233,7 +201,7 @@
 }
 
 /* Mientras carga: un pulso sobre el póster, no una ruedita. */
-.pantalla[data-estado="cargando"]::after {
+.pantalla[data-estado="cargando"] .imagen::after {
   content: "";
   position: absolute;
   inset: auto 0 0;
@@ -253,10 +221,281 @@
   }
 }
 
+/* A pantalla completa: el video ocupa todo el alto que deja el mando. */
+.pantalla:fullscreen {
+  border-radius: 0;
+  box-shadow: none;
+  background: #000;
+}
+
+.pantalla:focus {
+  outline: none;
+}
+
+/* El velo: lo que se toca. Un clic pausa; dos, pantalla completa. */
+.velo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.pantalla[data-mando="oculto"] .velo {
+  cursor: none;
+}
+
+/*
+ * EL MANDO, debajo de la imagen, con el orden de YouTube: la barra de avance
+ * y, debajo, reproducir, volumen y tiempo a la izquierda; velocidad y pantalla
+ * completa a la derecha.
+ */
+.mando {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  padding: 0 8px 6px;
+  background: oklch(9% 0 0);
+  color: oklch(98% 0 0);
+  transition: opacity 0.3s var(--curva-reaccion);
+}
+
+.pantalla:fullscreen .mando {
+  padding: 0 16px 8px;
+  background: #000;
+}
+
+/* A pantalla completa se apaga mientras el video corre y nadie mueve el puntero. */
+.pantalla:fullscreen[data-mando="oculto"] .mando:not(:focus-within) {
+  opacity: 0;
+}
+
+/* La barra de avance, montada sobre el borde de la imagen. */
+.linea {
+  position: relative;
+  margin: -8px 6px -2px;
+}
+
+/* Las dos barras (avance y volumen): una pista fina que se llena hasta `--p`. */
+.avance,
+.nivel {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.avance {
+  --lleno: var(--acento);
+  width: 100%;
+}
+
+.nivel {
+  --lleno: oklch(98% 0 0);
+}
+
+.avance::-webkit-slider-runnable-track,
+.nivel::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--lleno) var(--p), oklch(100% 0 0 / 0.28) var(--p));
+}
+
+.avance::-moz-range-track,
+.nivel::-moz-range-track {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--lleno) var(--p), oklch(100% 0 0 / 0.28) var(--p));
+}
+
+.avance::-webkit-slider-thumb,
+.nivel::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4.5px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--lleno);
+}
+
+.avance::-moz-range-thumb,
+.nivel::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--lleno);
+}
+
+/* El botón de la barra de avance aparece al acercarse, como en YouTube. */
+.avance::-webkit-slider-thumb {
+  scale: 0;
+  transition: scale 0.15s var(--curva-reaccion);
+}
+
+.linea:hover .avance::-webkit-slider-thumb,
+.avance:focus-visible::-webkit-slider-thumb {
+  scale: 1;
+}
+
+/* Un corte por escena. */
+.corte {
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 3px;
+  translate: -1px -50%;
+  background: oklch(0% 0 0 / 0.75);
+  pointer-events: none;
+}
+
+.fila {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.boton {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s var(--curva-reaccion);
+}
+
+.boton:hover:not(:disabled) {
+  background: oklch(100% 0 0 / 0.14);
+}
+
+.boton:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* El volumen: la barra se despliega al acercarse al parlante. */
+.sonido {
+  display: flex;
+  align-items: center;
+}
+
+.nivel {
+  width: 0;
+  opacity: 0;
+  transition:
+    width 0.2s var(--curva-reaccion),
+    opacity 0.2s var(--curva-reaccion),
+    margin 0.2s var(--curva-reaccion);
+}
+
+.sonido:hover .nivel,
+.sonido:focus-within .nivel {
+  width: 68px;
+  margin-right: 8px;
+  opacity: 1;
+}
+
+.tiempo {
+  flex: none;
+  margin-left: 6px;
+  font-size: 12.5px;
+  white-space: nowrap;
+  color: oklch(98% 0 0 / 0.92);
+}
+
+.capitulo {
+  min-width: 0;
+  margin-left: 12px;
+  overflow: hidden;
+  font-size: 13.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: oklch(98% 0 0 / 0.72);
+}
+
+.capitulo::before {
+  content: "·";
+  margin-right: 12px;
+}
+
+.espacio {
+  flex: 1;
+}
+
+.ajustes {
+  position: relative;
+  flex: none;
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  display: grid;
+  gap: 1px;
+  min-width: 132px;
+  padding: 6px;
+  border: 1px solid oklch(96% 0 0 / 0.12);
+  border-radius: 10px;
+  background: oklch(17% 0 0 / 0.96);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 60px -20px oklch(0% 0 0 / 0.7);
+}
+
+.menu p {
+  padding: 6px 10px 6px;
+  color: oklch(98% 0 0 / 0.55);
+}
+
+.menu button {
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: oklch(98% 0 0 / 0.8);
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu button:hover {
+  background: oklch(100% 0 0 / 0.08);
+  color: oklch(98% 0 0);
+}
+
+.menu button[aria-checked="true"] {
+  background: oklch(100% 0 0 / 0.1);
+  color: oklch(98% 0 0);
+}
+
+@media (hover: none) {
+  .nivel {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .capitulo {
+    display: none;
+  }
+}
+
 .aviso {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 4;
   display: grid;
   place-content: center;
   justify-items: center;

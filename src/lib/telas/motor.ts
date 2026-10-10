@@ -28,6 +28,7 @@ import {
   BufferAttribute,
   BufferGeometry,
   CanvasTexture,
+  CapsuleGeometry,
   Color,
   DirectionalLight,
   DoubleSide,
@@ -48,7 +49,6 @@ import {
   SRGBColorSpace,
   Texture,
   TextureLoader,
-  TorusGeometry,
   Vector2,
   Vector3,
   VideoTexture,
@@ -143,6 +143,9 @@ const TENSION = 0.4;
 /** Un broche suelto se vuelve a enganchar solo si nadie toca la tela por un rato. */
 const REENGANCHE_ESPERA = 8000;
 const REENGANCHE_DURA = 0.8;
+
+/** El grosor del hilo, en píxeles de pantalla. */
+const GROSOR_HILO = 1;
 
 /** El brillo que recorre el hilo: cada cuánto pasa y cuánto tarda en cruzar. */
 const DESTELLO_CADA = 6;
@@ -487,8 +490,13 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
 
   const escena = new Scene();
   const camara = new PerspectiveCamera(30, 1, 0.1, 50);
-  const hilo = new Mesh(new BoxGeometry(60, 0.0075, 0.0075), new MeshBasicMaterial({ color: new Color(0.075, 0.075, 0.075) }));
-  hilo.position.y = HILO_Y + 0.012;
+  /*
+   * EL HILO: un pelo, como las líneas de la lista de proyectos y la del
+   * encabezado. Su grosor no es una medida del mundo: `ajustar` lo fija en
+   * píxeles de pantalla, para que sea la misma línea fina en cualquier ancho.
+   */
+  const hilo = new Mesh(new BoxGeometry(60, 1, 1), new MeshBasicMaterial({ color: new Color().setRGB(0.24, 0.24, 0.24, SRGBColorSpace) }));
+  hilo.position.y = HILO_Y + 0.004;
   escena.add(hilo);
   // Las luces son sólo para los broches (las telas usan su propio shader).
   escena.add(new HemisphereLight(0xffffff, 0x1a1a1a, 1.5));
@@ -497,16 +505,11 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
   escena.add(sol);
 
   /*
-   * EL BROCHE: un clip de oficina visto de frente. Un cuerpo de metal oscuro
-   * que muerde el borde de la tela, con un filo claro arriba, y dos asas de
-   * alambre que rodean el hilo. Lleva un halo aditivo detrás, apagado salvo
-   * cuando se ilumina.
+   * EL BROCHE: una pinza reducida a su silueta. Una cápsula clara y chata,
+   * vertical, que cruza el hilo y muerde el borde de la tela: nada más. Lleva
+   * un halo aditivo detrás, apagado salvo cuando se ilumina.
    */
-  const geoCuerpo = new BoxGeometry(0.056, 0.03, 0.014);
-  const geoFilo = new BoxGeometry(0.056, 0.005, 0.016);
-  const geoAsa = new TorusGeometry(0.008, 0.0016, 6, 18, Math.PI);
-  const matFilo = new MeshStandardMaterial({ color: 0x9a9a9a, metalness: 0.3, roughness: 0.35 });
-  const matAsa = new MeshStandardMaterial({ color: 0xd8d8d8, metalness: 0.35, roughness: 0.3 });
+  const geoBroche = new CapsuleGeometry(0.0075, 0.03, 6, 16);
   const lienzoHalo = document.createElement("canvas");
   lienzoHalo.width = lienzoHalo.height = 64;
   const ctxHalo = lienzoHalo.getContext("2d")!;
@@ -517,25 +520,18 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
   ctxHalo.fillStyle = gradiente;
   ctxHalo.fillRect(0, 0, 64, 64);
   const texturaHalo = new CanvasTexture(lienzoHalo);
-  /** Los broches, más grandes que el modelo: que se vean y se puedan agarrar. */
-  const TAMANO_BROCHE = 1.5;
+  const TAMANO_BROCHE = 1;
   const crearBroche = (): PiezaBroche => {
     const grupo = new Group();
-    const cuerpo = new MeshStandardMaterial({ color: 0x3c3c3c, metalness: 0.3, roughness: 0.4, emissive: 0xffffff, emissiveIntensity: 0 });
-    const c = new Mesh(geoCuerpo, cuerpo);
-    c.position.y = -0.013;
-    const filo = new Mesh(geoFilo, matFilo);
-    filo.position.y = 0.0005;
-    grupo.add(c, filo);
-    for (const lado of [-1, 1]) {
-      const asa = new Mesh(geoAsa, matAsa);
-      asa.position.set(lado * 0.014, 0.002, 0);
-      grupo.add(asa);
-    }
+    const cuerpo = new MeshStandardMaterial({ color: 0x8a8a8a, metalness: 0, roughness: 0.7, emissive: 0xffffff, emissiveIntensity: 0 });
+    const c = new Mesh(geoBroche, cuerpo);
+    c.position.y = -0.007;
+    c.scale.z = 0.5;
+    grupo.add(c);
     const halo = new SpriteMaterial({ map: texturaHalo, blending: AdditiveBlending, depthWrite: false, transparent: true, opacity: 0 });
     const s = new Sprite(halo);
-    s.scale.setScalar(0.075);
-    s.position.set(0, -0.008, 0.02);
+    s.scale.setScalar(0.11);
+    s.position.set(0, -0.007, 0.02);
     grupo.add(s);
     return { grupo, cuerpo, halo };
   };
@@ -648,6 +644,7 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
     camara.position.z = d;
     camara.updateProjectionMatrix();
     mundoPorPixel = (2 * d * tan) / alto;
+    hilo.scale.set(1, GROSOR_HILO * mundoPorPixel, GROSOR_HILO * mundoPorPixel);
   };
   ajustar();
   const ro = new ResizeObserver(ajustar);

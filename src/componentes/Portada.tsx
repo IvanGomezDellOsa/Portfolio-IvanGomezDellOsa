@@ -4,6 +4,7 @@ import type { Idioma } from "@/contenido/tipos";
 import { funcionesDe, vitrinaDe } from "@/lib/funciones";
 import { inicio } from "@/lib/rutas";
 import { Arriba } from "./Arriba";
+import { BarraProyectos } from "./BarraProyectos";
 import { Encabezado } from "./Encabezado";
 import { Galeria } from "./Galeria";
 import { Hero } from "./Hero";
@@ -26,6 +27,7 @@ export function Portada({ lang }: { lang: Idioma }) {
   return (
     <>
       <Encabezado lang={lang} rutaOtra={inicio(lang === "es" ? "en" : "es")} />
+      <BarraProyectos lang={lang} />
       <main id="contenido">
         <Hero lang={lang} funciones={funciones} vitrina={vitrinaDe(lang)} />
         <Indice lang={lang} />

@@ -124,7 +124,7 @@ async function main() {
 
   console.log("SeViVe");
   // La marca es la de su tela del hero (`espera.webp`, que no sale de acá): el símbolo, sin el nombre.
-  await marca(out("sevive", "espera.webp"), out("sevive", "marca"), { recorte: { left: 490, top: 45, width: 300, height: 300 } });
+  await marca(out("sevive", "espera.webp"), out("sevive", "marca"), { recorte: { left: 475, top: 52, width: 330, height: 330 } });
 
   console.log("Inversiones en Argentina");
   await webp(cap("inversiones.png"), out("inversiones", "sitio"));
@@ -165,8 +165,8 @@ async function main() {
   await video(repo(...F, "start_loop.mp4"), out("freemagicmirror", "inicio"), { ancho: 540, crf: 30, poster: 2 });
   await video(repo(...F, "pose_prompt.mp4"), out("freemagicmirror", "pose"), { ancho: 540, crf: 30, poster: 2 });
   await video(repo(...F, "countdown.mp4"), out("freemagicmirror", "cuenta"), { ancho: 540, crf: 30, poster: 2 });
-  // La cámara del logo es el centro de la miniatura de su demo.
-  await marca(cap("demo-freemagicmirror.jpg"), out("freemagicmirror", "marca"), { recorte: { left: 390, top: 60, width: 500, height: 500 } });
+  // La marca es la de su tela del hero (`espera.webp`): la cámara, sin el nombre.
+  await marca(out("freemagicmirror", "espera.webp"), out("freemagicmirror", "marca"), { recorte: { left: 380, top: 10, width: 520, height: 520 } });
 
   console.log("Persona");
   // La foto del CV, recortada a retrato: la cabeza sobre el tercio superior.

@@ -4,7 +4,7 @@ import { SALA } from "@/contenido/sitio";
 import type { Bloque, Idioma, PrimeraVersion, Proyecto as DatosProyecto } from "@/contenido/tipos";
 import { CasoCompleto } from "./CasoCompleto";
 import { EspacioVectorial } from "./EspacioVectorial";
-import { Barras, Capas, Cobertura, Sistema } from "./Graficos";
+import { Barras, Capas, Cobertura, Recorrido, Sistema, Tuberia } from "./Graficos";
 import { GrillaSemanas } from "./GrillaSemanas";
 import { Kiosco } from "./Kiosco";
 import { Pantalla } from "./Pantalla";
@@ -17,6 +17,8 @@ const VISUAL_BLOQUE = {
   barras: Barras,
   cobertura: Cobertura,
   capas: Capas,
+  tuberia: Tuberia,
+  recorrido: Recorrido,
   sistema: Sistema,
   grilla: GrillaSemanas,
   kiosco: Kiosco,

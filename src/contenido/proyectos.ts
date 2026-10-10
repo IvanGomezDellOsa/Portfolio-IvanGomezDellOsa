@@ -31,19 +31,36 @@
  *     enlazan su README y el CV 10-26 v2, y es lo principal de su página. Los
  *     sitios (Rugidos, Navkok) no tienen: muestran el recorrido de su página.
  *
- * DOS DESCRIPCIONES POR PROYECTO: `resumen` es la reducida (arriba del video,
- * una a tres líneas) y `cuerpo`, la ampliada (debajo), con la redacción del CV.
- * El detalle técnico va en `caso`, que la página muestra a pedido.
+ * TRES NIVELES POR PROYECTO, y cada uno contesta otra pregunta (pedido del
+ * dueño, 2026-10-10: nada se dice dos veces):
+ *   · `resumen` (arriba del video, una a tres líneas): QUE ES y para quién.
+ *   · `cuerpo` (debajo): QUE HACE y con qué está hecho, con la redacción del
+ *     CV. No vuelve a presentar el proyecto.
+ *   · `caso` (el detalle técnico, a pedido): COMO funciona. Arranca directo en
+ *     el funcionamiento, sin otra introducción.
+ * `dato` es un solo número, el que más pesa, aunque el resumen ya lo nombre.
  *
- * FORMA (docs/29 de Ask Leonardo): impersonal o en primera persona formal,
- * paréntesis en vez de rayas, nada absoluto que no esté medido.
+ * SIN «NOTAS DE DESARROLLO» por proyecto (2026-10-10): eran la misma frase en
+ * todos. Que se desarrolla con asistencia de IA se dice una vez, en «Sobre mí».
+ *
+ * FORMA (docs/29 de Ask Leonardo): el sujeto es el proyecto y el verbo va en
+ * presente («reserva», «publica», «se instala»). La primera persona queda para
+ * una sola oración, y sólo donde el rol es parte del dato (los trabajos para
+ * un cliente o una empresa: SeViVe, Navkok, Rugidos). Paréntesis en vez de
+ * rayas, nada absoluto que no esté medido, ningún término que el dueño no
+ * pueda explicar en una entrevista.
+ *
+ * LA EXCEPCION DE ASK LEONARDO (decisión del 2026-10-10): el primer párrafo de
+ * su descripción ampliada cuenta la idea, con las palabras del guion de su
+ * video, y por eso suena más narrado que el resto. Es el único proyecto que
+ * necesita explicar por qué existe antes de decir qué hace. La excepción es de
+ * contenido, no de gramática: sigue en tercera persona y en presente, y sus
+ * otros dos párrafos llevan el tono común.
  */
 import type { Bilingue, Proyecto } from "./tipos";
 
 const b = <T,>(es: T, en: T): Bilingue<T> => ({ es, en });
 const GH = "https://github.com/IvanGomezDellOsa";
-const AI_ES = "Desarrollado con asistencia de IA para ganar productividad; las decisiones de producto, diseño y arquitectura son propias.";
-const AI_EN = "Built with AI assistance to gain productivity; the product, design and architecture decisions are my own.";
 
 export const PROYECTOS: Proyecto[] = [
   // ─────────────────────────────────────────────────────────── Ask Leonardo
@@ -60,14 +77,14 @@ export const PROYECTOS: Proyecto[] = [
     ),
     cuerpo: b(
       [
-        "El proyecto nace de cruzar dos datos. Una IA que simula ser una persona real inventa hasta su manera de expresarse y le atribuye frases que nunca dijo; para evitarlo, esa persona tendría que haber dejado por escrito un contexto enorme de sí misma, y casi nadie lo tiene. Leonardo es una excepción: durante toda su vida hizo una especie de *transfusión mental a papel*. El sistema consulta los 1.565 pasajes que Jean Paul Richter transcribió y tradujo en 1888.",
-        "Cruzar esos datos fue el punto de partida, no el resultado. El pipeline RAG está escrito desde cero, sin frameworks como LangChain o LlamaIndex: recuperación híbrida, un filtro que decide si los cuadernos tratan el tema y la comprobación de que cada cita exista en el pasaje original. De esta forma, cada paso se puede controlar y medir por separado.",
-        "La consulta se vectoriza en el navegador, sin costo por consulta y sin una cuota que se pueda agotar; la generación usa Gemini, con respaldo en Groq. Costo de operación: US$0. Incluye además una biblioteca 3D, un museo virtual 3D y un espacio vectorial que muestra cómo una pregunta encuentra sus pasajes.",
+        "«Actúa como si fueras…» es uno de los pedidos más comunes que recibe una inteligencia artificial. Cuando se le pide ser alguien, el modelo asegura que puede, pero inventa respuestas, cambia la forma de expresarse de esa persona y opina sobre temas que nunca se planteó. Para no inventar necesitaría muchísimo contexto de esa persona: sus pensamientos, sus experiencias, lo que se preguntó alguna vez. Leonardo lo dejó escrito. Durante toda su vida llenó cuadernos, una *transfusión mental a papel*: anatomía, óptica, pintura, máquinas, fábulas y hasta sus listas de compras. Sus expresiones, sus respuestas y sus opiniones no hace falta inventarlas: las escribió él.",
+        "El sitio recibe al visitante en el taller de Leonardo, sentado frente a él: se le hace una pregunta y responde en primera persona, con las fuentes a la vista. Lo que aparece entre comillas sale tal cual de sus cuadernos. Para quien no sabe qué preguntarle, la Pregunta asistida ofrece un mapa de 22 secciones y 396 temas, y cada uno se convierte en pregunta con un clic. Lo que no está en sus cuadernos no se inventa: el sitio lo aclara. Todo en español y en inglés, con una biblioteca 3D, un museo virtual 3D y un espacio vectorial que muestra cómo funciona por dentro.",
+        "Corre sobre un pipeline RAG escrito desde cero, sin frameworks como LangChain o LlamaIndex, para que cada paso se pueda controlar y medir por separado. La pregunta se vuelve vector en el propio navegador; si ningún pasaje se le parece lo suficiente, el sistema se abstiene sin llamar al modelo. Si hay material, una búsqueda híbrida elige tres pasajes, Gemini responde con ellos delante y el código verifica cada cita.",
       ],
       [
-        "The project comes from putting two facts together. An AI that simulates a real person makes up even the way they express themselves and attributes to them phrases they never said; to avoid it, the person would have had to leave behind an enormous written context of themselves, and almost nobody has anything like that. Leonardo is an exception: throughout his life he made a kind of *mind transfusion onto paper*. The system searches the 1,565 passages that Jean Paul Richter transcribed and translated in 1888.",
-        "Putting those facts together was the starting point, not the result. The RAG pipeline is written from scratch, with no frameworks such as LangChain or LlamaIndex: hybrid retrieval, a filter that decides whether the notebooks cover the subject, and a check that every quotation exists in the original passage. This way, every step can be controlled and measured on its own.",
-        "The query is vectorised in the browser, with no cost per query and no quota that can run out; generation uses Gemini, with Groq as fallback. Operating cost: US$0. It also includes a 3D library, a 3D virtual museum and a vector space that shows how a question finds its passages.",
+        "“Act as if you were…” is one of the most common requests an artificial intelligence receives. When asked to be someone, the model claims it can, but it invents answers, changes the way that person speaks and gives opinions on things they never considered. To stop inventing it would need an enormous amount of context about that person: their thoughts, their experiences, what they once wondered. Leonardo left it in writing. All his life he filled notebooks, a *mind transfusion onto paper*: anatomy, optics, painting, machines, fables and even his shopping lists. His expressions, his answers and his opinions do not need to be invented: he wrote them himself.",
+        "The site welcomes visitors into Leonardo's workshop, seated right in front of him: you ask him a question and he answers in the first person, with the sources in plain view. Everything in quotation marks comes word for word from his notebooks. For those who do not know what to ask, Guided questions offer a map of 22 sections and 396 subjects, each one turned into a question with one click. What is not in his notebooks is not invented: the site says so. All of it in Spanish and English, with a 3D library, a 3D virtual museum and a vector space that shows how it works on the inside.",
+        "It runs on a RAG pipeline written from scratch, with no frameworks such as LangChain or LlamaIndex, so that every step can be controlled and measured on its own. The question becomes a vector right in the browser; if no passage is close enough, the system abstains without calling the model. If there is material, a hybrid search picks three passages, Gemini answers with them in front of it, and the code verifies every quotation.",
       ],
     ),
     dato: {
@@ -110,29 +127,28 @@ export const PROYECTOS: Proyecto[] = [
     ),
     caso: [
       {
-        titulo: b("La idea", "The idea"),
+        titulo: b("La diferencia se mide", "The difference can be measured"),
         bloques: [
-          { tipo: "parrafos", texto: b(["El proyecto nace de cruzar dos datos."], ["The project comes from putting two facts together."]) },
+          { tipo: "visual", id: "barras" },
           {
-            tipo: "parrafos",
-            texto: b(
+            tipo: "tabla",
+            columnas: b(["También se midió", "Resultado"], ["Also measured", "Result"]),
+            filas: b(
               [
-                "**El límite de la IA.** Un modelo de lenguaje que simula ser una persona real lo hace de forma genérica y poco lograda: inventa hasta su manera de expresarse, que dice mucho de cómo es alguien, y le atribuye frases, opiniones y datos que nunca dijo. Para que conversar con una IA así tuviera sentido, esa persona tendría que haber dejado por escrito un contexto enorme de sí misma (miles de preguntas, respuestas y reflexiones), de modo que la IA tuviera la información necesaria y no necesitara inventar. Casi nadie tiene algo así.",
-                "**El dato sobre Leonardo.** Leonardo sí lo dejó. Durante toda su vida hizo una especie de *transfusión mental a papel*: anotó lo que observaba, lo que experimentaba y lo que se preguntaba, de la anatomía y la óptica a la pintura, las máquinas, las fábulas y hasta sus listas de compras. Sobreviven más de 7.500 páginas. En 1888, Jean Paul Richter transcribió y tradujo 1.565 de sus pasajes en una edición hoy de dominio público: ese es el texto que consulta el sistema.",
-                "**El proyecto.** Cruzar los dos datos fue el punto de partida, no el resultado. Hubo que medir y elegir modelos, calibrar la búsqueda semántica, separar la voz de Leonardo de la de su editor, acotar la prosa del modelo y comprobar que cada cita exista en los cuadernos. El resultado es un software que no necesita imaginar cómo respondería Leonardo, porque lo busca en lo que él escribió, y que llega lo más cerca posible, hoy, a sentir que se le puede preguntar en persona.",
+                ["Preguntas con respuesta en los cuadernos que el sistema rechazó por error", "**0**, en 170 preguntas de prueba"],
+                ["Temas de los cuadernos que el buscador encuentra en los dos idiomas", "**94%**"],
               ],
               [
-                "**The limit of AI.** A language model that simulates a real person does it in a generic, unconvincing way: it makes up even the way they express themselves, which says a lot about who someone is, and it attributes to them phrases, opinions and facts they never said. For a conversation with such an AI to make sense, that person would have had to leave behind an enormous written context of themselves (thousands of questions, answers and reflections), so that the AI would have the information it needed and would not have to make things up. Almost nobody has anything like that.",
-                "**The fact about Leonardo.** Leonardo did. Throughout his life he made a kind of *mind transfusion onto paper*: he wrote down what he observed, what he tested and what he wondered about, from anatomy and optics to painting, machines, fables and even his shopping lists. More than 7,500 pages survive. In 1888, Jean Paul Richter transcribed and translated 1,565 of his passages in an edition now in the public domain: that is the text the system searches.",
-                "**The project.** Putting the two facts together was the starting point, not the result. It took measuring and choosing models, calibrating the semantic search, separating Leonardo's voice from his editor's, reining in the model's prose and checking that every quotation exists in the notebooks. The result is software that does not need to imagine how Leonardo would answer, because it looks it up in what he wrote, and that comes as close as is possible today to feeling you can ask him in person.",
+                ["Questions answerable from the notebooks that the system wrongly refused", "**0**, across 170 test questions"],
+                ["Notebook subjects the search finds in both languages", "**94%**"],
               ],
+            ),
+            pie: b(
+              "Las dos corridas del gráfico, con cada respuesta completa, están publicadas en [`evals/out/`](https://github.com/IvanGomezDellOsa/Ask_Leonardo_da_Vinci/tree/main/evals/out).",
+              "The two runs behind the chart, with every answer in full, are published in [`evals/out/`](https://github.com/IvanGomezDellOsa/Ask_Leonardo_da_Vinci/tree/main/evals/out).",
             ),
           },
         ],
-      },
-      {
-        titulo: b("La diferencia se mide", "The difference can be measured"),
-        bloques: [{ tipo: "visual", id: "barras" }],
       },
       {
         titulo: b("Preguntarle a Leonardo", "Asking Leonardo"),
@@ -156,19 +172,19 @@ export const PROYECTOS: Proyecto[] = [
             items: b(
               [
                 "**Respuestas con fuentes.** Leonardo responde en primera persona a partir de los pasajes recuperados, con las fuentes debajo y el enlace a cada pasaje en Project Gutenberg.",
-                "**Citas textuales.** Lo que va entre comillas sale tal cual del pasaje original; si no coincide, no se muestra como cita.",
-                "**Pregunta asistida.** Quien llega no suele saber qué se le puede preguntar a Leonardo. Un mapa de 22 secciones y 396 temas sobre los que sí escribió, más seis preguntas sugeridas, lo muestra en segundos, incluidos temas que probablemente no se le ocurrirían. Cada tema se convierte en pregunta con un clic, por lo que quien no está acostumbrado a la IA puede concentrarse en leer las respuestas en vez de armar un prompt.",
-                "**Wikipedia para los datos puntuales.** Es habitual que lo primero que se le ocurra preguntar a un usuario sea un dato («¿qué día naciste?», «¿quién fue tu maestro?»), algo que Leonardo no solía anotar sobre sí mismo. En esos casos, el sitio aclara que no está en sus cuadernos y muestra el fragmento exacto de Wikipedia, con su atribución, para que el usuario tenga su respuesta, pero fuera de la voz de Leonardo.",
-                "**Dice cuándo no hay respuesta.** Si los cuadernos no tratan un tema, lo dice en lugar de inventar: preguntado por la Mona Lisa, muestra la nota del editor que confirma que sus manuscritos nunca la mencionan.",
+                "**Citas textuales.** Todo lo que aparece entre comillas sale tal cual de sus cuadernos. Si una cita no coincide con el original, no se muestra como cita.",
+                "**Pregunta asistida.** ¿Qué se le pregunta a uno de los hombres más brillantes de la historia? Escribió sobre tantas cosas que hasta puede intimidar. Por eso hay un mapa de 22 secciones y 396 temas sobre los que sí escribió, más seis preguntas sugeridas: se elige un tema y con un clic se convierte en pregunta. Quien no está acostumbrado a la IA puede concentrarse en leer las respuestas en vez de armar un prompt.",
+                "**Lo que no pudo escribir.** Hay cosas que Leonardo, lógicamente, no dejó en sus cuadernos, como su propia muerte, y datos que no solía anotar sobre sí mismo («¿qué día naciste?», «¿quién fue tu maestro?»). Ahí el sitio lo aclara y muestra el fragmento exacto de Wikipedia, con su atribución, fuera de su voz.",
+                "**Lo que se perdió.** Con los siglos, parte de sus cuadernos se perdió. ¿La Mona Lisa? Sus manuscritos nunca la mencionan, y el sitio muestra la nota del editor que lo confirma. Queda el misterio, pero no se inventa.",
                 "**Bilingüe.** Todo el sitio, incluidas las respuestas de Leonardo, está completo en español y en inglés.",
               ],
               [
-                "**Answers with sources.** Leonardo answers in the first person from the retrieved passages, with the sources underneath and a link to each passage on Project Gutenberg.",
-                "**Verbatim quotations.** What appears in quotation marks comes word for word from the original passage; if it does not match, it is not shown as a quotation.",
-                "**Guided questions.** Visitors usually do not know what they can ask Leonardo. A map of 22 sections and 396 subjects he did write about, plus six suggested questions, shows it in seconds, including subjects that probably would not occur to them. Any subject becomes a question in one click, which lets people who are not used to AI focus on reading the answers instead of crafting a prompt.",
-                "**Wikipedia for plain facts.** It is common for the first thing a visitor thinks of asking to be a fact (“what day were you born?”, “who was your master?”), something Leonardo did not usually write down about himself. In those cases the site makes clear that it is not in his notebooks and shows the exact Wikipedia excerpt, with its attribution, so the visitor gets an answer, but outside Leonardo's voice.",
-                "**Says when there is no answer.** If the notebooks do not cover a subject, it says so instead of making something up: asked about the Mona Lisa, it shows the editor's note confirming that his manuscripts never mention it.",
-                "**Bilingual.** The whole site, Leonardo's answers included, is fully available in English and Spanish.",
+                "**Answers with sources.** Leonardo answers in the first person from the retrieved passages, with the sources below and a link to each passage on Project Gutenberg.",
+                "**Verbatim quotations.** Everything in quotation marks comes word for word from his notebooks. If a quotation does not match the original, it is not shown as a quotation.",
+                "**Guided questions.** What do you ask one of the most brilliant minds in history? He wrote about so many things that it can even feel intimidating. That is why there is a map of 22 sections and 396 subjects he did write about, plus six suggested questions: pick a subject and one click turns it into a question. Anyone not used to AI can focus on reading the answers instead of crafting a prompt.",
+                "**What he could not write.** Some things Leonardo, naturally, did not leave in his notebooks, like his own death, along with facts he rarely wrote down about himself (“what day were you born?”, “who was your teacher?”). There, the site says so and shows the exact Wikipedia excerpt, with attribution, outside his voice.",
+                "**What was lost.** Over the centuries, part of his notebooks was lost. The Mona Lisa? His manuscripts never mention it, and the site shows the editor's note that confirms it. The mystery remains, but nothing is invented.",
+                "**Bilingual.** The whole site, including Leonardo's answers, is complete in Spanish and English.",
               ],
             ),
           },
@@ -238,11 +254,11 @@ export const PROYECTOS: Proyecto[] = [
             texto: b(
               [
                 "Es la sección «Cómo funciona» del sitio. Le muestra al visitante los pasajes convertidos en vectores y cómo una pregunta encuentra los suyos. Está en una web para público general a propósito: la validez técnica del sistema es lo que respalda cada respuesta de Leonardo.",
-                "No es una animación ilustrativa. Son los vectores reales del proyecto: los 1.402 pasajes que consulta el sistema, ubicados por su red neuronal y llevados de 384 dimensiones a 3 para poder verlos. Cada uno apunta al pasaje que más se le parece.",
+                "No es una animación ilustrativa. Son los vectores reales del proyecto: los 1.402 pasajes que consulta el sistema, ubicados por su red neuronal y llevados de 384 dimensiones a 3 para poder verlos. Al encender una sección se entiende la cercanía: para la red neuronal, los pasajes que hablan de lo mismo tienden a quedar juntos.",
               ],
               [
                 "It is the site's “How it works” section. It shows visitors the passages turned into vectors and how a question finds its own. It sits in a website for the general public on purpose: the technical soundness of the system is what backs every answer from Leonardo.",
-                "This is not an illustrative animation. These are the project's real vectors: the 1,402 passages the system searches, placed by its neural network and brought down from 384 dimensions to 3 so they can be seen. Each one points to the passage most similar to it.",
+                "This is not an illustrative animation. These are the project's real vectors: the 1,402 passages the system searches, placed by its neural network and brought down from 384 dimensions to 3 so they can be seen. Light up a section and the closeness makes sense: to the neural network, passages about the same thing tend to sit together.",
               ],
             ),
           },
@@ -254,45 +270,11 @@ export const PROYECTOS: Proyecto[] = [
           {
             tipo: "parrafos",
             texto: b(
-              ["Pipeline RAG escrito desde cero: la recuperación, el filtro y la verificación de citas son código propio, sin frameworks como LangChain o LlamaIndex. De esta forma, cada paso se puede controlar y medir por separado."],
-              ["A RAG pipeline written from scratch: retrieval, the filter and quotation checking are the project's own code, with no frameworks such as LangChain or LlamaIndex. This way, every step can be controlled and measured on its own."],
+              ["La idea fue el punto de partida, no el resultado. Hubo que medir y elegir modelos, calibrar la búsqueda semántica, dejar que hable sólo Leonardo (y no su editor), limitar la prosa que los modelos de IA tienden a inventar y comprobar que cada cita exista en los cuadernos. El texto que consulta el sistema es la edición que Jean Paul Richter transcribió y tradujo en 1888, hoy de dominio público."],
+              ["The idea was the starting point, not the result. It took measuring and choosing models, calibrating the semantic search, letting only Leonardo speak (not his editor), reining in the prose AI models tend to invent, and checking that every quotation exists in the notebooks. The text the system searches is the edition Jean Paul Richter transcribed and translated in 1888, now in the public domain."],
             ),
           },
-          {
-            tipo: "diagrama",
-            lineas: b(
-              [
-                "Pregunta",
-                "  ↓  embedding en el navegador, sin API",
-                "Capa 0 · casos curados ─────────────► abstención con evidencia citada",
-                "  ↓",
-                "Capa 1 · similitud contra umbral ───► abstención, sin llamar al modelo",
-                "  ↓",
-                "Recuperación híbrida · coseno + BM25, fusión RRF → 3 pasajes",
-                "  ↓",
-                "Capa 2 · el modelo responde o se abstiene, con los pasajes delante",
-                "  ↓",
-                "Capa 3 · cada cita verificada contra el pasaje original",
-                "  ↓",
-                "Respuesta verificada + fuentes",
-              ],
-              [
-                "Question",
-                "  ↓  embedding in the browser, no API",
-                "Layer 0 · curated cases ────────────► refusal with cited evidence",
-                "  ↓",
-                "Layer 1 · similarity vs threshold ──► refusal, without calling the model",
-                "  ↓",
-                "Hybrid retrieval · cosine + BM25, RRF fusion → 3 passages",
-                "  ↓",
-                "Layer 2 · the model answers or declines, with the passages in front of it",
-                "  ↓",
-                "Layer 3 · every quotation verified against the original passage",
-                "  ↓",
-                "Verified answer + sources",
-              ],
-            ),
-          },
+          { tipo: "visual", id: "recorrido" },
           {
             tipo: "lista",
             items: b(
@@ -300,13 +282,13 @@ export const PROYECTOS: Proyecto[] = [
                 "**El coseno decide y la fusión sólo ordena.** Un ranking siempre tiene un primer puesto, exista o no material pertinente; lo que determina si hay respuesta es la similitud contra un umbral calibrado.",
                 "**Un índice y un umbral por idioma.** Con un umbral compartido, la exactitud del filtro caía de 88,4% a 70,5%.",
                 "**Embeddings en el navegador.** La consulta se vectoriza en el dispositivo del usuario: sin costo por consulta y sin una cuota que se pueda agotar.",
-                "**Costo de operación: US$0.** Sin servidor persistente ni base de datos vectorial. El índice es un binario int8 versionado en Git, BM25 está precomputado y las secciones 3D se cargan sólo cuando alguien las visita.",
+                "**Sin servidor persistente ni base de datos vectorial.** El índice es un binario int8 versionado en Git, BM25 está precomputado y las secciones 3D se cargan sólo cuando alguien las visita.",
               ],
               [
                 "**Cosine decides, fusion only orders.** A ranking always has a first place, whether or not relevant material exists; what determines whether there is an answer is similarity against a calibrated threshold.",
                 "**One index and one threshold per language.** With a shared threshold, the filter's accuracy dropped from 88.4% to 70.5%.",
                 "**Embeddings in the browser.** The query is vectorised on the user's device: no cost per query and no quota that can run out.",
-                "**Operating cost: US$0.** No persistent server and no vector database. The index is an int8 binary versioned in Git, BM25 is precomputed, and the 3D sections load only when someone visits them.",
+                "**No persistent server and no vector database.** The index is an int8 binary versioned in Git, BM25 is precomputed, and the 3D sections load only when someone visits them.",
               ],
             ),
           },
@@ -343,45 +325,6 @@ export const PROYECTOS: Proyecto[] = [
           },
         ],
       },
-      {
-        titulo: b("Resultados", "Results"),
-        bloques: [
-          {
-            tipo: "tabla",
-            columnas: b(["Métrica", "Resultado"], ["Metric", "Result"]),
-            filas: b(
-              [
-                ["Citas inventadas", "**0** de 187"],
-                ["Citas idénticas al pasaje original", "**100%**"],
-                ["Preguntas con respuesta en los cuadernos que el sistema rechazó por error", "**0**, en 170 preguntas de prueba"],
-                ["Temas de los cuadernos que el buscador encuentra en los dos idiomas", "**94%**"],
-              ],
-              [
-                ["Invented quotations", "**0** of 187"],
-                ["Quotations identical to the original passage", "**100%**"],
-                ["Questions answerable from the notebooks that the system wrongly declined", "**0**, across 170 test questions"],
-                ["Notebook subjects the search finds in both languages", "**94%**"],
-              ],
-            ),
-            pie: b(
-              "Las dos corridas del gráfico, con cada respuesta completa, están publicadas en [`evals/out/`](https://github.com/IvanGomezDellOsa/Ask_Leonardo_da_Vinci/tree/main/evals/out).",
-              "The two runs behind the chart, with every answer in full, are published in [`evals/out/`](https://github.com/IvanGomezDellOsa/Ask_Leonardo_da_Vinci/tree/main/evals/out).",
-            ),
-          },
-        ],
-      },
-      {
-        titulo: b("Notas de desarrollo", "Development notes"),
-        bloques: [
-          {
-            tipo: "parrafos",
-            texto: b(
-              ["Desarrollo apoyado fuertemente en IA a lo largo de todo el ciclo: como motor para acelerar la producción y como segunda opinión ante decisiones técnicas. La idea, las decisiones de producto y el criterio de evaluación (qué se mide, contra qué y qué se publica) son propios. La documentación completa del proyecto, que registra cada decisión y todo el proceso de desarrollo, puede solicitarse por privado."],
-              ["Development leaned heavily on AI throughout the whole cycle: as an engine to speed up production and as a second opinion on technical decisions. The idea, the product decisions and the evaluation criteria (what gets measured, against what, and what gets published) are my own. The full project documentation, which records every decision and the development process, is available privately on request."],
-            ),
-          },
-        ],
-      },
     ],
   },
 
@@ -394,17 +337,17 @@ export const PROYECTOS: Proyecto[] = [
     periodo: b("2026", "2026"),
     area: b("Datos · ETL", "Data · ETL"),
     resumen: b(
-      "La primera y única base unificada de pauta oficial argentina: **540.413 órdenes de publicidad** de Nación, CABA, PBA y Santa Fe (2003–2025), con montos deflactados por IPC.",
-      "The first and only unified database of Argentine government advertising: **540,413 advertising orders** from the national government, Buenos Aires City, Buenos Aires Province and Santa Fe (2003–2025), with amounts adjusted for inflation (CPI).",
+      "La primera y única base unificada de pauta oficial argentina: **540.413 órdenes de publicidad** de Nación, CABA, PBA y Santa Fe (2003–2025), con montos deflactados por IPC. Se consulta desde el sitio con una tabla explorable, rankings y el buscador «Cuánto recibió» (por proveedor, medio o grupo mediático), con la metodología publicada.",
+      "The first and only unified database of Argentine government advertising: **540,413 advertising orders** from the national government, Buenos Aires City, Buenos Aires Province and Santa Fe (2003–2025), with amounts adjusted for inflation (CPI). It is queried on the website through an explorable table, rankings and the “Cuánto recibió” (how much it received) search by supplier, media outlet or media group, with the methodology published.",
     ),
     cuerpo: b(
       [
-        "Antes, esos datos estaban dispersos en portales, planillas y PDF de cada jurisdicción, sin forma de compararlos. El ETL en Python incluye un dataset de PBA 2020–2024 reconstruido a partir de más de 500 resoluciones en PDF, datos que no existen en ningún portal de datos abiertos.",
-        "Arquitectura sin backend: la base SQLite (~173 MB) se aloja en Cloudflare R2 y el navegador consulta únicamente los bytes necesarios mediante HTTP Range Requests. Costo de operación: US$0.",
+        "Antes, esos datos estaban dispersos en portales, planillas y PDF de cada jurisdicción, sin una forma unificada y sencilla de acceder a ellos ni de compararlos. El ETL en Python incluye un dataset de PBA 2020–2024 reconstruido a partir de más de 500 resoluciones en PDF, datos que no existen en ningún portal de datos abiertos.",
+        "Arquitectura sin backend: la base SQLite (~173 MB) se aloja en Cloudflare R2 y el navegador consulta únicamente los bytes necesarios mediante HTTP Range Requests.",
       ],
       [
-        "Before, that data was scattered across portals, spreadsheets and PDFs from each jurisdiction, with no way to compare them. The Python ETL includes a Buenos Aires Province 2020–2024 dataset reconstructed from more than 500 PDF resolutions, data that does not exist in any open data portal.",
-        "Backendless architecture: the SQLite database (~173 MB) is hosted on Cloudflare R2 and the browser queries only the bytes it needs through HTTP Range Requests. Operating cost: US$0.",
+        "Before, that data was scattered across portals, spreadsheets and PDFs from each jurisdiction, with no unified, simple way to access it or compare it. The Python ETL includes a Buenos Aires Province 2020–2024 dataset reconstructed from more than 500 PDF resolutions, data that does not exist in any open data portal.",
+        "Backendless architecture: the SQLite database (~173 MB) is hosted on Cloudflare R2 and the browser queries only the bytes it needs through HTTP Range Requests.",
       ],
     ),
     dato: {
@@ -437,21 +380,13 @@ export const PROYECTOS: Proyecto[] = [
     ),
     caso: [
       {
-        titulo: b("El problema", "The problem"),
+        titulo: b("PBA, reconstruida desde PDF", "Buenos Aires Province, rebuilt from PDFs"),
         bloques: [
           {
             tipo: "parrafos",
             texto: b(
-              [
-                "Hasta este proyecto, los datos de publicidad oficial estaban dispersos en portales de datos abiertos, planillas y PDF de cada jurisdicción, con formatos incompatibles entre sí y sin posibilidad de comparar montos entre años o gobiernos.",
-                "**PBA 2020–2024 es un dataset propio del proyecto.** La Provincia de Buenos Aires no publica sus órdenes de publicidad en datasets abiertos para ese período: la información estaba en resoluciones individuales en PDF. Un script fue extrayendo los datos resolución por resolución (más de 500) para reconstruir el detalle de cada orden: proveedor, medio, monto y expediente.",
-                "La postura del sitio es estrictamente informativa: sin denuncia ni opinión.",
-              ],
-              [
-                "Until this project, government advertising data was scattered across open data portals, spreadsheets and PDFs from each jurisdiction, in formats incompatible with one another and with no way to compare amounts across years or governments.",
-                "**Buenos Aires Province 2020–2024 is a dataset of the project's own.** The province does not publish its advertising orders in open datasets for that period: the information sat in individual PDF resolutions. A script extracted the data resolution by resolution (more than 500) to reconstruct the detail of each order: supplier, media outlet, amount and file number.",
-                "The site's stance is strictly informative: no accusation, no opinion.",
-              ],
+              ["La Provincia de Buenos Aires no publica sus órdenes de publicidad de 2020 a 2024 en datasets abiertos: la información estaba en resoluciones individuales en PDF. Un script fue extrayendo los datos resolución por resolución (más de 500) para reconstruir el detalle de cada orden: proveedor, medio, monto y expediente. Ese tramo es un dataset propio del proyecto."],
+              ["Buenos Aires Province does not publish its 2020 to 2024 advertising orders in open datasets: the information sat in individual PDF resolutions. A script extracted the data resolution by resolution (more than 500) to reconstruct the detail of each order: supplier, media outlet, amount and file number. That stretch is a dataset of the project's own."],
             ),
           },
         ],
@@ -492,45 +427,11 @@ export const PROYECTOS: Proyecto[] = [
           {
             tipo: "parrafos",
             texto: b(
-              ["El proyecto corre sin backend ni servidores: la base SQLite completa (~173 MB) vive en Cloudflare R2 partida en bloques, y el navegador consulta sólo los bytes que necesita mediante HTTP Range Requests, gracias a `sql.js-httpvfs`. Costo de operación: US$0."],
-              ["The project runs with no backend or servers: the full SQLite database (~173 MB) lives on Cloudflare R2 split into chunks, and the browser queries only the bytes it needs through HTTP Range Requests, thanks to `sql.js-httpvfs`. Operating cost: US$0."],
+              ["El proyecto corre sin backend ni servidores: la base SQLite completa (~173 MB) vive en Cloudflare R2 partida en bloques, y el navegador consulta sólo los bytes que necesita mediante HTTP Range Requests, gracias a `sql.js-httpvfs`."],
+              ["The project runs with no backend or servers: the full SQLite database (~173 MB) lives on Cloudflare R2 split into chunks, and the browser queries only the bytes it needs through HTTP Range Requests, thanks to `sql.js-httpvfs`."],
             ),
           },
-          {
-            tipo: "diagrama",
-            lineas: b(
-              [
-                "Fuentes oficiales (CSV / Excel / PDF por jurisdicción)",
-                "  ↓",
-                "Extractores en Python, uno por jurisdicción",
-                "  ↓",
-                "unificar.py → CSV canónico (8 columnas, 540.413 filas) → validar.py",
-                "  ↓",
-                "build_db.py → SQLite deflactada (IPC INDEC) + caches precomputados",
-                "  ↓",
-                "Bloques de 20 MiB en Cloudflare R2",
-                "  ↓",
-                "Astro + islas de React → SQL desde el navegador (sql.js-httpvfs)",
-                "  ↓",
-                "Cloudflare Pages",
-              ],
-              [
-                "Official sources (CSV / Excel / PDF per jurisdiction)",
-                "  ↓",
-                "Python extractors, one per jurisdiction",
-                "  ↓",
-                "unificar.py → canonical CSV (8 columns, 540,413 rows) → validar.py",
-                "  ↓",
-                "build_db.py → deflated SQLite (INDEC CPI) + precomputed caches",
-                "  ↓",
-                "20 MiB chunks on Cloudflare R2",
-                "  ↓",
-                "Astro + React islands → SQL from the browser (sql.js-httpvfs)",
-                "  ↓",
-                "Cloudflare Pages",
-              ],
-            ),
-          },
+          { tipo: "visual", id: "tuberia" },
         ],
       },
       {
@@ -584,13 +485,15 @@ export const PROYECTOS: Proyecto[] = [
             items: b(
               [
                 "**Montos deflactados, no nominales.** Todo está en pesos constantes (IPC INDEC): comparar la pauta de 2009 con la de 2024 en pesos nominales no tiene sentido en Argentina.",
-                "**Sin normalización en la tabla, normalización transparente en los agregados.** La tabla muestra el dato exacto de la fuente; los rankings sólo unifican variantes de escritura de una misma razón social, con un listado curado de forma conservadora.",
+                "**El dato exacto, aun a costa de la comodidad.** La tabla muestra cada orden tal como figura en la fuente oficial, sin corregir ni agrupar nombres, aunque eso la haga menos cómoda de leer: un mismo proveedor puede aparecer escrito de varias formas. Los rankings y «Cuánto recibió» sólo unifican variantes de escritura de una misma razón social, con un listado curado de forma conservadora; la consolidación por grupo mediático es una opción aparte, con su fuente citada.",
                 "**Honestidad sobre los huecos.** Cada limitación de la fuente (filas sin fecha, períodos parciales) se documenta en vez de ocultarse.",
+                "**Postura informativa:** sin denuncia ni opinión.",
               ],
               [
                 "**Deflated, not nominal amounts.** Everything is in constant pesos (INDEC CPI): comparing 2009 advertising with 2024 in nominal pesos makes no sense in Argentina.",
-                "**No normalization in the table, transparent normalization in aggregates.** The table shows the exact source value; rankings only unify spelling variants of the same company name, from a conservatively curated list.",
+                "**The exact figure, even at the cost of convenience.** The table shows every order as it appears in the official source, without correcting or grouping names, even though that makes it less comfortable to read: the same supplier can appear spelled several ways. Rankings and “Cuánto recibió” only unify spelling variants of the same company name, from a conservatively curated list; consolidation by media group is a separate option, with its source cited.",
                 "**Honesty about the gaps.** Every source limitation (rows without a date, partial periods) is documented rather than hidden.",
+                "**An informative stance:** no accusation, no opinion.",
               ],
             ),
           },
@@ -625,18 +528,6 @@ export const PROYECTOS: Proyecto[] = [
           },
         ],
       },
-      {
-        titulo: b("Notas de desarrollo", "Development notes"),
-        bloques: [
-          {
-            tipo: "parrafos",
-            texto: b(
-              ["Desarrollado con asistencia de IA para ganar productividad; las decisiones de producto, arquitectura y lógica de negocio son propias."],
-              ["Built with AI assistance to gain productivity; the product, architecture and business logic decisions are my own."],
-            ),
-          },
-        ],
-      },
     ],
   },
 
@@ -649,22 +540,24 @@ export const PROYECTOS: Proyecto[] = [
     periodo: b("dic. 2025 – jun. 2026", "Dec 2025 – Jun 2026"),
     area: b("Full stack", "Full stack"),
     resumen: b(
-      "Aplicación de reservas y gestión en producción, con más de 200 usuarios, API REST en Python/FastAPI y PostgreSQL.",
-      "A booking and management application in production, with more than 200 users, a REST API in Python/FastAPI and PostgreSQL.",
+      "Aplicación de reservas y gestión para un estudio de pilates, en producción con más de 200 usuarios. Los alumnos reservan sus clases desde el celular y la administración gestiona el estudio desde su panel. API REST en Python/FastAPI y PostgreSQL.",
+      "A booking and management application for a pilates studio, in production with more than 200 users. Students book their classes from their phones and the administration runs the studio from its panel. REST API in Python/FastAPI and PostgreSQL.",
     ),
     cuerpo: b(
       [
-        "La desarrollé como único programador para un estudio de pilates (ex Pilates All Canning), desde la captación del cliente y la definición de requisitos hasta la puesta en producción. Reservas con control de concurrencia para evitar sobrerreservas, créditos con vencimiento, turnos fijos con reserva automática y calendario con feriados configurables.",
-        "Las cuentas que crea la administración se unifican automáticamente con la del alumno cuando se registra (por DNI), preservando historial, créditos y turnos. Finalizado el desarrollo, continúo a cargo del soporte, la administración del servidor y las actualizaciones solicitadas por el cliente.",
+        "La desarrollé como único programador para un estudio de Canning, Buenos Aires (ex Pilates All Canning, franquicia), desde la captación del cliente y la definición de requisitos hasta la puesta en producción. Finalizado el desarrollo, continúo a cargo del soporte, la administración del servidor y las actualizaciones solicitadas por el cliente.",
+        "Reservas con control de concurrencia para evitar sobrerreservas, créditos con vencimiento, turnos fijos con reserva automática, toma de asistencia y calendario con feriados configurables. Las cuentas que crea la administración se unifican automáticamente con la del alumno cuando se registra (por DNI), preservando historial, créditos y turnos.",
+        "Se instala como PWA en cualquier dispositivo, con una guía paso a paso pensada para usuarios no técnicos.",
       ],
       [
-        "I built it as the sole developer for a pilates studio (formerly Pilates All Canning), from client acquisition and requirements definition to production launch. Bookings with concurrency control to prevent overbooking, expiring credits, recurring slots with automatic booking and a calendar with configurable holidays.",
-        "Accounts created by the administration merge automatically with the student's own account at sign-up (by national ID), preserving history, credits and slots. Since development ended, I remain responsible for support, server administration and client-requested updates.",
+        "I built it as the sole developer for a studio in Canning, Buenos Aires (formerly Pilates All Canning, a franchise), from client acquisition and requirements definition to production launch. Since development ended, I remain responsible for support, server administration and client-requested updates.",
+        "Bookings with concurrency control to prevent overbooking, expiring credits, recurring slots with automatic booking, attendance tracking and a calendar with configurable holidays. Accounts created by the administration merge automatically with the student's own account at sign-up (by national ID), preserving history, credits and slots.",
+        "It installs as a PWA on any device, with a step-by-step guide designed for non-technical users.",
       ],
     ),
     dato: {
       valor: b("+200", "200+"),
-      etiqueta: b("usuarios: los alumnos y la administración del estudio", "users: the studio's students and administration"),
+      etiqueta: b("usuarios", "users"),
     },
     stack: ["Flutter", "Python", "FastAPI", "PostgreSQL", "Firebase", "Docker", "Nginx"],
     enlaces: [
@@ -692,26 +585,15 @@ export const PROYECTOS: Proyecto[] = [
     ),
     caso: [
       {
-        titulo: b("El proyecto", "The project"),
+        titulo: b("Qué resuelve", "What it solves"),
         bloques: [
           {
             tipo: "parrafos",
             texto: b(
-              [
-                "Aplicación de gestión y reservas para un estudio de pilates de Canning, Buenos Aires (franquicia), usada por alumnos y administración. Proyecto freelance a mi cargo de principio a fin, como único programador: desde la captación del cliente y la definición de requisitos hasta el despliegue y la aplicación en producción.",
-                "El objetivo: una aplicación fácil de usar, que permita delegar y ordenar la gestión del estudio, y que al mismo tiempo impida que un alumno rompa el orden del negocio.",
-              ],
-              [
-                "A management and booking app for a pilates studio in Canning, Buenos Aires (a franchise), used by students and the administration. A freelance project I handled end to end as the sole developer: from client acquisition and requirements definition to deployment and the app in production.",
-                "The goal: an easy-to-use application that lets the studio delegate and organize its management, while keeping any student from breaking the business rules.",
-              ],
+              ["El objetivo: una aplicación fácil de usar, que permita delegar y ordenar la gestión del estudio, y que al mismo tiempo impida que un alumno rompa el orden del negocio."],
+              ["The goal: an easy-to-use application that lets the studio delegate and organize its management, while keeping any student from breaking the business rules."],
             ),
           },
-        ],
-      },
-      {
-        titulo: b("Qué resuelve", "What it solves"),
-        bloques: [
           {
             tipo: "lista",
             items: b(
@@ -720,20 +602,24 @@ export const PROYECTOS: Proyecto[] = [
                 "**Turnos fijos y clases recurrentes.** La administración crea una clase una vez y el sistema genera las instancias semanales respetando los feriados; los abonos se reservan solos cada semana.",
                 "**Créditos con vencimiento**, descontados automáticamente con cada reserva, y cancelación con política de sanciones por aviso tardío o ausencia.",
                 "**Fusión de cuentas por DNI.** La administración puede cargar alumnos que todavía no tienen la aplicación, para que los cupos y las estadísticas sean reales. Cuando ese alumno se registra con su DNI, las dos cuentas se unifican y conserva turnos fijos, créditos e historial.",
-                "**Panel de administración:** calendario mensual con la ocupación de cada clase, historial por alumno, bloqueo de usuarios con cancelación de sus reservas futuras y feriados que se cargan desde la aplicación, sin un nuevo despliegue.",
+                "**Asistencia.** La administración la toma desde la agenda del día, y el calendario mensual guarda cada clase dictada con su ocupación y su asistencia.",
+                "**Panel de administración:** historial por alumno, bloqueo de usuarios con cancelación de sus reservas futuras, pausa general de las reservas y feriados que se cargan desde la aplicación, sin un nuevo despliegue.",
                 "**Comunicación:** novedades con notificaciones push y feedback después de cada clase, con aviso por email a la administración ante una respuesta negativa.",
                 "**Apto médico:** carga de PDF o imagen, con compresión automática.",
                 "**Rifa mensual** entre alumnos activos, ponderada por asistencia, para incentivar la constancia.",
+                "**Instalación sin tienda de aplicaciones.** Es una PWA: se instala desde el navegador en el teléfono, la tablet o la computadora, con una guía paso a paso pensada para usuarios no técnicos.",
               ],
               [
                 "**Bookings with concurrency control.** The backend validates spots, credits and schedules on every booking: two students cannot both take the same last spot.",
                 "**Recurring slots and classes.** The administration creates a class once and the system generates the weekly instances around holidays; memberships book themselves every week.",
                 "**Expiring credits**, deducted automatically on each booking, and cancellation with penalties for late notice or no-shows.",
                 "**Account merging by national ID.** The administration can add students who do not have the app yet, so that spots and statistics are real. When that student signs up with their ID, both accounts merge and keep recurring slots, credits and history.",
-                "**Admin panel:** monthly calendar with each class's occupancy, per-student history, blocking users with cancellation of their future bookings, and holidays added from the app, with no deploy.",
+                "**Attendance.** The administration takes it from the day's schedule, and the monthly calendar keeps every class taught with its occupancy and attendance.",
+                "**Admin panel:** per-student history, blocking users with cancellation of their future bookings, a global pause on bookings, and holidays added from the app, with no deploy.",
                 "**Communication:** announcements with push notifications and feedback after every class, with an email alert to the administration on a negative answer.",
                 "**Medical certificate:** PDF or image upload, with automatic compression.",
                 "**Monthly raffle** among active students, weighted by attendance, to encourage consistency.",
+                "**Installation without an app store.** It is a PWA: it installs from the browser on a phone, tablet or computer, with a step-by-step guide designed for non-technical users.",
               ],
             ),
           },
@@ -746,8 +632,16 @@ export const PROYECTOS: Proyecto[] = [
           {
             tipo: "parrafos",
             texto: b(
-              ["Backend asíncrono con Python, FastAPI y PostgreSQL (asyncpg, Alembic); aplicación en Flutter (Riverpod, Freezed, GoRouter) instalable como PWA, con inicio de sesión de Google mediante Firebase. La infraestructura corre con Docker Compose y Nginx en un VPS que administro: backups, resolución de fallas y mantenimiento."],
-              ["An asynchronous backend with Python, FastAPI and PostgreSQL (asyncpg, Alembic); a Flutter app (Riverpod, Freezed, GoRouter) installable as a PWA, with Google sign-in through Firebase. The infrastructure runs on Docker Compose and Nginx on a VPS I manage: backups, troubleshooting and maintenance."],
+              [
+                "Una sola aplicación en Flutter (Riverpod, Freezed, GoRouter) para alumnos y administración, servida como PWA. El inicio de sesión es el de Google, mediante Firebase, y el backend verifica esa identidad en cada pedido.",
+                "Nginx recibe el tráfico por HTTPS, limita los pedidos por dirección IP y sirve la aplicación y los archivos subidos. Detrás, la API asíncrona en FastAPI (SQLModel, asyncpg) trabaja sobre PostgreSQL 16, con los cambios de estructura versionados en Alembic. Las notificaciones push salen por Firebase Cloud Messaging.",
+                "Todo corre en tres contenedores de Docker Compose (base de datos, API y Nginx) en un VPS que administro: despliegue con un script que aplica las migraciones, backups y resolución de fallas.",
+              ],
+              [
+                "A single Flutter app (Riverpod, Freezed, GoRouter) for students and administration, served as a PWA. Sign-in is Google's, through Firebase, and the backend verifies that identity on every request.",
+                "Nginx receives the traffic over HTTPS, rate-limits requests per IP address and serves the app and the uploaded files. Behind it, the asynchronous FastAPI API (SQLModel, asyncpg) works on PostgreSQL 16, with schema changes versioned in Alembic. Push notifications go out through Firebase Cloud Messaging.",
+                "Everything runs in three Docker Compose containers (database, API and Nginx) on a VPS I manage: deployment with a script that applies the migrations, backups and troubleshooting.",
+              ],
             ),
           },
         ],
@@ -779,24 +673,6 @@ export const PROYECTOS: Proyecto[] = [
           },
         ],
       },
-      {
-        titulo: b("Notas de desarrollo", "Development notes"),
-        bloques: [
-          {
-            tipo: "parrafos",
-            texto: b(
-              [
-                "El repositorio público es una selección del código: el proyecto original es más extenso y está sanitizado por privacidad del cliente.",
-                "Desarrollado con asistencia de IA para ganar productividad; las decisiones de producto, arquitectura y lógica de negocio son propias.",
-              ],
-              [
-                "The public repository is a selection of the code: the original project is larger and has been sanitized for the client's privacy.",
-                "Built with AI assistance to gain productivity; the product, architecture and business logic decisions are my own.",
-              ],
-            ),
-          },
-        ],
-      },
     ],
   },
 
@@ -809,17 +685,17 @@ export const PROYECTOS: Proyecto[] = [
     periodo: b("2026", "2026"),
     area: b("IA · Automatización", "AI · Automation"),
     resumen: b(
-      "Automatiza con IA el seguimiento de las inversiones privadas anunciadas en Argentina. Identifica las inversiones reales, descarta duplicados y publica los resultados en la web y en un canal de Telegram.",
-      "Uses AI to track the private investments announced in Argentina. It identifies the real investments, discards duplicates and publishes the results on the website and in a Telegram channel.",
+      "Automatiza con IA el seguimiento de las inversiones privadas en Argentina. Identifica las inversiones reales, descarta duplicados y publica los resultados en la web y en un canal de Telegram.",
+      "Uses AI to track private investments in Argentina. It identifies the real investments, discards duplicates and publishes the results on the website and in a Telegram channel.",
     ),
     cuerpo: b(
       [
-        "Las inversiones privadas que se anuncian en Argentina estaban dispersas en noticias, cuentas de X y registros oficiales. Cada 72 horas, un flujo programado en GitHub Actions reúne material de diversas fuentes y rastrea con Gemini y Search Grounding las menciones de inversiones publicadas en la web. Un sistema de capas define qué llega a publicarse: Gemini estructura cada mención, pgvector recupera los registros más parecidos y reglas de identidad junto con Jev (TypeSafe) resuelven qué es una inversión real y qué ya está publicado bajo otro nombre.",
-        "Se publica sin intervención en la web y en un canal de Telegram, con API en FastAPI y frontend en Next.js con render en servidor, sobre Vercel.",
+        "La información estaba dispersa en noticias, cuentas de X y registros oficiales, y cada inversión aparece repetida en muchos medios, escrita de formas distintas. Un flujo programado en GitHub Actions reúne esas fuentes y suma una búsqueda en Google con Gemini y Search Grounding.",
+        "Un sistema de capas decide qué llega a publicarse: Gemini estructura cada mención, reglas deterministas y Jev (TypeSafe) separan las inversiones reales de lo que no lo es, y pgvector recupera los registros parecidos. El mismo proyecto, contado por dos medios, puede leerse muy distinto, y dos proyectos distintos de la misma región pueden parecer casi idénticos: por eso la similitud sólo sugiere candidatos, y la decisión la toman reglas de identidad y un modelo de decisión (Jev). API en FastAPI y frontend en Next.js con render en servidor, sobre Vercel.",
       ],
       [
-        "The private investments announced in Argentina were scattered across news outlets, X accounts and official registries. Every 72 hours, a scheduled GitHub Actions workflow gathers material from a range of sources and sweeps the web for investment mentions with Gemini and Search Grounding. A layered system decides what gets published: Gemini structures each mention, pgvector retrieves the closest records, and identity rules together with Jev (TypeSafe) resolve what is a real investment and what is already published under a different name.",
-        "It is published unattended on the website and in a Telegram channel, with a FastAPI API and a Next.js frontend with server-side rendering, on Vercel.",
+        "The information was scattered across news outlets, X accounts and official registries, and each investment shows up repeated in many outlets, written in different ways. A scheduled GitHub Actions workflow gathers those sources and adds a Google search with Gemini and Search Grounding.",
+        "A layered system decides what gets published: Gemini structures each mention, deterministic rules and Jev (TypeSafe) separate the real investments from everything else, and pgvector retrieves similar records. The same project, reported by two outlets, can read very differently, and two distinct projects in the same region can look almost identical: that is why similarity only suggests candidates, and the decision is made by identity rules and a decision model (Jev). FastAPI API and a Next.js frontend with server-side rendering, on Vercel.",
       ],
     ),
     dato: {
@@ -847,32 +723,20 @@ export const PROYECTOS: Proyecto[] = [
       ],
     },
     descripcionMeta: b(
-      "Cada 72 horas, un flujo con Gemini, pgvector y Jev rastrea las inversiones privadas anunciadas en Argentina y publica sólo las reales, sin repetidos.",
-      "Every 72 hours, a pipeline with Gemini, pgvector and Jev tracks private investments announced in Argentina and publishes only the real ones, without duplicates.",
+      "Cada 72 horas, un flujo con Gemini, pgvector y Jev rastrea las inversiones privadas en Argentina y publica sólo las reales, sin repetidos.",
+      "Every 72 hours, a pipeline with Gemini, pgvector and Jev tracks private investments in Argentina and publishes only the real ones, without duplicates.",
     ),
     caso: [
       {
-        titulo: b("El problema", "The problem"),
-        bloques: [
-          {
-            tipo: "parrafos",
-            texto: b(
-              ["Las inversiones privadas que se anuncian en Argentina estaban dispersas en noticias, cuentas de X y registros oficiales. El proyecto automatiza la recolección y la publicación de esa información: combina el registro oficial del RIGI, cuentas especializadas de X, medios de distintos rubros por RSS y búsqueda en Google mediante IA generativa, y expone los datos en una cronología interactiva."],
-              ["The private investments announced in Argentina were scattered across news outlets, X accounts and official registries. The project automates collecting and publishing that information: it combines the official RIGI registry, specialised X accounts, outlets from different sectors via RSS and Google search through generative AI, and presents the data as an interactive timeline."],
-            ),
-          },
-        ],
-      },
-      {
-        titulo: b("El flujo, cada 72 horas", "The pipeline, every 72 hours"),
+        titulo: b("El flujo de cada corrida", "The pipeline of each run"),
         bloques: [
           { tipo: "visual", id: "capas" },
           {
             tipo: "lista",
             items: b(
               [
-                "**Recolección.** Cuentas especializadas de X (API de Apify), medios por RSS paginados hasta cubrir la ventana completa, y el registro del RIGI de forma incremental: se guarda una huella de cada proyecto y sólo se reenvían los nuevos o los que cambiaron.",
-                "**Filtro de relevancia.** Antes de gastar un token, un filtro determinista descarta el ruido estructural de los feeds. Prioriza no perder: ante la duda deja pasar, porque descartar de más significa perder una inversión real.",
+                "**Recolección.** Cuentas especializadas de X (API de Apify), medios de distintos rubros por RSS, paginados hasta cubrir la ventana completa, y el registro oficial del RIGI (el régimen de incentivo a las grandes inversiones) de forma incremental: se guarda una huella de cada proyecto y sólo se reenvían los nuevos o los que cambiaron.",
+                "**Filtro de relevancia.** Un filtro determinista descarta el ruido estructural de los feeds antes de que llegue a Gemini. No sólo ahorra tokens: los pasos siguientes reciben menos material irrelevante, y sus decisiones son más simples y con menos margen de error. Prioriza no perder: ante la duda deja pasar, porque descartar de más significa perder una inversión real.",
                 "**Extracción con Gemini y Search Grounding.** El material recolectado entra como primera fuente y Gemini busca en Google noticias del período como segunda, con foco en los rubros que las fuentes propias cubren poco. Devuelve cada inversión como JSON estructurado.",
                 "**Validación.** Una red determinista descarta lo que no es una inversión productiva nueva: emisiones de deuda, préstamos, constituciones de sociedades, compraventa de acciones, contratos ganados por proveedores y lanzamientos de productos.",
                 "**Juicio semántico con Jev.** Un modelo que devuelve decisiones tipadas con probabilidad calibrada, en lugar de texto, responde si cada registro es una inversión privada concreta.",
@@ -880,8 +744,8 @@ export const PROYECTOS: Proyecto[] = [
                 "**Publicación y parte de estado.** Lo nuevo se guarda y se publica a la vez en la web y en Telegram. Cada corrida termina informando el estado de cada fuente, y falla si alguna que debería responder no trajo nada.",
               ],
               [
-                "**Collection.** Specialised X accounts (Apify API), RSS outlets paginated until the whole window is covered, and the RIGI registry incrementally: a fingerprint of each project is stored and only new or changed ones are re-sent.",
-                "**Relevance filter.** Before spending a token, a deterministic filter discards the structural noise in the feeds. It favours not losing anything: when in doubt it lets an item through, because over-filtering means losing a real investment.",
+                "**Collection.** Specialised X accounts (Apify API), outlets from different sectors via RSS, paginated until the whole window is covered, and the official RIGI registry (the incentive regime for large investments) incrementally: a fingerprint of each project is stored and only new or changed ones are re-sent.",
+                "**Relevance filter.** A deterministic filter discards the structural noise in the feeds before it reaches Gemini. It does more than save tokens: the following steps receive less irrelevant material, so their decisions are simpler and leave less room for error. It favours not losing anything: when in doubt it lets an item through, because over-filtering means losing a real investment.",
                 "**Extraction with Gemini and Search Grounding.** The collected material goes in as the first source and Gemini searches Google for news from the period as the second, focused on the sectors the owned sources cover least. It returns each investment as structured JSON.",
                 "**Validation.** A deterministic net discards whatever is not a new productive investment: debt issuance, loans, company incorporations, share purchases, contracts won by suppliers and product launches.",
                 "**Semantic judgement with Jev.** A model that returns typed decisions with calibrated probability, instead of text, answers whether each record is a concrete private investment.",
@@ -991,11 +855,13 @@ export const PROYECTOS: Proyecto[] = [
       ],
     ),
     dato: {
-      valor: b("128 → 512", "128 → 512"),
+      valor: b("7 s", "7 s"),
       etiqueta: b(
-        "dimensiones con que se representa cada rostro: de la primera versión (FaceNet) a la actual (ArcFace)",
-        "dimensions used to represent each face: from the first version (FaceNet) to the current one (ArcFace)",
+        "para encontrar una aparición de un segundo en un video de 70 segundos",
+        "to find a one-second appearance in a 70-second video",
       ),
+      nota: b("Corrida real · Radeon RX 7600 · modo rápido", "Real run · Radeon RX 7600 · fast mode"),
+      visual: "busqueda",
     },
     stack: ["Python", "InsightFace", "ArcFace", "ONNX Runtime", "FastAPI", "pywebview", "pytest"],
     enlaces: [
@@ -1020,10 +886,10 @@ export const PROYECTOS: Proyecto[] = [
       nombre: "FaceHunt",
       periodo: b("2025", "2025"),
       texto: b(
-        "Reconocimiento facial en video con deep learning: DeepFace (FaceNet), RetinaFace y MTCNN, extracción de cuadros por lotes con OpenCV, descarga con yt-dlp, API en FastAPI e interfaz web en Docker. La lógica de reconocimiento y de procesamiento de video es propia; la interfaz web y parte de la sintaxis de la API se hicieron con asistencia de IA.",
-        "Deep learning facial recognition in video: DeepFace (FaceNet), RetinaFace and MTCNN, batched frame extraction with OpenCV, downloads with yt-dlp, a FastAPI API and a web interface in Docker. The recognition and video processing logic is my own; the web interface and part of the API syntax were built with AI assistance.",
+        "Reconocimiento facial en video con deep learning: DeepFace (FaceNet) con dos modos de análisis (alta precisión con RetinaFace, equilibrado con MTCNN), extracción de cuadros por lotes con OpenCV y descarga de YouTube con yt-dlp. Empezó como aplicación de escritorio en Tkinter y sumó una API en FastAPI con interfaz web por pasos. Se publicó como demo web en Hugging Face Spaces y como imagen en Docker Hub, y corre en Windows, macOS y Linux.",
+        "Deep learning facial recognition in video: DeepFace (FaceNet) with two analysis modes (high precision with RetinaFace, balanced with MTCNN), batched frame extraction with OpenCV and YouTube downloads with yt-dlp. It started as a Tkinter desktop app and gained a FastAPI API with a step-by-step web interface. It was published as a web demo on Hugging Face Spaces and as an image on Docker Hub, and runs on Windows, macOS and Linux.",
       ),
-      stack: ["Python", "DeepFace", "FaceNet", "RetinaFace", "FastAPI", "Docker"],
+      stack: ["Python", "DeepFace", "FaceNet", "RetinaFace", "FastAPI", "Docker", "Hugging Face Spaces"],
       enlaces: [{ tipo: "repositorio", href: `${GH}/FaceHunt` }],
       imagen: {
         src: b("/medios/facehunt-2/v1.webp", "/medios/facehunt-2/v1.webp"),
@@ -1122,13 +988,13 @@ export const PROYECTOS: Proyecto[] = [
                 ["Motor", "TensorFlow en CPU", "ONNX Runtime con GPU (CUDA, DirectML o CPU)"],
                 ["Modelo", "FaceNet, 128 dimensiones", "ArcFace ResNet100, 512 dimensiones"],
                 ["Resultado", "Marcas de tiempo sueltas", "Rangos con miniatura, mini-clip y línea de tiempo"],
-                ["Uso", "Interfaz web en Docker", "Aplicación de escritorio de un clic, sin servidor ni nube"],
+                ["Uso", "Interfaz web: demo en Hugging Face Spaces o imagen de Docker", "Aplicación de escritorio de un clic, sin servidor ni nube"],
               ],
               [
                 ["Engine", "TensorFlow on CPU", "ONNX Runtime on GPU (CUDA, DirectML or CPU)"],
                 ["Model", "FaceNet, 128 dimensions", "ArcFace ResNet100, 512 dimensions"],
                 ["Result", "Loose timestamps", "Ranges with thumbnail, mini-clip and timeline"],
-                ["Use", "Web interface in Docker", "One-click desktop application, no server or cloud"],
+                ["Use", "Web interface: demo on Hugging Face Spaces or a Docker image", "One-click desktop application, no server or cloud"],
               ],
             ),
           },
@@ -1159,18 +1025,6 @@ export const PROYECTOS: Proyecto[] = [
           },
         ],
       },
-      {
-        titulo: b("Notas de desarrollo", "Development notes"),
-        bloques: [
-          {
-            tipo: "parrafos",
-            texto: b(
-              ["Desarrollado con asistencia de IA para ganar productividad; las decisiones de producto y arquitectura son propias."],
-              ["Built with AI assistance to gain productivity; the product and architecture decisions are my own."],
-            ),
-          },
-        ],
-      },
     ],
   },
 
@@ -1188,19 +1042,19 @@ export const PROYECTOS: Proyecto[] = [
     ),
     cuerpo: b(
       [
-        "Tema claro, oscuro o del sistema, interfaz completa en 6 idiomas y una efeméride histórica para cada uno de los 366 días del año. Ninguna conexión de red y un solo permiso (storage): la fecha de nacimiento se guarda sólo en el equipo.",
-        "TypeScript estricto, sin frameworks ni bundler: ESM nativo compilado con tsc. Tests unitarios y de snapshots con Vitest, pruebas de extremo a extremo con Playwright sobre la extensión empaquetada y CI con GitHub Actions.",
+        "Tema claro, oscuro o del sistema, interfaz completa en 6 idiomas y una efeméride histórica para cada día del año. Ninguna conexión de red y un solo permiso (storage): la fecha de nacimiento se guarda sólo en el equipo.",
+        "TypeScript, sin frameworks ni bundler: ESM nativo compilado con tsc. Tests unitarios y de snapshots con Vitest, pruebas de extremo a extremo con Playwright sobre la extensión empaquetada y CI con GitHub Actions.",
       ],
       [
-        "Light, dark or system theme, a full interface in 6 languages and a historical fact for each of the 366 days of the year. No network connections and a single permission (storage): the date of birth is stored only on the device.",
-        "Strict TypeScript with no framework or bundler: native ESM compiled with tsc. Unit and snapshot tests with Vitest, end-to-end tests with Playwright on the packaged extension, and CI with GitHub Actions.",
+        "Light, dark or system theme, a full interface in 6 languages and a historical fact for every day of the year. No network connections and a single permission (storage): the date of birth is stored only on the device.",
+        "TypeScript with no framework or bundler: native ESM compiled with tsc. Unit and snapshot tests with Vitest, end-to-end tests with Playwright on the packaged extension, and CI with GitHub Actions.",
       ],
     ),
     dato: {
-      valor: b("7 nodos", "7 nodes"),
+      valor: b("3 trazados", "3 paths"),
       etiqueta: b(
-        "del DOM para dibujar 4.160 semanas: tres trazados SVG en lugar de un elemento por celda. El renderizado baja de 10,00 ms a 1,30 ms.",
-        "in the DOM to draw 4,160 weeks: three SVG paths instead of one element per cell. Rendering drops from 10.00 ms to 1.30 ms.",
+        "SVG para dibujar 4.160 semanas, en lugar de un elemento por semana. El renderizado baja de 10,00 ms a 1,30 ms.",
+        "in SVG to draw 4,160 weeks, instead of one element per week. Rendering drops from 10.00 ms to 1.30 ms.",
       ),
     },
     stack: ["TypeScript", "Manifest V3", "SVG", "Vitest", "Playwright", "GitHub Actions"],
@@ -1213,8 +1067,8 @@ export const PROYECTOS: Proyecto[] = [
       duracion: 34,
     },
     descripcionMeta: b(
-      "Extensión de Chrome que reemplaza la pestaña nueva por las semanas de la vida: 4.160 semanas dibujadas con 7 nodos del DOM, en 6 idiomas y sin red.",
-      "Chrome extension that replaces the new tab with the weeks of a life: 4,160 weeks drawn with 7 DOM nodes, in 6 languages and with no network.",
+      "Extensión de Chrome que reemplaza la pestaña nueva por las semanas de la vida: 4.160 semanas dibujadas con 3 trazados SVG, en 6 idiomas y sin red.",
+      "Chrome extension that replaces the new tab with the weeks of a life: 4,160 weeks drawn with 3 SVG paths, in 6 languages and with no network.",
     ),
     caso: [
       {
@@ -1223,8 +1077,8 @@ export const PROYECTOS: Proyecto[] = [
           {
             tipo: "parrafos",
             texto: b(
-              ["Cada punto es una semana. Las vividas se dibujan llenas, las que faltan apenas insinuadas, y un anillo marca la semana actual. La esperanza de vida se ajusta entre 20 y 100 años, y cada día muestra una efeméride histórica distinta (366 fechas, en los 6 idiomas), que se puede desactivar."],
-              ["Every dot is one week. The weeks lived are drawn filled in, the ones ahead barely there, and a ring marks the current week. Life expectancy can be set between 20 and 100 years, and every day shows a different historical fact (366 dates, in all 6 languages), which can be turned off."],
+              ["Cada punto es una semana. Las vividas se dibujan llenas, las que faltan apenas insinuadas, y un anillo marca la semana actual. La esperanza de vida se ajusta entre 20 y 100 años, y cada día muestra una efeméride histórica distinta, en los 6 idiomas, que se puede desactivar."],
+              ["Every dot is one week. The weeks lived are drawn filled in, the ones ahead barely there, and a ring marks the current week. Life expectancy can be set between 20 and 100 years, and every day shows a different historical fact, in all 6 languages, which can be turned off."],
             ),
           },
         ],
@@ -1236,8 +1090,8 @@ export const PROYECTOS: Proyecto[] = [
           {
             tipo: "parrafos",
             texto: b(
-              ["La grilla de esta página se dibuja con la misma técnica que la extensión: tres trazados SVG acumulados (pasado, futuro y anillo) en lugar de un elemento por celda. En la extensión, eso deja el DOM en 7 nodos y baja el renderizado de 10,00 ms a 1,30 ms, medido contra la alternativa de un elemento por semana."],
-              ["The grid on this page is drawn with the same technique as the extension: three accumulated SVG paths (past, future and ring) instead of one element per cell. In the extension, that keeps the DOM at 7 nodes and brings rendering down from 10.00 ms to 1.30 ms, measured against the alternative of one element per week."],
+              ["La grilla de esta página se dibuja con la misma técnica que la extensión: tres trazados SVG acumulados (pasado, futuro y anillo) en lugar de un elemento por celda. En la extensión, eso evita 4.160 elementos y baja el renderizado de 10,00 ms a 1,30 ms, medido contra la alternativa de un elemento por semana."],
+              ["The grid on this page is drawn with the same technique as the extension: three accumulated SVG paths (past, future and ring) instead of one element per cell. In the extension, that avoids 4,160 elements and brings rendering down from 10.00 ms to 1.30 ms, measured against the alternative of one element per week."],
             ),
           },
         ],
@@ -1306,7 +1160,7 @@ export const PROYECTOS: Proyecto[] = [
             columnas: b(["Capa", "Tecnología"], ["Layer", "Technology"]),
             filas: b(
               [
-                ["Lenguaje", "TypeScript estricto, sin `any`"],
+                ["Lenguaje", "TypeScript"],
                 ["Ejecución", "Sin framework ni bundler: ESM nativo, `tsc` como único paso de build"],
                 ["Render", "SVG generado por un núcleo puro: sin DOM, sin `chrome.*`, la fecha entra como parámetro"],
                 ["Pruebas", "Vitest (unitarios y snapshots) + Playwright (extremo a extremo sobre el paquete real)"],
@@ -1314,7 +1168,7 @@ export const PROYECTOS: Proyecto[] = [
                 ["CI", "GitHub Actions en cada push"],
               ],
               [
-                ["Language", "Strict TypeScript, no `any`"],
+                ["Language", "TypeScript"],
                 ["Runtime", "No framework, no bundler: native ESM, `tsc` as the only build step"],
                 ["Render", "SVG from a pure core: no DOM, no `chrome.*`, the date comes in as a parameter"],
                 ["Testing", "Vitest (unit + snapshots) + Playwright (end-to-end on the real package)"],
@@ -1337,10 +1191,6 @@ export const PROYECTOS: Proyecto[] = [
           },
         ],
       },
-      {
-        titulo: b("Notas de desarrollo", "Development notes"),
-        bloques: [{ tipo: "parrafos", texto: b([AI_ES], [AI_EN]) }],
-      },
     ],
   },
 
@@ -1358,11 +1208,11 @@ export const PROYECTOS: Proyecto[] = [
     ),
     cuerpo: b(
       [
-        "Diseñé, desarrollé y mantengo el sitio de la empresa donde trabajo, en producción. La versión actual (2026) está hecha con Next.js, TypeScript, Tailwind CSS y Framer Motion, con diseño UX/UI propio.",
+        "Diseñé, desarrollé y mantengo el sitio web comercial de la empresa, en producción. La versión actual está hecha con Next.js, TypeScript, Tailwind CSS y Framer Motion, con diseño UX/UI propio.",
         "Los efectos pesados se desactivan en teléfonos para sostener la fluidez del scroll, el feed de Instagram y las reseñas son contenido local en lugar de widgets externos, y los datos estructurados ayudan en las búsquedas locales.",
       ],
       [
-        "I designed, built and maintain the website of the company I work for, in production. The current version (2026) is built with Next.js, TypeScript, Tailwind CSS and Framer Motion, with my own UX/UI design.",
+        "I designed, built and maintain the company's commercial website, in production. The current version is built with Next.js, TypeScript, Tailwind CSS and Framer Motion, with my own UX/UI design.",
         "Heavy effects are turned off on phones to keep scrolling smooth, the Instagram feed and the reviews are local content instead of external widgets, and structured data helps with local search.",
       ],
     ),
@@ -1406,8 +1256,8 @@ export const PROYECTOS: Proyecto[] = [
           {
             tipo: "parrafos",
             texto: b(
-              ["Rugidos Fiestas Tandil es una PyME de eventos infantiles donde trabajo desde 2019, primero en operaciones y desde 2023 también como desarrollador de software. El sitio es su canal comercial: tiene que mostrar el salón, los servicios y los extras, y llevar al visitante a una consulta por WhatsApp. Por eso se diseñó primero para el teléfono."],
-              ["Rugidos Fiestas Tandil is a children's events business where I have worked since 2019, first in operations and since 2023 also as its software developer. The website is its sales channel: it has to show the venue, the services and the extras, and lead visitors to a WhatsApp enquiry. That is why it was designed for phones first."],
+              ["El sitio es el canal comercial de Rugidos Fiestas Tandil, una PyME de eventos infantiles: tiene que mostrar el salón, los servicios y los extras, y llevar al visitante a una consulta por WhatsApp. Por eso se diseñó primero para el teléfono."],
+              ["The website is the sales channel of Rugidos Fiestas Tandil, a children's events business: it has to show the venue, the services and the extras, and lead visitors to a WhatsApp enquiry. That is why it was designed for phones first."],
             ),
           },
           {
@@ -1438,17 +1288,17 @@ export const PROYECTOS: Proyecto[] = [
             items: b(
               [
                 "**Nuestro espacio:** galería con lightbox navegable con teclado y una grilla con las características del salón.",
-                "**Academia de Estrellas:** en escritorio, una máscara radial que sigue al cursor revela el look «superstar» debajo del casual; en teléfonos, un comparador antes/después que se arrastra y se opera con teclado (`role=\"slider\"`).",
+                "**Academia de Estrellas:** en escritorio, una máscara radial que sigue al cursor revela el look «superstar» debajo del casual; en teléfonos, un comparador antes/después que se arrastra con el dedo.",
                 "**Detección real de hover** (`hover: hover` y `pointer: fine`) en lugar de un corte por ancho, para no romper la experiencia en tablets táctiles.",
-                "**Reseñas:** resumen de Google Reviews y marquesinas con pausa manual, con contenido local en lugar de un widget.",
-                "**Contacto:** WhatsApp, Instagram y mapa.",
+                "**Reseñas:** resumen de Google Reviews y marquesinas con pausa manual, sin depender de widgets.",
+                "**Contacto:** un botón de WhatsApp que abre la conversación con el mensaje ya escrito, la dirección del salón con su mapa de Google, las redes y una selección de publicaciones de Instagram.",
               ],
               [
                 "**Our venue:** a gallery with a keyboard-navigable lightbox and a grid of the venue's features.",
-                "**Star Academy:** on desktop, a radial mask that follows the cursor reveals the “superstar” look under the casual one; on phones, a draggable before/after slider that also works with the keyboard (`role=\"slider\"`).",
+                "**Star Academy:** on desktop, a radial mask that follows the cursor reveals the “superstar” look under the casual one; on phones, a before/after slider dragged with a finger.",
                 "**Real hover detection** (`hover: hover` and `pointer: fine`) instead of a width breakpoint, so the experience does not break on touch tablets.",
-                "**Reviews:** a Google Reviews summary and marquees with a manual pause, with local content instead of a widget.",
-                "**Contact:** WhatsApp, Instagram and a map.",
+                "**Reviews:** a Google Reviews summary and marquees with a manual pause, with no dependency on widgets.",
+                "**Contact:** a WhatsApp button that opens the chat with the message already written, the venue's address with its Google map, the social links and a selection of Instagram posts.",
               ],
             ),
           },
@@ -1536,10 +1386,6 @@ export const PROYECTOS: Proyecto[] = [
           },
         ],
       },
-      {
-        titulo: b("Notas de desarrollo", "Development notes"),
-        bloques: [{ tipo: "parrafos", texto: b([AI_ES], [AI_EN]) }],
-      },
     ],
   },
 
@@ -1626,18 +1472,6 @@ export const PROYECTOS: Proyecto[] = [
                 telefono: true,
               },
             ],
-          },
-        ],
-      },
-      {
-        titulo: b("Notas de desarrollo", "Development notes"),
-        bloques: [
-          {
-            tipo: "parrafos",
-            texto: b(
-              ["Desarrollado con asistencia de IA para ganar productividad; las decisiones de producto, diseño y contenido son propias."],
-              ["Built with AI assistance to gain productivity; the product, design and content decisions are my own."],
-            ),
           },
         ],
       },

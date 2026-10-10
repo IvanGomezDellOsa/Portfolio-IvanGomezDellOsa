@@ -31,10 +31,10 @@ const conWebgl = () => {
 /**
  * LAS PANTALLAS DE TELA: los nueve proyectos colgados de un hilo, cada uno con
  * un fragmento mudo de su video (o, en los dos sitios web, de su página), en
- * Three.js con la tela de Bullet (`src/lib/telas/motor.ts`). El nombre, el
- * botón y las barras quedan en HTML, debajo: el canvas es decorado y va
+ * Three.js con la tela de Bullet (`src/lib/telas/motor.ts`). El nombre, los
+ * botones y los tramos quedan en HTML, debajo: el canvas es decorado y va
  * `aria-hidden`; todo lo que se puede hacer con él se puede hacer con el
- * teclado desde las barras y las flechas.
+ * teclado desde los tramos y las flechas.
  *
  * Sin WebGL, con movimiento reducido o ahorro de datos, se ve el reel.
  */
@@ -107,20 +107,26 @@ export function Telas({ lang, items, funciones }: { lang: Idioma; items: ItemVit
         {/* Mientras llega Three: el primer proyecto, quieto, donde va a estar su tela. */}
         <img className={css.espera} src={vistaPrevia(lista[0]!.slug).poster} alt="" width={1280} height={720} decoding="async" />
       </div>
-      <div className={css.pie}>
-        {/* El nombre, cuando las barras no lo muestran (pantallas angostas). */}
-        <p className={css.titulo} aria-hidden="true">
-          {f.nombre}
-        </p>
-        {/* Todo lo que se hace con la tela, en una fila: en el medio sus dos botones, las pastillas del sitio, y a los costados las flechas, sin borde (navegan, no hacen). */}
-        <div className={css.botones}>
+      <div className={css.pie} style={{ "--tinte": f.acento } as CSSProperties}>
+        {/* Qué proyecto es, como una fila de la lista (su punto y su nombre), entre las dos flechas. */}
+        <div className={css.elegido}>
           <button type="button" className={`${css.flecha} ${css.anterior}`} onClick={() => ir((i - 1 + lista.length) % lista.length)} aria-label={SALA.anterior[lang]}>
             <Chevron />
           </button>
+          <p key={f.slug} className={css.titulo} aria-hidden="true">
+            <span className={css.punto} />
+            <span className={css.nombre}>{f.nombre}</span>
+          </p>
+          <button type="button" className={`${css.flecha} ${css.siguiente}`} onClick={() => ir((i + 1) % lista.length)} aria-label={SALA.siguiente[lang]}>
+            <Chevron />
+          </button>
+        </div>
+        {/* Lo que se hace con el elegido: las dos pastillas del sitio. */}
+        <div className={css.botones}>
           {f.video ? (
             <a className={`pastilla ${css.ver}`} href={enYoutube(f.video.id)} target="_blank" rel="noopener noreferrer" onClick={(e) => alClicVideo(e, f.slug)}>
               <Triangulo lado={11} />
-              {VIDEO.ver[lang]}
+              {VIDEO.presentacion[lang]}
               <span className="sr">: {f.nombre}</span>
             </a>
           ) : f.sitio ? (
@@ -134,16 +140,14 @@ export function Telas({ lang, items, funciones }: { lang: Idioma; items: ItemVit
             {HERO.proyecto[lang]}
             <span className="sr">: {f.nombre}</span>
           </a>
-          <button type="button" className={`${css.flecha} ${css.siguiente}`} onClick={() => ir((i + 1) % lista.length)} aria-label={SALA.siguiente[lang]}>
-            <Chevron />
-          </button>
         </div>
-        <ol className={css.barras} aria-label={HERO.reel[lang]} style={{ "--n": lista.length } as CSSProperties}>
+        {/* Dónde se está entre los nueve: un tramo por proyecto. Los nombres están en la lista, justo debajo. */}
+        <ol className={css.barras} aria-label={HERO.reel[lang]}>
           {lista.map((x, k) => (
             <li key={x.slug}>
-              <button type="button" onClick={() => ir(k)} aria-current={k === i ? "true" : undefined} style={{ "--tinte": x.acento } as CSSProperties}>
+              <button type="button" onClick={() => ir(k)} aria-current={k === i ? "true" : undefined}>
                 <span className={css.pista} aria-hidden="true" />
-                <span className={css.rotulo}>{x.nombre}</span>
+                <span className="sr">{x.nombre}</span>
               </button>
             </li>
           ))}

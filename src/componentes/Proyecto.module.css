@@ -11,8 +11,8 @@
   padding-bottom: clamp(64px, 11vh, 120px);
   background: var(--fondo);
   color: var(--tinta);
-  /* Al llegar por un ancla, el umbral queda bajo la barra y el nombre, a la vista. */
-  scroll-margin-top: calc(-1 * var(--alto-umbral) + 8px);
+  /* Al llegar por un ancla, el umbral queda bajo las barras (la de arriba y la de proyectos, 40 px) y el nombre, a la vista. */
+  scroll-margin-top: calc(-1 * var(--alto-umbral) + 48px);
 }
 
 .umbral {

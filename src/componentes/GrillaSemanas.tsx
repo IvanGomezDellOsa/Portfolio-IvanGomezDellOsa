@@ -125,7 +125,6 @@ export function GrillaSemanas({ lang }: { lang: Idioma }) {
           {nacimiento}
         </output>
       </label>
-      <p className={css.pie}>{t.pie[lang]}</p>
     </figure>
   );
 }

@@ -260,6 +260,10 @@ dd {
   color: transparent;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
+  /* El interletrado negativo deja la última letra fuera de la caja, y el
+     degradé (que se recorta a la caja) le comía el borde: se le da ese aire. */
+  padding-right: 0.08em;
+  margin-right: -0.08em;
 }
 
 /* El pelo: una separación de un píxel, de punta a punta. */

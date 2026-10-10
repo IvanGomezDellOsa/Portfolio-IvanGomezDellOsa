@@ -101,12 +101,6 @@
   text-align: right;
 }
 
-.pie {
-  font-size: 13.5px;
-  line-height: 1.5;
-  color: var(--tinta-3);
-}
-
 @media (max-width: 640px) {
   .cuerpo {
     grid-template-columns: 1fr;

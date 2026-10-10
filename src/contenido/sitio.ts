@@ -46,8 +46,8 @@ export const META = {
   titulo: b("Iván Gómez Dell’Osa · Full Stack Developer", "Iván Gómez Dell’Osa · Full Stack Developer"),
   /** Google recorta cerca de los 155 caracteres: las dos entran enteras. */
   descripcion: b(
-    "Iván Gómez Dell’Osa, Full Stack Developer con foco en backend e IA aplicada. Proyectos propios y freelance, con casos completos y videos.",
-    "Iván Gómez Dell’Osa, Full Stack Developer focused on backend and applied AI. Personal and freelance projects, with full case studies and videos.",
+    "Iván Gómez Dell’Osa, Full Stack Developer con foco en backend e IA aplicada. Proyectos propios y freelance, con su video y su detalle técnico.",
+    "Iván Gómez Dell’Osa, Full Stack Developer focused on backend and applied AI. Personal and freelance projects, each with its video and technical details.",
   ),
   /** LinkedIn, WhatsApp y Slack muestran más: acá entran los proyectos. */
   social: b(
@@ -108,9 +108,13 @@ export const INDICE = {
 export const SALA = {
   stack: b("Stack", "Stack"),
   descripcion: b("Descripción", "Description"),
-  /** El botón que abre el detalle técnico (arquitectura, decisiones, resultados), y lo cierra. */
-  verCaso: b("Ver el caso completo", "View the full case study"),
-  ocultarCaso: b("Ocultar el caso completo", "Hide the full case study"),
+  /**
+   * El botón que abre el detalle técnico (arquitectura, decisiones, resultados), y lo cierra.
+   * Dice lo que hay adentro. «Caso completo» era jerga de portfolio, y «explicación
+   * completa» daba a entender que lo de arriba estaba incompleto. Sin «Ver»: la flecha lo dice.
+   */
+  verCaso: b("Detalle técnico", "Technical details"),
+  ocultarCaso: b("Ocultar el detalle técnico", "Hide the technical details"),
   primeraVersion: b("Primera versión", "First version"),
   sitio: b("Sitio web", "Website"),
   repositorio: b("Repositorio", "Repository"),
@@ -127,15 +131,23 @@ export const SALA = {
 
 /** El video de cada proyecto y su reproductor. */
 export const VIDEO = {
-  ver: b("Ver video", "Watch video"),
-  /** El botón de la pantalla de cada proyecto: dice qué video es, con el nombre fijo del CV. */
-  verPresentacion: b("Ver video de presentación", "Watch presentation video"),
+  /** El rótulo del video en todo el sitio, con el nombre fijo del CV. Sin «Ver»: el triángulo ya lo dice. */
+  presentacion: b("Video de presentación", "Presentation video"),
   /** Los dos sitios web no tienen video: su pantalla muestra el recorrido de la página. */
   recorridoDe: b("Recorrido sin sonido del sitio de", "Silent walkthrough of the website of"),
   escenas: b("Escenas", "Scenes"),
   cerrar: b("Cerrar", "Close"),
   pausar: b("Pausar", "Pause"),
   reproducir: b("Reproducir", "Play"),
+  /** El mando del reproductor, abajo: lo que YouTube pone en el mismo lugar. */
+  avance: b("Avance del video", "Seek"),
+  volumen: b("Volumen", "Volume"),
+  silenciar: b("Silenciar", "Mute"),
+  sonar: b("Activar el sonido", "Unmute"),
+  velocidad: b("Velocidad", "Playback speed"),
+  normal: b("Normal", "Normal"),
+  completa: b("Pantalla completa", "Full screen"),
+  salirCompleta: b("Salir de pantalla completa", "Exit full screen"),
   anterior: b("Video anterior", "Previous video"),
   siguiente: b("Video siguiente", "Next video"),
   enYoutube: b("Abrir en YouTube", "Open on YouTube"),
@@ -182,9 +194,19 @@ export const VISUALES = {
   capas: {
     titulo: b("Qué llega a publicarse", "What gets published"),
     pie: b(
-      "Cada capa descarta algo antes de la siguiente. El filtro determinista trabaja antes de gastar un token, y sin Jev el flujo funciona igual sobre sus capas deterministas.",
-      "Each layer discards something before the next. The deterministic filter works before a single token is spent, and without Jev the pipeline runs the same on its deterministic layers.",
+      "Cada capa descarta algo y le deja a la siguiente menos ruido y menos margen de error. Sin Jev, el flujo funciona igual sobre sus capas deterministas.",
+      "Each layer discards something and leaves the next one less noise and less room for error. Without Jev, the pipeline runs the same on its deterministic layers.",
     ),
+  },
+  recorrido: {
+    titulo: b("Qué pasa con cada pregunta", "What happens to each question"),
+    pie: b(
+      "En dos de los pasos el sistema puede abstenerse antes de llamar al modelo: prefiere decir que los cuadernos no tratan un tema antes que inventar una respuesta.",
+      "At two of the steps the system can abstain before calling the model: it would rather say the notebooks do not cover a subject than invent an answer.",
+    ),
+  },
+  tuberia: {
+    titulo: b("De la fuente oficial al navegador", "From the official source to the browser"),
   },
   sistema: {
     titulo: b("Cómo está armada", "How it is built"),
@@ -194,10 +216,6 @@ export const VISUALES = {
     nacimiento: b("Año de nacimiento del ejemplo", "Example year of birth"),
     semana: b("semana", "week"),
     de: b("de", "of"),
-    pie: b(
-      "Dibujada en vivo con la técnica de la extensión: tres trazados SVG (pasado, futuro y anillo) para 4.160 semanas. Nada se guarda ni se envía.",
-      "Drawn live with the extension's technique: three SVG paths (past, future and ring) for 4,160 weeks. Nothing is stored or sent.",
-    ),
   },
   kiosco: {
     titulo: b("Las pantallas de la aplicación, en orden", "The application's screens, in order"),

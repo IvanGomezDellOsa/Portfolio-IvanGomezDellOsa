@@ -56,7 +56,8 @@
   font-weight: 600;
   line-height: 1;
   letter-spacing: -0.055em;
-  padding-bottom: 0.08em;
+  /* A los costados: el interletrado negativo deja la última letra fuera de la caja, y el degradé se recorta a ella. */
+  padding: 0 0.06em 0.08em;
   background: linear-gradient(to bottom, oklch(98% 0 0) 30%, oklch(72% 0 0));
   -webkit-background-clip: text;
   background-clip: text;

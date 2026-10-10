@@ -130,7 +130,7 @@ export function Reel({ lang, funciones }: { lang: Idioma; funciones: Funcion[] }
           <span className={css.leyenda}>
             <span className={css.nombre}>{f.nombre}</span>
             <span className={css.ver}>
-              {VIDEO.ver[lang]}
+              {VIDEO.presentacion[lang]}
             </span>
           </span>
         </a>

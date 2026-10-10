@@ -15,6 +15,48 @@ import css from "./Piezas.module.css";
  * número sentado sobre ella. Es lo medido del proyecto, y por eso va en la voz
  * de máquina. La línea se traza desde el centro cuando la sala se revela.
  */
+/**
+ * LA PRUEBA DE FACEHUNT 2, dibujada (la corrida real de su video): los 112
+ * rostros que detectó en el aviso, con los dos que coinciden encendidos, y los
+ * 70 segundos del video con el segundo en que aparece la persona buscada.
+ */
+const ROSTROS = 112;
+const COINCIDEN = [75, 76];
+const DESDE = 53.76;
+const HASTA = 54.24;
+const DURA = 70;
+
+function Busqueda({ lang }: { lang: Idioma }) {
+  const es = lang === "es";
+  return (
+    <div
+      className={`${css.busqueda} aparece`}
+      role="img"
+      aria-label={es ? "112 rostros detectados, 2 coincidencias, en el segundo 53 de 70" : "112 faces detected, 2 matches, at second 53 of 70"}
+    >
+      <div className={css.rostros} aria-hidden="true">
+        {Array.from({ length: ROSTROS }, (_, k) => (
+          <span key={k} data-coincide={COINCIDEN.includes(k) || undefined} />
+        ))}
+      </div>
+      <p className={`${css.rotuloBusqueda} maquina`} aria-hidden="true">
+        <span>{es ? "112 rostros" : "112 faces"}</span>
+        <span className={css.acierto}>{es ? "2 coinciden" : "2 match"}</span>
+      </p>
+      <div className={css.cinta} aria-hidden="true">
+        <span className={css.momento} style={{ left: `${(DESDE / DURA) * 100}%`, width: `${((HASTA - DESDE) / DURA) * 100}%` }} />
+        <span className={`${css.marcaTiempo} ${css.acierto} maquina`} style={{ left: `${(DESDE / DURA) * 100}%` }}>
+          0:53
+        </span>
+      </div>
+      <p className={`${css.rotuloBusqueda} maquina`} aria-hidden="true">
+        <span>0:00</span>
+        <span>1:10</span>
+      </p>
+    </div>
+  );
+}
+
 export function Medicion({ dato, lang, i = 0 }: { dato: Dato; lang: Idioma; i?: number }) {
   return (
     <figure className={css.medicion} style={{ "--i": i } as CSSProperties}>
@@ -22,6 +64,7 @@ export function Medicion({ dato, lang, i = 0 }: { dato: Dato; lang: Idioma; i?: 
         <span className={`${css.linea} traza`} />
       </div>
       <p className={`${css.valor} maquina aparece`}>{dato.valor[lang]}</p>
+      {dato.visual === "busqueda" && <Busqueda lang={lang} />}
       <figcaption className={`${css.etiquetaDato} texto aparece`}>
         <Texto t={dato.etiqueta[lang]} />
         {dato.nota && (

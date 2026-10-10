@@ -32,6 +32,8 @@ export interface Dato {
   valor: Bilingue;
   etiqueta: Bilingue<Marcado>;
   nota?: Bilingue<Marcado>;
+  /** Un gráfico chico debajo del número, en lugar de explicarlo con más texto. */
+  visual?: "busqueda";
 }
 
 export type Bloque =
@@ -40,7 +42,7 @@ export type Bloque =
   | { tipo: "diagrama"; lineas: Bilingue<string[]>; pie?: Bilingue<Marcado> }
   | { tipo: "tabla"; columnas: Bilingue<string[]>; filas: Bilingue<Marcado[][]>; pie?: Bilingue<Marcado> }
   | { tipo: "imagenes"; imagenes: ImagenCaso[]; pie?: Bilingue<Marcado> }
-  | { tipo: "visual"; id: "vectores" | "barras" | "cobertura" | "capas" | "sistema" | "grilla" | "kiosco" };
+  | { tipo: "visual"; id: "vectores" | "barras" | "cobertura" | "capas" | "tuberia" | "recorrido" | "sistema" | "grilla" | "kiosco" };
 
 /** Una escena del video: el segundo en que empieza y cómo se llama. */
 export interface Escena {
