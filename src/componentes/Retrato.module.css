@@ -26,6 +26,11 @@
   filter: grayscale(1) contrast(1.08);
 }
 
+/* En una pantalla táctil el frente es la foto del CV, más alta que ancha: se encuadra en la cara (`ENCUADRE`). */
+.frente {
+  object-position: 50% 25%;
+}
+
 .anillo {
   background-repeat: no-repeat;
   background-size: 600% 600%;

@@ -54,6 +54,17 @@ function camino(desde: number, hasta: number): number[] {
     .filter((p) => p <= ULTIMA);
 }
 
+/** A qué altura se encuadra la foto del CV (más alta que ancha) dentro del círculo: lo mismo que `object-position` en el CSS. */
+const ENCUADRE = 0.25;
+
+/** El cuadrado de la imagen que se ve en el círculo (`object-fit: cover`). */
+function cuadrado(img: HTMLImageElement) {
+  const w = img.naturalWidth;
+  const h = img.naturalHeight;
+  const lado = Math.min(w, h);
+  return [(w - lado) / 2, (h - lado) * ENCUADRE, lado, lado] as const;
+}
+
 const posicion = (n: number) => `${((n % COLUMNAS) / (COLUMNAS - 1)) * 100}% ${(Math.floor(n / COLUMNAS) / (FILAS - 1)) * 100}%`;
 
 /**
@@ -64,8 +75,9 @@ const posicion = (n: number) => `${((n % COLUMNAS) / (COLUMNAS - 1)) * 100}% ${(
  * pared vacía, como un cuadro cuyo dueño salió, y a los diez segundos vuelve
  * caminando y mira de nuevo.
  *
- * En una pantalla táctil no hay cursor que seguir: ahí el toque no lo hace
- * irse, lo rompe. El retrato se parte en dos donde cayó el dedo y queda roto
+ * En una pantalla táctil no hay cursor que seguir: ahí va la foto del CV,
+ * quieta (sin el anillo de poses ni los videos), y el toque no la hace irse,
+ * la rompe. El retrato se parte en dos donde cayó el dedo y queda roto
  * en su lugar (`lib/rotura.ts`); otro toque lo recompone.
  *
  * Todo sale de la misma sesión, llevado a un solo encuadre
@@ -258,7 +270,7 @@ export function Retrato({ className = "" }: { className?: string }) {
       const celda = hoja && actual !== FRENTE ? ([(actual % COLUMNAS) * (hoja.naturalWidth / COLUMNAS), Math.floor(actual / COLUMNAS) * (hoja.naturalHeight / FILAS), hoja.naturalWidth / COLUMNAS, hoja.naturalHeight / FILAS] as const) : undefined;
       let hecho = false;
       try {
-        hecho = rotura.romper({ caja: el, escenario, fuente: celda && hoja ? { imagen: hoja, recorte: celda } : { imagen: foto }, x: e.clientX, y: e.clientY, seQueda: true });
+        hecho = rotura.romper({ caja: el, escenario, fuente: celda && hoja ? { imagen: hoja, recorte: celda } : { imagen: foto, recorte: cuadrado(foto) }, x: e.clientX, y: e.clientY, seQueda: true });
       } catch {
         hecho = false;
       }
@@ -308,7 +320,8 @@ export function Retrato({ className = "" }: { className?: string }) {
           },
           () => {},
         );
-      if (ahorro) return;
+      // Con el dedo no hay juego de mirar: ni el anillo de poses ni los videos.
+      if (ahorro || tactil) return;
       const anillo = new Image();
       anillo.src = `${RUTA}/anillo.webp`;
       try {
@@ -350,7 +363,11 @@ export function Retrato({ className = "" }: { className?: string }) {
   return (
     // Sin menú contextual ni arrastre: guardar o ampliar la foto y los videos no queda a un clic.
     <div ref={caja} className={`${className} ${css.retrato}`} aria-hidden="true" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>
-      <img ref={frente} className={css.capa} src={`${RUTA}/frente.webp`} alt="" width={300} height={300} fetchPriority="high" decoding="async" draggable={false} />
+      {/* En una pantalla táctil, la foto del CV (la de «Sobre mí»), quieta: ahí no hay cursor que seguir. */}
+      <picture>
+        <source media="(hover: none) and (pointer: coarse)" srcSet="/medios/persona/foto-480.webp" />
+        <img ref={frente} className={`${css.capa} ${css.frente}`} src={`${RUTA}/frente.webp`} alt="" width={300} height={300} fetchPriority="high" decoding="async" draggable={false} />
+      </picture>
       <div ref={base} className={`${css.capa} ${css.anillo}`} />
       <div ref={velo} className={`${css.capa} ${css.anillo} ${css.velo}`} />
       <video ref={salida} className={`${css.capa} ${css.video}`} src={`${RUTA}/salida.mp4`} muted playsInline preload="none" tabIndex={-1} disablePictureInPicture controlsList="nodownload noremoteplayback" />
