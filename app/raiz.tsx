@@ -12,6 +12,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import { EMAIL, GITHUB, LINKEDIN, META, NOMBRE, SITIO } from "@/contenido/sitio";
 import { SALAS } from "@/contenido/salas";
 import type { Idioma } from "@/contenido/tipos";
@@ -119,6 +120,7 @@ export function Documento({ lang, children }: { lang: Idioma; children: ReactNod
           dangerouslySetInnerHTML={{ __html: JSON.stringify(persona(lang)).replace(/</g, "\\u003c") }}
         />
         {children}
+        <Analytics />
       </body>
     </html>
   );
