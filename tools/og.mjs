@@ -3,7 +3,7 @@
  * LinkedIn, WhatsApp y X muestran sin reescalar; para un portfolio, que se
  * comparte por enlace, es la primera pantalla que ve la mayoría.
  *
- * Es el hero en chico: el logo (`public/favicon.svg`), el nombre, el puesto y una tira con un cuadro de cada
+ * Es el hero en chico: la foto (la del hero en el teléfono), el nombre, el puesto y una tira con un cuadro de cada
  * video (los pósters de `tools/videos.mjs`). Se fotografía con Chromium:
  *
  *   npm run og
@@ -32,8 +32,8 @@ const html = (t, cuadros, logo) => `<!doctype html><html><head><meta charset="ut
   *{box-sizing:border-box;margin:0}
   body{width:1200px;height:630px;overflow:hidden;background:#0a0a0a;color:#ededed;font-family:"Geist",sans-serif;position:relative}
   .reticula{position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 0%,rgba(255,255,255,.08),transparent 72%),linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px) 0 0/64px 64px,linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px) 0 0/64px 64px;background-position:center top;-webkit-mask-image:radial-gradient(70% 70% at 50% 20%,#000 30%,transparent 80%)}
-  .contenido{position:absolute;left:0;right:0;top:52px;text-align:center}
-  .logo{display:block;width:116px;height:116px;margin:0 auto 30px;filter:drop-shadow(0 18px 30px rgba(0,0,0,.7))}
+  .contenido{position:absolute;left:0;right:0;top:44px;text-align:center}
+  .logo{display:block;width:132px;height:132px;margin:0 auto 26px;border-radius:50%;object-fit:cover;object-position:50% 25%;box-shadow:0 0 0 1px rgba(255,255,255,.16),0 18px 36px -12px rgba(0,0,0,.8)}
   h1{font-size:72px;font-weight:600;letter-spacing:-.055em;line-height:1;background:linear-gradient(to bottom,#fafafa 30%,#a8a8a8);-webkit-background-clip:text;color:transparent;padding-bottom:6px}
   .rol{margin-top:12px;font-size:30px;letter-spacing:-.025em;color:#b4b4b4}
   .tira{position:absolute;left:46px;right:46px;bottom:100px;display:flex;gap:12px}
@@ -51,7 +51,7 @@ const html = (t, cuadros, logo) => `<!doctype html><html><head><meta charset="ut
 const cuadros = await Promise.all(
   VIDEOS.map(async (v) => "data:image/webp;base64," + (await readFile(path.join(RAIZ, "public", "medios", "videos", `${v}-640.webp`))).toString("base64")),
 );
-const logo = "data:image/svg+xml;base64," + (await readFile(path.join(RAIZ, "public", "favicon.svg"))).toString("base64");
+const logo = "data:image/webp;base64," + (await readFile(path.join(RAIZ, "public", "medios", "persona", "foto-480.webp"))).toString("base64");
 const browser = await chromium.launch({ executablePath: EJECUTABLE, headless: true });
 const pagina = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
 for (const t of Object.values(TEXTOS)) {
