@@ -260,6 +260,40 @@
   padding: clamp(72px, 14vh, 140px) var(--canal) clamp(56px, 10vh, 96px);
 }
 
+/* El contacto al pie: sólo en el teléfono (en el escritorio lo señala «Contacto», en la barra). */
+.contacto {
+  display: none;
+}
+
+.redes {
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.red {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: var(--tinta-2);
+}
+
+@media (max-width: 860px) {
+  .cierre {
+    gap: clamp(56px, 9vh, 84px);
+  }
+
+  .contacto {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+  }
+}
+
 .subir {
   display: grid;
   place-items: center;

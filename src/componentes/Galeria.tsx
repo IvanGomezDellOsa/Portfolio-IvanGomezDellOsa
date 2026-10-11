@@ -1,11 +1,19 @@
 import type { CSSProperties } from "react";
 import { PROYECTOS } from "@/contenido/proyectos";
 import { SALAS, variablesDe, type SalaId } from "@/contenido/salas";
-import { EXPERIENCIA, HERO, PERSONA } from "@/contenido/sitio";
+import { EXPERIENCIA, GITHUB, HERO, LINKEDIN, NAV, PERSONA } from "@/contenido/sitio";
 import type { Idioma } from "@/contenido/tipos";
 import { caso } from "@/lib/rutas";
+import { IconoGithub, IconoLinkedin } from "./Iconos";
+import { MailHero } from "./MailHero";
+import { MenuCV } from "./MenuCV";
 import { Texto } from "./Texto";
 import css from "./Galeria.module.css";
+
+const REDES = [
+  { nombre: "GitHub", href: GITHUB, Icono: IconoGithub },
+  { nombre: "LinkedIn", href: LINKEDIN, Icono: IconoLinkedin },
+];
 
 const nombreDe = (slug: SalaId) => PROYECTOS.find((p) => p.slug === slug)?.nombre ?? slug;
 
@@ -13,7 +21,9 @@ const nombreDe = (slug: SalaId) => PROYECTOS.find((p) => p.slug === slug)?.nombr
  * LA PERSONA, después de la lista de proyectos: sobre mí y experiencia, en el
  * mismo negro neutro del hero. Ahí termina la web: no hay sección de contacto
  * (el contacto está en el hero, y «Contacto» en la barra lleva hasta ahí y lo
- * señala); al final, un respiro y una flecha para volver arriba.
+ * señala); al final, un respiro y una flecha para volver arriba. En el
+ * teléfono, donde la barra queda detrás del menú, el cierre repite los cuatro
+ * íconos del hero.
  */
 export function Galeria({ lang }: { lang: Idioma }) {
   return (
@@ -102,6 +112,24 @@ export function Galeria({ lang }: { lang: Idioma }) {
 
       {/* El final: un respiro y la flecha que devuelve al hero (donde está el contacto). */}
       <div className={css.cierre}>
+        <div className={css.contacto}>
+          <p className="etiqueta">{NAV.contacto[lang]}</p>
+          <ul className={css.redes}>
+            {REDES.map(({ nombre, href, Icono }) => (
+              <li key={nombre}>
+                <a className={css.red} href={href} target="_blank" rel="noopener noreferrer" aria-label={nombre}>
+                  <Icono />
+                </a>
+              </li>
+            ))}
+            <li>
+              <MailHero lang={lang} />
+            </li>
+            <li>
+              <MenuCV lang={lang} variante="icono" />
+            </li>
+          </ul>
+        </div>
         <a className={css.subir} href="#inicio" aria-label={HERO.arriba[lang]}>
           <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 14.5 12 8.5 18 14.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
