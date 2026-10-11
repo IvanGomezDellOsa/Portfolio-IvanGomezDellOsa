@@ -1,5 +1,5 @@
 /**
- * LOS ICONOS, desde `public/favicon.svg`: las iniciales «IG» en Geist (los
+ * LOS ICONOS, desde `public/favicon.svg`: las iniciales «IGD’O» en Geist (los
  * trazados de la fuente, no texto: se ven igual sin la tipografía instalada)
  * sobre el negro del sitio. El de Apple va sin esquinas redondeadas ni borde
  * (iOS los redondea) y sin transparencia.
