@@ -1,27 +1,19 @@
 import type { CSSProperties } from "react";
 import { PROYECTOS } from "@/contenido/proyectos";
 import { SALAS, variablesDe, type SalaId } from "@/contenido/salas";
-import { CONTACTO, EMAIL, EXPERIENCIA, GITHUB, LINKEDIN, NAV, PERSONA } from "@/contenido/sitio";
+import { EXPERIENCIA, HERO, PERSONA } from "@/contenido/sitio";
 import type { Idioma } from "@/contenido/tipos";
 import { caso } from "@/lib/rutas";
-import { CopiarEmail } from "./CopiarEmail";
-import { Flecha } from "./Iconos";
-import { MenuCV } from "./MenuCV";
 import { Texto } from "./Texto";
 import css from "./Galeria.module.css";
 
 const nombreDe = (slug: SalaId) => PROYECTOS.find((p) => p.slug === slug)?.nombre ?? slug;
 
-const VIAS = [
-  { nombre: "LinkedIn", href: LINKEDIN },
-  { nombre: "GitHub", href: GITHUB },
-];
-
 /**
- * LA PERSONA, después de la lista de proyectos: sobre mí, experiencia y
- * contacto. En el mismo negro neutro del hero. Las tres secciones comparten
- * la retícula (un tercio y dos tercios), el título y las filas con pelos: el
- * contacto es una sección más, no un cierre con otra composición.
+ * LA PERSONA, después de la lista de proyectos: sobre mí y experiencia, en el
+ * mismo negro neutro del hero. Ahí termina la web: no hay sección de contacto
+ * (el contacto está en el hero, y «Contacto» en la barra lleva hasta ahí y lo
+ * señala); al final, un respiro y una flecha para volver arriba.
  */
 export function Galeria({ lang }: { lang: Idioma }) {
   return (
@@ -108,38 +100,14 @@ export function Galeria({ lang }: { lang: Idioma }) {
         </div>
       </section>
 
-      <section id="contacto" className={css.interior} aria-labelledby="t-contacto">
-        <div className={css.contacto} data-revelar="">
-          <h2 id="t-contacto" className={`${css.titulo} aparece`}>
-            {CONTACTO.titulo[lang]}
-          </h2>
-          <dl className={`${css.detalles} ${css.vias} aparece`} style={{ "--i": 1 } as CSSProperties}>
-            <div>
-              <dt className="etiqueta">Email</dt>
-              <dd>
-                <CopiarEmail email={EMAIL} lang={lang} />
-              </dd>
-            </div>
-            {VIAS.map((v) => (
-              <div key={v.nombre}>
-                <dt className="etiqueta">{v.nombre}</dt>
-                <dd>
-                  <a className={css.via} href={v.href} target="_blank" rel="noopener noreferrer">
-                    {v.href.replace(/^https:\/\/(www\.)?/, "").replace(/\/$/, "")}
-                    <Flecha lado={11} />
-                  </a>
-                </dd>
-              </div>
-            ))}
-            <div>
-              <dt className="etiqueta">{NAV.cv[lang]}</dt>
-              <dd>
-                <MenuCV lang={lang} variante="texto" />
-              </dd>
-            </div>
-          </dl>
-        </div>
-      </section>
+      {/* El final: un respiro y la flecha que devuelve al hero (donde está el contacto). */}
+      <div className={css.cierre}>
+        <a className={css.subir} href="#inicio" aria-label={HERO.arriba[lang]}>
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 14.5 12 8.5 18 14.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </a>
+      </div>
     </div>
   );
 }

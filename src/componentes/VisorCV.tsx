@@ -240,18 +240,32 @@ function pastilla(
 const CHEVRON = "M9 5.25 15.75 12 9 18.75";
 const CRUZ = "M6.5 6.5l11 11m0-11-11 11";
 
-/** La contratapa: el fondo de la tapa y, sola en el medio, la pastilla «Salir». */
-async function dibujarContratapa(rotulo: string, salir: () => void) {
-  const { c, ctx, sans, espaciado } = await lienzo();
+/** La contratapa: el fondo de la tapa y, sola en el medio, una cruz en su círculo (sale). */
+async function dibujarContratapa(salir: () => void) {
+  const { c, ctx } = await lienzo();
   const W = ANCHO;
   const H = ALTO;
   fondo(ctx, H * 0.5);
-  espaciado(-0.005, 50);
-  ctx.font = `500 50px ${sans}`;
-  // Centrada: se mide primero y se dibuja desde su borde izquierdo.
-  const ancho = ctx.measureText(rotulo).width + 50 * 0.78 + 50 * 0.4 + 2 * 150 * 0.45;
-  const caja = pastilla(ctx, { x: (W - ancho) / 2, y: H / 2, texto: rotulo, trazo: CRUZ, cuerpo: 50, alto: 150, trazoAntes: true, derecha: false, fuente: sans });
-  const holgura = 40;
+  // El círculo, como la pastilla hueca del sitio; adentro, la cruz, fina.
+  const radio = 132;
+  ctx.beginPath();
+  ctx.arc(W / 2, H / 2, radio, 0, Math.PI * 2);
+  ctx.fillStyle = "rgb(255 255 255 / 0.04)";
+  ctx.fill();
+  ctx.lineWidth = 3.2;
+  ctx.strokeStyle = "rgb(255 255 255 / 0.2)";
+  ctx.stroke();
+  const lado = 104;
+  ctx.save();
+  ctx.translate(W / 2 - lado / 2, H / 2 - lado / 2);
+  ctx.scale(lado / 24, lado / 24);
+  ctx.strokeStyle = "rgb(255 255 255 / 0.94)";
+  ctx.lineWidth = 1.6;
+  ctx.lineCap = "round";
+  ctx.stroke(new Path2D(CRUZ));
+  ctx.restore();
+  const caja = { x: W / 2 - radio, y: H / 2 - radio, ancho: radio * 2, alto: radio * 2 };
+  const holgura = 50;
   const zonas: Zona[] = [
     {
       cara: "contratapa",
@@ -313,7 +327,7 @@ export function VisorCV({ idioma, alCerrar }: { idioma: "es" | "en"; alCerrar: (
       Promise.all([
         import("@/lib/libro"),
         dibujarTapa({ copiar, abrir: () => libro.current?.siguiente(), rotuloAbrir: t.abrir }),
-        dibujarContratapa(t.salir, () => salirActual.current()),
+        dibujarContratapa(() => salirActual.current()),
       ])
         .then(([{ crearLibro }, tapa, contratapa]) => {
           if (!vivo || !escenario.current) return;

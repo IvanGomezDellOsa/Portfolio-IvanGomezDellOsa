@@ -318,3 +318,43 @@
     gap: 4px;
   }
 }
+
+/* El final de la web: aire y, al medio, la flecha que devuelve al hero (la misma del hero, hacia arriba). */
+.cierre {
+  display: grid;
+  place-items: center;
+  padding: clamp(72px, 14vh, 140px) var(--canal) clamp(56px, 10vh, 96px);
+}
+
+.subir {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: var(--tinta-2);
+  text-decoration: none;
+  transition: color 0.2s var(--curva-reaccion);
+}
+
+.subir:hover {
+  color: var(--tinta);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .subir {
+    animation: subirLatir 2s ease-in-out infinite;
+  }
+}
+
+@keyframes subirLatir {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-6px);
+  }
+}

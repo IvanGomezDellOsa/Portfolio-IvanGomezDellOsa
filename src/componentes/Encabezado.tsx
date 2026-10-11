@@ -76,10 +76,10 @@ export function Encabezado({ lang, rutaOtra }: { lang: Idioma; rutaOtra: string 
             <a className={css.enlace} href={ancla("sobre-mi")}>
               {NAV.sobreMi[lang]}
             </a>
-            {/* Prueba: «Contacto» vuelve al hero y señala los íconos (`lib/contacto.ts`). Sin JavaScript, baja a la sección. */}
+            {/* «Contacto» vuelve al hero y señala los íconos (`lib/contacto.ts`): no hay sección de contacto. Sin JavaScript, sube al hero. */}
             <a
               className={`${css.enlace} ${css.contacto}`}
-              href={ancla("contacto")}
+              href={ancla("inicio")}
               onClick={(e) => {
                 if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
                 e.preventDefault();
