@@ -31,6 +31,18 @@
   object-position: 50% 25%;
 }
 
+/* Ahí la foto va en color; cada toque alterna el blanco y negro del resto del hero. */
+@media (hover: none) and (pointer: coarse) {
+  .capa {
+    filter: none;
+    transition: filter 0.45s var(--curva-entrada);
+  }
+
+  .retrato[data-gris] .capa {
+    filter: grayscale(1) contrast(1.08);
+  }
+}
+
 .anillo {
   background-repeat: no-repeat;
   background-size: 600% 600%;

@@ -76,8 +76,8 @@ const posicion = (n: number) => `${((n % COLUMNAS) / (COLUMNAS - 1)) * 100}% ${(
  * caminando y mira de nuevo.
  *
  * En una pantalla táctil no hay cursor que seguir: ahí va la foto del CV,
- * quieta (sin el anillo de poses ni los videos), y el toque no la hace irse,
- * la rompe. El retrato se parte en dos donde cayó el dedo y queda roto
+ * quieta y en color (sin el anillo de poses ni los videos), y el toque no la
+ * hace irse: alterna el filtro entre color y blanco y negro. El retrato se parte en dos donde cayó el dedo y queda roto
  * en su lugar (`lib/rotura.ts`); otro toque lo recompone.
  *
  * Todo sale de la misma sesión, llevado a un solo encuadre
@@ -121,7 +121,8 @@ export function Retrato({ className = "" }: { className?: string }) {
     let fundido: Animation | undefined;
     let px: number | null = null;
     let py = 0;
-    let rotura: Rotura | null = null;
+    // Apagada por ahora (ver `alClic`): nadie la carga.
+    const rotura = null as Rotura | null;
     let roto = false;
     let hoja: HTMLImageElement | null = null;
 
@@ -294,6 +295,14 @@ export function Retrato({ className = "" }: { className?: string }) {
     // Rota, la foto se queda así: otro toque la recompone. También si cambia
     // el tamaño de la pantalla, porque los pedazos quedarían corridos.
     const alClic = (e: MouseEvent) => {
+      // En una pantalla táctil la foto está en color y el toque alterna el
+      // filtro: blanco y negro, color, y así. (La rotura quedó apagada: para
+      // volver a ella, cargar `lib/rotura.ts` en `empezar` y sacar esto.)
+      if (tactil) {
+        if ("gris" in el.dataset) delete el.dataset.gris;
+        else el.dataset.gris = "";
+        return;
+      }
       if (roto) recomponer();
       else if (!romper(e)) irse();
     };
@@ -308,18 +317,6 @@ export function Retrato({ className = "" }: { className?: string }) {
     window.addEventListener("resize", alCambiarTamano);
 
     const empezar = async () => {
-      if (tactil && !quieto && !ahorro)
-        import("@/lib/rotura").then(
-          ({ prepararRotura }) => {
-            if (!vivo) return;
-            try {
-              rotura = prepararRotura();
-            } catch {
-              rotura = null;
-            }
-          },
-          () => {},
-        );
       // Con el dedo no hay juego de mirar: ni el anillo de poses ni los videos.
       if (ahorro || tactil) return;
       const anillo = new Image();
