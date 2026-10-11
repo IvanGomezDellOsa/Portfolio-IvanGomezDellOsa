@@ -33,9 +33,6 @@ export interface ItemVitrina {
 /** 358 → «5:58». */
 export const reloj = (segundos: number) => `${Math.floor(segundos / 60)}:${String(Math.floor(segundos % 60)).padStart(2, "0")}`;
 
-/** 358 → «PT5M58S», para `<time dateTime>`. */
-export const duracionIso = (segundos: number) => `PT${Math.floor(segundos / 60)}M${Math.floor(segundos % 60)}S`;
-
 export const enYoutube = (id: string, t = 0) => `https://www.youtube.com/watch?v=${id}${t ? `&t=${Math.floor(t)}s` : ""}`;
 
 /** Los archivos de la vista previa de un proyecto (`tools/videos.mjs`). */

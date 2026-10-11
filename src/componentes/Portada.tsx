@@ -17,7 +17,7 @@ import { Teatro } from "./Teatro";
 /**
  * LA PORTADA, que es todo el sitio: el hero (nombre y puesto), las telas, la
  * lista de proyectos, LOS NUEVE PROYECTOS y, recién después, la persona (sobre
- * mí, experiencia y contacto). Los proyectos van en el recorrido principal
+ * mí y experiencia). Los proyectos van en el recorrido principal
  * (decisión del dueño, 2026-10-10): son su punto fuerte, y quien baja tiene que
  * pasar por ellos antes de llegar a la experiencia. Cada uno muestra lo
  * esencial; su caso completo se despliega a pedido.

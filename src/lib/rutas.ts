@@ -11,8 +11,6 @@ export const inicio = (lang: Idioma) => (lang === "es" ? "/" : "/en/");
 /** Cada proyecto es una sección de la portada: su dirección es el ancla. */
 export const caso = (lang: Idioma, slug: string) => `${inicio(lang)}#${slug}`;
 
-export const otroIdioma = (lang: Idioma): Idioma => (lang === "es" ? "en" : "es");
-
 /** Las alternativas de una página, para `alternates.languages`. */
 export const alternativas = (es: string, en: string) => ({
   "es-AR": `${SITIO}${es}`,

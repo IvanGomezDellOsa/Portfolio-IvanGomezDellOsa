@@ -1580,5 +1580,3 @@ export const PROYECTOS: Proyecto[] = [
     ],
   },
 ];
-
-export const proyectoPorSlug = (slug: string) => PROYECTOS.find((p) => p.slug === slug);

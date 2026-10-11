@@ -211,7 +211,7 @@ class TelaAmmo {
   tocada = 0;
 
   constructor(
-    private A: AmmoLib,
+    A: AmmoLib,
     mundo: any,
     public material: ShaderMaterial,
     crearBroche: () => PiezaBroche,
@@ -600,7 +600,6 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
   const rayo = new Raycaster();
   const plano = new Plane(new Vector3(0, 0, 1), 0);
   const punto = new Vector3();
-  let ultimoGesto = performance.now();
   let visible = true;
   let cuadro = 0;
   let previo = performance.now();
@@ -720,7 +719,6 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
 
   const alBajar = (e: PointerEvent) => {
     if (e.button !== 0) return;
-    ultimoGesto = performance.now();
     aNdc(e);
     canvas.setPointerCapture(e.pointerId);
     const b = brocheEn(e);
@@ -739,7 +737,6 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
   };
 
   const alMover = (e: PointerEvent) => {
-    ultimoGesto = performance.now();
     aNdc(e);
     const ahora = performance.now();
     const rapidez = Math.hypot(e.clientX - ultimoMovimiento.x, e.clientY - ultimoMovimiento.y) / Math.max(1, ahora - ultimoMovimiento.t);
@@ -816,7 +813,6 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
   const alRueda = (e: WheelEvent) => {
     if (Math.abs(e.deltaX) <= Math.abs(e.deltaY) || Math.abs(e.deltaX) < 1) return;
     e.preventDefault();
-    ultimoGesto = performance.now();
     destino += e.deltaX * mundoPorPixel;
     window.clearTimeout(finRueda);
     finRueda = window.setTimeout(() => {
@@ -854,7 +850,6 @@ export async function crearTelas(o: OpcionesTelas): Promise<MotorTelas> {
     let dif = modulo(k - modulo(base, N), N);
     if (dif > N / 2) dif -= N;
     destino = (base + dif) * PASO_X;
-    ultimoGesto = performance.now();
   };
 
   /* ─── El bucle ─── */

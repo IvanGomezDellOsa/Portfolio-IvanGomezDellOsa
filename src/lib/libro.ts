@@ -155,7 +155,7 @@ type Uniformes = Record<"uTheta" | "uDoblez" | "uGiro" | "uLevanta" | "uRulo" | 
   uDorso: IUniform<Texture>;
 };
 
-function materiales(frente: Texture, dorso: Texture, u: Uniformes) {
+function materiales(frente: Texture, u: Uniformes) {
   const papel = new MeshStandardMaterial({ map: frente, roughness: 0.8, metalness: 0, side: DoubleSide });
   papel.onBeforeCompile = (s) => {
     Object.assign(s.uniforms, u);
@@ -321,7 +321,7 @@ export function crearLibro(contenedor: HTMLElement, o: OpcionesLibro): Libro {
         uEsc: { value: esTapa ? new Vector2(1.004, 1.003) : new Vector2(1, 1) },
         uDorso: { value: dorso },
       };
-      const { papel, sombra } = materiales(frente, dorso, u);
+      const { papel, sombra } = materiales(frente, u);
       const malla = new Mesh(geometria, papel);
       malla.customDepthMaterial = sombra;
       malla.castShadow = malla.receiveShadow = true;

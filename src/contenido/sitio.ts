@@ -1,6 +1,6 @@
 /**
  * LOS TEXTOS DEL SITIO QUE NO SON DE UN PROYECTO: el hero, la lista, la persona
- * (sobre mí y experiencia) y el contacto.
+ * (sobre mí y experiencia) y los rótulos del contacto.
  *
  * NO HAY SECCION DE STACK (decisión del dueño, 2026-10-09): enumerar todo lo
  * que se usó en cada proyecto nunca es preciso ni completo, es difícil de
@@ -376,7 +376,6 @@ export const EXPERIENCIA: { titulo: Bilingue; items: Experiencia[] } = {
 };
 
 export const CONTACTO = {
-  titulo: b("Contacto", "Contact"),
   copiar: b("Copiar el email", "Copy the email"),
   copiado: b("Email copiado", "Email copied"),
 };

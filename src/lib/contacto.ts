@@ -1,5 +1,5 @@
 /**
- * «CONTACTO», EN LA BARRA (prueba, 2026-10-10): en vez de bajar a una sección,
+ * «CONTACTO», EN LA BARRA: el sitio no tiene sección de contacto. El enlace
  * vuelve al hero y señala dónde está cada forma de contacto. Un anillo de luz
  * sale del enlace, rodea uno por uno los íconos (GitHub, LinkedIn, CV) y
  * termina en el del mail, que se abre con la dirección lista para copiar.

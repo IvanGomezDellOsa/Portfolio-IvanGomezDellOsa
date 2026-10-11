@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import type { Rotura } from "@/lib/rotura";
+import { useEffect, useRef } from "react";
 import css from "./Retrato.module.css";
 
 const RUTA = "/medios/persona/retrato";
@@ -54,17 +53,6 @@ function camino(desde: number, hasta: number): number[] {
     .filter((p) => p <= ULTIMA);
 }
 
-/** A qué altura se encuadra la foto del CV (más alta que ancha) dentro del círculo: lo mismo que `object-position` en el CSS. */
-const ENCUADRE = 0.25;
-
-/** El cuadrado de la imagen que se ve en el círculo (`object-fit: cover`). */
-function cuadrado(img: HTMLImageElement) {
-  const w = img.naturalWidth;
-  const h = img.naturalHeight;
-  const lado = Math.min(w, h);
-  return [(w - lado) / 2, (h - lado) * ENCUADRE, lado, lado] as const;
-}
-
 const posicion = (n: number) => `${((n % COLUMNAS) / (COLUMNAS - 1)) * 100}% ${(Math.floor(n / COLUMNAS) / (FILAS - 1)) * 100}%`;
 
 /**
@@ -76,9 +64,8 @@ const posicion = (n: number) => `${((n % COLUMNAS) / (COLUMNAS - 1)) * 100}% ${(
  * caminando y mira de nuevo.
  *
  * En una pantalla táctil no hay cursor que seguir: ahí va la foto del CV,
- * quieta y en color (sin el anillo de poses ni los videos), y el toque no la
- * hace irse: alterna el filtro entre color y blanco y negro. El retrato se parte en dos donde cayó el dedo y queda roto
- * en su lugar (`lib/rotura.ts`); otro toque lo recompone.
+ * quieta (sin el anillo de poses ni los videos), y el toque no la hace irse:
+ * alterna el filtro entre color y blanco y negro.
  *
  * Todo sale de la misma sesión, llevado a un solo encuadre
  * (`tools/retrato.mjs`). Primero se pinta el frente solo; el anillo de poses y
@@ -90,8 +77,6 @@ const posicion = (n: number) => `${((n % COLUMNAS) / (COLUMNAS - 1)) * 100}% ${(
  */
 export function Retrato({ className = "" }: { className?: string }) {
   const caja = useRef<HTMLDivElement>(null);
-  const [gris, setGris] = useState(false);
-  const frente = useRef<HTMLImageElement>(null);
   const base = useRef<HTMLDivElement>(null);
   const velo = useRef<HTMLDivElement>(null);
   const salida = useRef<HTMLVideoElement>(null);
@@ -122,10 +107,6 @@ export function Retrato({ className = "" }: { className?: string }) {
     let fundido: Animation | undefined;
     let px: number | null = null;
     let py = 0;
-    // Apagada por ahora (ver `alClic`): nadie la carga.
-    const rotura = null as Rotura | null;
-    let roto = false;
-    let hoja: HTMLImageElement | null = null;
 
     // Un cuadro. Si no es vecino del anterior (o es el frente, que sale de
     // otra toma), el anterior se desvanece encima: un salto sin corte seco.
@@ -264,70 +245,14 @@ export function Retrato({ className = "" }: { className?: string }) {
       );
     };
 
-    // Recompuesto: el retrato vuelve a aparecer en su lugar, entero.
-    const recomponer = () => {
-      if (!vivo) return;
-      roto = false;
-      rotura?.recomponer();
-      delete el.dataset.roto;
-      for (const capa of [frente.current, b]) capa?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, easing: "cubic-bezier(0.22, 1, 0.36, 1)" });
-      quedarse(700);
-    };
-
-    // El toque, en una pantalla táctil: no hay cursor que seguir, así que el
-    // retrato se parte donde cayó el dedo (`lib/rotura.ts`) y queda roto en
-    // su lugar. Si no se pudo armar la rotura, se va caminando.
-    const romper = (e: MouseEvent) => {
-      const escenario = el.closest("section");
-      const foto = frente.current;
-      if (yendose || !rotura || !escenario || !foto?.complete || !foto.naturalWidth) return false;
-      const celda = hoja && actual !== FRENTE ? ([(actual % COLUMNAS) * (hoja.naturalWidth / COLUMNAS), Math.floor(actual / COLUMNAS) * (hoja.naturalHeight / FILAS), hoja.naturalWidth / COLUMNAS, hoja.naturalHeight / FILAS] as const) : undefined;
-      let hecho = false;
-      try {
-        hecho = rotura.romper({ caja: el, escenario, fuente: celda && hoja ? { imagen: hoja, recorte: celda } : { imagen: foto, recorte: cuadrado(foto) }, x: e.clientX, y: e.clientY, seQueda: true });
-      } catch {
-        hecho = false;
-      }
-      if (!hecho) return false;
-      yendose = true;
-      window.clearTimeout(reloj);
-      reloj = 0;
-      cola = [];
-      el.dataset.roto = "";
-      el.style.cursor = "default";
-      if (hoja && actual !== FRENTE) {
-        b.style.backgroundPosition = posicion(FRENTE);
-        actual = FRENTE;
-      }
-      destino = FRENTE;
-      navigator.vibrate?.(14);
-      roto = true;
-      return true;
-    };
-
-    // Rota, la foto se queda así: otro toque la recompone. También si cambia
-    // el tamaño de la pantalla, porque los pedazos quedarían corridos.
-    const alClic = (e: MouseEvent) => {
-      // En una pantalla táctil la foto está en color y el toque alterna el
-      // filtro: blanco y negro, color, y así. (La rotura quedó apagada: para
-      // volver a ella, cargar `lib/rotura.ts` en `empezar` y sacar esto.)
-      if (tactil) {
-        if ("gris" in el.dataset) delete el.dataset.gris;
-        else el.dataset.gris = "";
-        return;
-      }
-      if (roto) recomponer();
-      else if (!romper(e)) irse();
-    };
-    // (Sólo el ancho: en el teléfono el alto cambia cada vez que la barra del navegador se esconde.)
-    let anchoVentana = window.innerWidth;
-    const alCambiarTamano = () => {
-      if (window.innerWidth === anchoVentana) return;
-      anchoVentana = window.innerWidth;
-      if (roto) recomponer();
+    // En una pantalla táctil la foto está en color y el toque alterna el
+    // filtro: blanco y negro, color, y así. Con el mouse, el clic lo hace irse.
+    const alClic = () => {
+      if (!tactil) return irse();
+      if ("gris" in el.dataset) delete el.dataset.gris;
+      else el.dataset.gris = "";
     };
     el.addEventListener("click", alClic);
-    window.addEventListener("resize", alCambiarTamano);
 
     const empezar = async () => {
       // Con el dedo no hay juego de mirar: ni el anillo de poses ni los videos.
@@ -342,7 +267,6 @@ export function Retrato({ className = "" }: { className?: string }) {
       if (!vivo || yendose) return;
       b.style.backgroundImage = v.style.backgroundImage = `url(${anillo.src})`;
       b.style.backgroundPosition = posicion(FRENTE);
-      hoja = anillo;
       listo = true;
       window.addEventListener("pointermove", alMover, { passive: true });
       window.addEventListener("pointerdown", alMover, { passive: true });
@@ -360,9 +284,6 @@ export function Retrato({ className = "" }: { className?: string }) {
       cancelAnimationFrame(cuadro);
       fundido?.cancel();
       el.removeEventListener("click", alClic);
-      rotura?.destruir();
-      delete el.dataset.roto;
-      window.removeEventListener("resize", alCambiarTamano);
       window.removeEventListener("load", empezar);
       window.removeEventListener("pointermove", alMover);
       window.removeEventListener("pointerdown", alMover);
@@ -371,23 +292,17 @@ export function Retrato({ className = "" }: { className?: string }) {
   }, []);
 
   return (
-    <>
-    {/* PROVISORIO: para comparar el retrato en color y en blanco y negro. Sacar (con `gris`) cuando se elija. */}
-    <button type="button" className={css.prueba} onClick={() => setGris((g) => !g)}>
-      {gris ? "Ver en color" : "Ver en blanco y negro"}
-    </button>
-    {/* Sin menú contextual ni arrastre: guardar o ampliar la foto y los videos no queda a un clic. */}
-    <div ref={caja} className={`${className} ${css.retrato}`} data-gris={gris ? "" : undefined} aria-hidden="true" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>
+    // Sin menú contextual ni arrastre: guardar o ampliar la foto y los videos no queda a un clic.
+    <div ref={caja} className={`${className} ${css.retrato}`} aria-hidden="true" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>
       {/* En una pantalla táctil, la foto del CV (la de «Sobre mí»), quieta: ahí no hay cursor que seguir. */}
       <picture>
         <source media="(hover: none) and (pointer: coarse)" srcSet="/medios/persona/foto-480.webp" />
-        <img ref={frente} className={`${css.capa} ${css.frente}`} src={`${RUTA}/frente.webp`} alt="" width={300} height={300} fetchPriority="high" decoding="async" draggable={false} />
+        <img className={`${css.capa} ${css.frente}`} src={`${RUTA}/frente.webp`} alt="" width={300} height={300} fetchPriority="high" decoding="async" draggable={false} />
       </picture>
       <div ref={base} className={`${css.capa} ${css.anillo}`} />
       <div ref={velo} className={`${css.capa} ${css.anillo} ${css.velo}`} />
       <video ref={salida} className={`${css.capa} ${css.video}`} src={`${RUTA}/salida.mp4`} muted playsInline preload="none" tabIndex={-1} disablePictureInPicture controlsList="nodownload noremoteplayback" />
       <video ref={vuelta} className={`${css.capa} ${css.video}`} src={`${RUTA}/vuelta.mp4`} muted playsInline preload="none" tabIndex={-1} disablePictureInPicture controlsList="nodownload noremoteplayback" />
     </div>
-    </>
   );
 }

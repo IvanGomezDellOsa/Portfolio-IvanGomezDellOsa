@@ -2,7 +2,7 @@
  * EL RETRATO: capas apiladas en el mismo círculo, de abajo hacia arriba: el
  * frente (lo primero que se pinta), el anillo de poses, el velo que funde los
  * saltos y los videos de la salida y la vuelta. El tamaño, el borde y la
- * entrada los pone el hero.
+ * entrada los pone el hero. Va en color.
  */
 .retrato {
   position: relative;
@@ -19,49 +19,17 @@
   width: calc(100% + 2px);
   height: calc(100% + 2px);
   object-fit: cover;
-  /* En color (prueba, 2026-10-11). Antes iba todo en blanco y negro, que
-     además igualaba las tres fuentes: el frente sale de otra toma y tiene la
-     piel más roja. Para volver: `filter: grayscale(1) contrast(1.08)` acá. */
+  transition: filter 0.45s var(--curva-entrada);
 }
 
-/* En una pantalla táctil el frente es la foto del CV, más alta que ancha: se encuadra en la cara (`ENCUADRE`). */
+/* En una pantalla táctil el frente es la foto del CV, más alta que ancha: se encuadra en la cara. */
 .frente {
   object-position: 50% 25%;
 }
 
-/* En blanco y negro: en el teléfono lo alterna cada toque; en escritorio, el botón de prueba. */
-.capa {
-  transition: filter 0.45s var(--curva-entrada);
-}
-
+/* En el teléfono, cada toque alterna el blanco y negro. */
 .retrato[data-gris] .capa {
   filter: grayscale(1) contrast(1.08);
-}
-
-/* PROVISORIO: el botón para comparar color y blanco y negro. Se va cuando Iván elija. */
-.prueba {
-  position: absolute;
-  top: 0;
-  left: calc(50% + 90px);
-  padding: 6px 12px;
-  border: 1px solid oklch(100% 0 0 / 0.18);
-  border-radius: 999px;
-  background: oklch(100% 0 0 / 0.04);
-  color: var(--tinta-2);
-  font-size: 12.5px;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.prueba:hover {
-  color: var(--tinta);
-  border-color: oklch(100% 0 0 / 0.34);
-}
-
-@media (hover: none) and (pointer: coarse) {
-  .prueba {
-    display: none;
-  }
 }
 
 .anillo {
@@ -73,15 +41,6 @@
 .velo,
 .video {
   opacity: 0;
-}
-
-/* Roto (`lib/rotura.ts`): la foto la pintan los pedazos, que llevan su propio aro. */
-.retrato[data-roto] {
-  box-shadow: none;
-}
-
-.retrato[data-roto] .capa {
-  visibility: hidden;
 }
 
 /* Nada del retrato se selecciona, se arrastra ni abre el menú de «guardar» al mantener apretado. */

@@ -16,7 +16,7 @@ const ANCHO_OPCION = 104;
 /**
  * EL BOTON «CV». En el sitio abre directo la vista previa (`VisorCV`): el libro
  * ya trae los dos idiomas. Formas: `icono` (el hero, sutil como GitHub y
- * LinkedIn), `barra` (el encabezado) y `pastilla` (el contacto).
+ * LinkedIn) y `barra` (el encabezado).
  *
  * En la barra de la vista previa, `descarga` (baja el PDF) y `pestana` (lo abre
  * en otra pestaña, la vista de siempre) sí eligen idioma: las dos opciones
@@ -25,7 +25,7 @@ const ANCHO_OPCION = 104;
  * enlaces (el patrón de «disclosure»): se abre con clic o teclado, se cierra
  * con Esc, con un clic afuera o al elegir.
  */
-export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: "barra" | "icono" | "pastilla" | "texto" | "descarga" | "pestana" }) {
+export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: "barra" | "icono" | "descarga" | "pestana" }) {
   const descarga = variante === "descarga";
   const pestana = variante === "pestana";
   const enVisor = descarga || pestana;
@@ -91,22 +91,22 @@ export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: 
       <>
         <button
           type="button"
-          className={variante === "icono" ? css.icono : variante === "pastilla" ? "pastilla hueca" : variante === "texto" ? css.texto : css.boton}
+          className={variante === "icono" ? css.icono : css.boton}
           data-contacto={variante === "icono" ? "cv" : undefined}
           aria-label={variante === "icono" ? NAV.cvVer[lang] : undefined}
           data-pista={variante === "icono" ? NAV.cvLargo[lang] : undefined}
           aria-haspopup="dialog"
           onClick={() => setViendo(true)}
         >
-          {variante === "icono" ? <IconoCV /> : variante === "texto" ? NAV.cvVer[lang] : NAV.cv[lang]}
+          {variante === "icono" ? <IconoCV /> : NAV.cv[lang]}
         </button>
         {viendo && <VisorCV idioma={lang} alCerrar={cerrarVisor} />}
       </>
     );
 
-  const claseBoton = pestana ? css.pestana : descarga ? css.descarga : variante === "icono" ? css.icono : variante === "pastilla" ? "pastilla hueca" : variante === "texto" ? css.texto : css.boton;
+  const claseBoton = pestana ? css.pestana : descarga ? css.descarga : variante === "icono" ? css.icono : css.boton;
   // Hacia dónde brotan las gotas: en el hero, abajo; en el menú del teléfono, al costado (dentro de su fila); si no, arriba.
-  const hacia = enVisor ? "arriba" : variante === "icono" ? "abajo" : variante === "barra" ? "derecha" : "arriba";
+  const hacia = enVisor ? "arriba" : variante === "icono" ? "abajo" : "derecha";
   const lejos = (i: number) => (hacia === "derecha" ? ancho / 2 + SEPARACION + ANCHO_OPCION / 2 + i * (ANCHO_OPCION + SEPARACION) : alto / 2 + SEPARACION + ALTO_OPCION / 2 + i * (ALTO_OPCION + SEPARACION));
   const rotulo = pestana ? NAV.cvPestana[lang] : descarga ? NAV.cvMenu[lang] : NAV.cvElegir[lang];
 
@@ -167,11 +167,7 @@ export function MenuCV({ lang, variante = "barra" }: { lang: Idioma; variante?: 
         ) : variante === "icono" ? (
           <IconoCV />
         ) : !enVisor ? (
-          variante === "texto" ? (
-            NAV.cvVer[lang]
-          ) : (
-            NAV.cv[lang]
-          )
+          NAV.cv[lang]
         ) : (
           <>
             <IconoPestana lado={17} />

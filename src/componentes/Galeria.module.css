@@ -229,76 +229,10 @@
   box-shadow: 0 0 0 4px color-mix(in oklch, var(--tinte) 22%, transparent);
 }
 
-/* ─── Contacto: el título a la izquierda y las vías a la derecha, con las filas de «Sobre mí» ─── */
-
-.contacto {
-  display: grid;
-  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-  align-items: start;
-  gap: clamp(16px, 6vw, 96px);
-}
-
-.vias {
-  max-width: none;
-  margin-top: 6px;
-}
-
-.vias > div {
-  align-items: center;
-}
-
-.vias dt {
-  padding-top: 0;
-}
-
-/* Una vía: la dirección, en la tinta del texto, con su flecha o su símbolo de copiar. */
-.via,
-.direccion {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  max-width: 100%;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--tinta);
-  font-size: inherit;
-  line-height: 1.4;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.2s var(--curva-reaccion);
-}
-
-.via svg,
-.iconoCopiar {
-  flex: none;
-  display: grid;
-  color: var(--tinta-3);
-  transition: color 0.2s var(--curva-reaccion);
-}
-
-.direccion > span:first-child {
-  overflow-wrap: anywhere;
-}
-
-.via:hover,
-.direccion:hover {
-  text-decoration: underline;
-  text-decoration-color: color-mix(in oklch, var(--tinta) 45%, transparent);
-  text-underline-offset: 0.25em;
-}
-
-.via:hover svg,
-.direccion:hover .iconoCopiar,
-.direccion[data-copiado="true"] .iconoCopiar {
-  color: var(--tinta);
-}
-
 /* ─── Teléfono y tableta ─── */
 
 @media (max-width: 900px) {
   .persona,
-  .contacto,
   .puesto {
     grid-template-columns: 1fr;
   }
