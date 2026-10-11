@@ -19,11 +19,9 @@
   width: calc(100% + 2px);
   height: calc(100% + 2px);
   object-fit: cover;
-  /* Blanco y negro, apenas más contrastado: las tres fuentes quedan iguales
-     (el frente de otra toma tiene la piel más roja) y el retrato entra en los
-     grises neutros del sitio. Va en cada capa y no en el círculo, que usa
-     `filter` para su entrada. */
-  filter: grayscale(1) contrast(1.08);
+  /* En color (prueba, 2026-10-11). Antes iba todo en blanco y negro, que
+     además igualaba las tres fuentes: el frente sale de otra toma y tiene la
+     piel más roja. Para volver: `filter: grayscale(1) contrast(1.08)` acá. */
 }
 
 /* En una pantalla táctil el frente es la foto del CV, más alta que ancha: se encuadra en la cara (`ENCUADRE`). */
@@ -31,10 +29,9 @@
   object-position: 50% 25%;
 }
 
-/* Ahí la foto va en color; cada toque alterna el blanco y negro del resto del hero. */
+/* Ahí cada toque alterna el blanco y negro. */
 @media (hover: none) and (pointer: coarse) {
   .capa {
-    filter: none;
     transition: filter 0.45s var(--curva-entrada);
   }
 

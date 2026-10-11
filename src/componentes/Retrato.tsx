@@ -231,6 +231,18 @@ export function Retrato({ className = "" }: { className?: string }) {
     const irse = () => {
       if (yendose) return;
       yendose = true;
+      // El acuse del clic: el círculo cede apenas y suelta un aro de luz. Quien
+      // tocó sin querer entiende que lo que sigue lo empezó su clic.
+      if (!quieto) {
+        el.animate([{ transform: "scale(1)" }, { transform: "scale(0.955)", offset: 0.3 }, { transform: "scale(1)" }], { duration: 420, easing: "cubic-bezier(0.22, 1, 0.36, 1)" });
+        el.animate(
+          [
+            { boxShadow: "0 0 0 1px rgba(255, 255, 255, 0.55), 0 0 0 0 rgba(255, 255, 255, 0.3)" },
+            { boxShadow: "0 0 0 1px rgba(255, 255, 255, 0.12), 0 0 0 16px rgba(255, 255, 255, 0)" },
+          ],
+          { duration: 650, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
+        );
+      }
       window.clearTimeout(reloj);
       cola = [];
       destino = FRENTE;
