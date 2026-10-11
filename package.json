@@ -18,6 +18,8 @@
     "retrato": "node tools/retrato.mjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "liquid-gooey": "^0.2.2",
     "next": "^16.3.6",
     "react": "^19.3.0",

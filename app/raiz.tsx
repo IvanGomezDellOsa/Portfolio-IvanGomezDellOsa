@@ -10,6 +10,8 @@
  *   · Geist Mono: la voz de la máquina (números medidos, stack, fechas).
  */
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { EMAIL, GITHUB, LINKEDIN, META, NOMBRE, SITIO } from "@/contenido/sitio";
@@ -119,6 +121,8 @@ export function Documento({ lang, children }: { lang: Idioma; children: ReactNod
           dangerouslySetInnerHTML={{ __html: JSON.stringify(persona(lang)).replace(/</g, "\\u003c") }}
         />
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
