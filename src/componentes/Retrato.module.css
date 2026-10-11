@@ -29,14 +29,38 @@
   object-position: 50% 25%;
 }
 
-/* Ahí cada toque alterna el blanco y negro. */
-@media (hover: none) and (pointer: coarse) {
-  .capa {
-    transition: filter 0.45s var(--curva-entrada);
-  }
+/* En blanco y negro: en el teléfono lo alterna cada toque; en escritorio, el botón de prueba. */
+.capa {
+  transition: filter 0.45s var(--curva-entrada);
+}
 
-  .retrato[data-gris] .capa {
-    filter: grayscale(1) contrast(1.08);
+.retrato[data-gris] .capa {
+  filter: grayscale(1) contrast(1.08);
+}
+
+/* PROVISORIO: el botón para comparar color y blanco y negro. Se va cuando Iván elija. */
+.prueba {
+  position: absolute;
+  top: 0;
+  left: calc(50% + 90px);
+  padding: 6px 12px;
+  border: 1px solid oklch(100% 0 0 / 0.18);
+  border-radius: 999px;
+  background: oklch(100% 0 0 / 0.04);
+  color: var(--tinta-2);
+  font-size: 12.5px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.prueba:hover {
+  color: var(--tinta);
+  border-color: oklch(100% 0 0 / 0.34);
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .prueba {
+    display: none;
   }
 }
 

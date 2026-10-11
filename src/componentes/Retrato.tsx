@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Rotura } from "@/lib/rotura";
 import css from "./Retrato.module.css";
 
@@ -90,6 +90,7 @@ const posicion = (n: number) => `${((n % COLUMNAS) / (COLUMNAS - 1)) * 100}% ${(
  */
 export function Retrato({ className = "" }: { className?: string }) {
   const caja = useRef<HTMLDivElement>(null);
+  const [gris, setGris] = useState(false);
   const frente = useRef<HTMLImageElement>(null);
   const base = useRef<HTMLDivElement>(null);
   const velo = useRef<HTMLDivElement>(null);
@@ -370,8 +371,13 @@ export function Retrato({ className = "" }: { className?: string }) {
   }, []);
 
   return (
-    // Sin menú contextual ni arrastre: guardar o ampliar la foto y los videos no queda a un clic.
-    <div ref={caja} className={`${className} ${css.retrato}`} aria-hidden="true" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>
+    <>
+    {/* PROVISORIO: para comparar el retrato en color y en blanco y negro. Sacar (con `gris`) cuando se elija. */}
+    <button type="button" className={css.prueba} onClick={() => setGris((g) => !g)}>
+      {gris ? "Ver en color" : "Ver en blanco y negro"}
+    </button>
+    {/* Sin menú contextual ni arrastre: guardar o ampliar la foto y los videos no queda a un clic. */}
+    <div ref={caja} className={`${className} ${css.retrato}`} data-gris={gris ? "" : undefined} aria-hidden="true" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>
       {/* En una pantalla táctil, la foto del CV (la de «Sobre mí»), quieta: ahí no hay cursor que seguir. */}
       <picture>
         <source media="(hover: none) and (pointer: coarse)" srcSet="/medios/persona/foto-480.webp" />
@@ -382,5 +388,6 @@ export function Retrato({ className = "" }: { className?: string }) {
       <video ref={salida} className={`${css.capa} ${css.video}`} src={`${RUTA}/salida.mp4`} muted playsInline preload="none" tabIndex={-1} disablePictureInPicture controlsList="nodownload noremoteplayback" />
       <video ref={vuelta} className={`${css.capa} ${css.video}`} src={`${RUTA}/vuelta.mp4`} muted playsInline preload="none" tabIndex={-1} disablePictureInPicture controlsList="nodownload noremoteplayback" />
     </div>
+    </>
   );
 }
