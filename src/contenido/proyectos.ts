@@ -351,7 +351,7 @@ export const PROYECTOS: Proyecto[] = [
     dato: {
       valor: b("540.413", "540,413"),
       etiqueta: b("órdenes de publicidad unificadas, de cuatro jurisdicciones", "advertising orders unified from four jurisdictions"),
-      nota: b("Nación · CABA · PBA · Santa Fe · 2003–2025", "Nación · CABA · PBA · Santa Fe · 2003–2025"),
+      nota: b("Nación · CABA · PBA · Santa Fe · 2003–2025", "National government · Buenos Aires City · Buenos Aires Province · Santa Fe · 2003–2025"),
     },
     stack: ["Python", "ETL", "SQLite", "Astro", "React", "TypeScript", "Cloudflare R2/Pages"],
     enlaces: [
@@ -405,10 +405,10 @@ export const PROYECTOS: Proyecto[] = [
                 ["**Total**", "**2003–2025**", "**540.413**"],
               ],
               [
-                ["Nación", "2009–2022", "225,367"],
-                ["CABA", "2003–2024", "209,877"],
+                ["National government (Nación)", "2009–2022", "225,367"],
+                ["Buenos Aires City (CABA)", "2003–2024", "209,877"],
                 ["Santa Fe", "2008–2023", "61,187"],
-                ["PBA", "2020–2025", "43,982"],
+                ["Buenos Aires Province (PBA)", "2020–2025", "43,982"],
                 ["**Total**", "**2003–2025**", "**540,413**"],
               ],
             ),
@@ -421,16 +421,7 @@ export const PROYECTOS: Proyecto[] = [
       },
       {
         titulo: b("Arquitectura", "Architecture"),
-        bloques: [
-          {
-            tipo: "parrafos",
-            texto: b(
-              ["El proyecto corre sin backend ni servidores: la base SQLite completa (~173 MB) vive en Cloudflare R2 partida en bloques, y el navegador consulta sólo los bytes que necesita mediante HTTP Range Requests, gracias a `sql.js-httpvfs`."],
-              ["The project runs with no backend or servers: the full SQLite database (~173 MB) lives on Cloudflare R2 split into chunks, and the browser queries only the bytes it needs through HTTP Range Requests, thanks to `sql.js-httpvfs`."],
-            ),
-          },
-          { tipo: "visual", id: "tuberia" },
-        ],
+        bloques: [{ tipo: "visual", id: "tuberia" }],
       },
       {
         titulo: b("Funcionalidades", "Features"),
@@ -567,12 +558,12 @@ export const PROYECTOS: Proyecto[] = [
       escenas: [
         { t: 0, titulo: b("La aplicación", "The app") },
         { t: 30, titulo: b("Reservas en vivo", "Live booking") },
-        { t: 42, titulo: b("Dos alumnos, un solo lugar", "Two members, one spot") },
+        { t: 42, titulo: b("Dos alumnos, un solo lugar", "Two students, one spot") },
         { t: 55, titulo: b("Turnos fijos", "Fixed classes") },
         { t: 66, titulo: b("Apto médico y novedades", "Medical certificate and news") },
         { t: 92, titulo: b("El panel del estudio", "The studio panel") },
-        { t: 117, titulo: b("Alumnos sin la aplicación", "Members without the app") },
-        { t: 139, titulo: b("Alumnos, calendario y ajustes", "Members, calendar and settings") },
+        { t: 117, titulo: b("Alumnos sin la aplicación", "Students without the app") },
+        { t: 139, titulo: b("Alumnos, calendario y ajustes", "Students, calendar and settings") },
         { t: 177, titulo: b("La rifa mensual", "The monthly raffle") },
         { t: 188, titulo: b("Stack", "Tech stack") },
       ],
@@ -588,7 +579,7 @@ export const PROYECTOS: Proyecto[] = [
           {
             tipo: "parrafos",
             texto: b(
-              ["El objetivo: una aplicación fácil de usar, que permita delegar y ordenar la gestión del estudio, y que al mismo tiempo impida que un alumno rompa el orden del negocio."],
+              ["El objetivo: una aplicación fácil de usar, que permita delegar y ordenar la gestión del estudio, y que al mismo tiempo impida que un alumno rompa las reglas del negocio."],
               ["The goal: an easy-to-use application that lets the studio delegate and organize its management, while keeping any student from breaking the business rules."],
             ),
           },
@@ -740,8 +731,8 @@ export const PROYECTOS: Proyecto[] = [
               [
                 "**Collection.** Specialised X accounts (Apify API), outlets from different sectors via RSS, paginated until the whole window is covered, and the official RIGI registry (the incentive regime for large investments) incrementally: a fingerprint of each project is stored and only new or changed ones are re-sent.",
                 "**Relevance filter.** A deterministic filter discards the structural noise in the feeds before it reaches Gemini. It does more than save tokens: the following steps receive less irrelevant material, so their decisions are simpler and leave less room for error. It favours not losing anything: when in doubt it lets an item through, because over-filtering means losing a real investment.",
-                "**Extraction with Gemini and Search Grounding.** The collected material goes in as the first source and Gemini searches Google for news from the period as the second, focused on the sectors the owned sources cover least. It returns each investment as structured JSON.",
-                "**Validation.** A deterministic net discards whatever is not a new productive investment: debt issuance, loans, company incorporations, share purchases, contracts won by suppliers and product launches.",
+                "**Extraction with Gemini and Search Grounding.** The collected material goes in as the first source and Gemini searches Google for news from the period as the second, focused on the sectors its own sources cover least. It returns each investment as structured JSON.",
+                "**Validation.** A deterministic filter discards whatever is not a new productive investment: debt issuance, loans, company incorporations, share purchases, contracts won by suppliers and product launches.",
                 "**Semantic judgement with Jev.** A model that returns typed decisions with calibrated probability, instead of text, answers whether each record is a concrete private investment.",
                 "**Deduplication.** The embedding retrieves the closest candidates; the decision is made by identity rules and Jev, answering whether two records describe the same project.",
                 "**Publishing and status report.** New records are stored and published at once to the website and Telegram. Each run ends by reporting the status of every source, and fails if one that should be responding returned nothing.",
