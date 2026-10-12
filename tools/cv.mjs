@@ -19,7 +19,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const FUENTE = process.env.CV_FUENTE ?? "C:/Users/IvanGomezD/OneDrive/Documentos/CV/CV fuente + Linkedin/fuente";
-const VERSION = process.env.CV_VERSION ?? "10-26_v2";
+const VERSION = process.env.CV_VERSION ?? "10-26_v3";
 const TEMPORAL = path.join(RAIZ, "tools", "_capturas", "cv");
 const EJECUTABLE =
   process.env.CHROMIUM_PATH ??
