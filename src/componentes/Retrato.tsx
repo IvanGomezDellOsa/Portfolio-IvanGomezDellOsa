@@ -22,10 +22,14 @@ const FRENTE = 32;
 /** Un paso del giro, y el tope de un giro entero: media vuelta no tarda más que eso. */
 const PASO_MS = 55;
 const TOPE_MS = 420;
-/** Cuánto tarda en volver, desde el clic. */
-const VUELVE_MS = 10_000;
-/** Cuánto se queda de frente al volver, antes de seguir otra vez al cursor. */
-const QUIETO_MS = 2_000;
+/*
+ * EL IRSE, APAGADO (decisión del dueño, 2026-10-13): queda comentado para poder reincorporarlo.
+ *
+ * // Cuánto tarda en volver, desde el clic.
+ * const VUELVE_MS = 10_000;
+ * // Cuánto se queda de frente al volver, antes de seguir otra vez al cursor.
+ * const QUIETO_MS = 2_000;
+ */
 /** Cuánto (en poses) hay que pasarse del borde para cambiar de pose: que no tiemble en la frontera. */
 const HISTERESIS = 0.15;
 
@@ -58,19 +62,20 @@ const posicion = (n: number) => `${((n % COLUMNAS) / (COLUMNAS - 1)) * 100}% ${(
 /**
  * EL RETRATO DEL HERO, que mira el cursor. De frente al llegar y cuando el
  * cursor está sobre la cara; si no, hacia donde esté (arriba a la derecha de
- * la pantalla: arriba a la derecha), y gira la cabeza cuadro por cuadro. Con
- * un clic en la cara niega con la cabeza y se va: queda el círculo con la
- * pared vacía, como un cuadro cuyo dueño salió, y a los diez segundos vuelve
- * caminando y mira de nuevo.
+ * la pantalla: arriba a la derecha), y gira la cabeza cuadro por cuadro. Un
+ * clic (o un toque) en la cara alterna el filtro entre color y blanco y negro.
+ *
+ * Antes, con el mouse, el clic lo hacía irse (negaba con la cabeza, quedaba la
+ * pared vacía y a los diez segundos volvía caminando). Ese juego está apagado
+ * y comentado más abajo, con sus dos videos, para poder reincorporarlo.
  *
  * En una pantalla táctil no hay cursor que seguir: ahí va la foto del CV,
- * quieta (sin el anillo de poses ni los videos), y el toque no la hace irse:
- * alterna el filtro entre color y blanco y negro.
+ * quieta (sin el anillo de poses).
  *
  * Todo sale de la misma sesión, llevado a un solo encuadre
- * (`tools/retrato.mjs`). Primero se pinta el frente solo; el anillo de poses y
- * los videos se piden cuando terminó de cargar la página. Con ahorro de datos
- * no se piden y queda de frente; con movimiento reducido mira igual, pero sin
+ * (`tools/retrato.mjs`). Primero se pinta el frente solo; el anillo de poses
+ * se pide cuando terminó de cargar la página. Con ahorro de datos
+ * no se pide y queda de frente; con movimiento reducido mira igual, pero sin
  * girar: salta de pose en pose.
  *
  * Es decorado: va `aria-hidden` (la foto ya era decorativa).
@@ -79,16 +84,17 @@ export function Retrato({ className = "" }: { className?: string }) {
   const caja = useRef<HTMLDivElement>(null);
   const base = useRef<HTMLDivElement>(null);
   const velo = useRef<HTMLDivElement>(null);
-  const salida = useRef<HTMLVideoElement>(null);
-  const vuelta = useRef<HTMLVideoElement>(null);
+  // El irse, apagado:
+  // const salida = useRef<HTMLVideoElement>(null);
+  // const vuelta = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const el = caja.current;
     const b = base.current;
     const v = velo.current;
-    const sal = salida.current;
-    const vue = vuelta.current;
-    if (!el || !b || !v || !sal || !vue) return;
+    // const sal = salida.current;
+    // const vue = vuelta.current;
+    if (!el || !b || !v) return;
 
     const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const ahorro = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
@@ -96,13 +102,14 @@ export function Retrato({ className = "" }: { className?: string }) {
 
     let vivo = true;
     let listo = false;
-    let yendose = false;
+    // Sólo lo cambia el irse (apagado): hoy vale siempre false.
+    const yendose = false;
     let actual = FRENTE;
     let destino = FRENTE;
     let cola: number[] = [];
     let ritmo = PASO_MS;
     let reloj = 0;
-    let regreso = 0;
+    // let regreso = 0;
     let cuadro = 0;
     let fundido: Animation | undefined;
     let px: number | null = null;
@@ -171,6 +178,11 @@ export function Retrato({ className = "" }: { className?: string }) {
       if (!cuadro) cuadro = requestAnimationFrame(mirar);
     };
 
+    /*
+     * EL IRSE, APAGADO (decisión del dueño, 2026-10-13): queda comentado para poder reincorporarlo.
+     * Para volver: descomentar esto, las dos referencias y constantes de arriba, los dos
+     * <video> de abajo, `let yendose`/`let regreso`, y llamar a `irse()` desde `alClic`.
+     *
     // De vuelta, se queda de frente un momento antes de volver a seguir el
     // cursor: que la llegada no se corte en seco por la primera pose.
     const quedarse = (pausa = 0) => {
@@ -244,18 +256,17 @@ export function Retrato({ className = "" }: { className?: string }) {
         },
       );
     };
+    */
 
-    // En una pantalla táctil la foto está en color y el toque alterna el
-    // filtro: blanco y negro, color, y así. Con el mouse, el clic lo hace irse.
+    // El clic (o el toque) alterna el filtro: blanco y negro, color, y así.
     const alClic = () => {
-      if (!tactil) return irse();
       if ("gris" in el.dataset) delete el.dataset.gris;
       else el.dataset.gris = "";
     };
     el.addEventListener("click", alClic);
 
     const empezar = async () => {
-      // Con el dedo no hay juego de mirar: ni el anillo de poses ni los videos.
+      // Con el dedo no hay juego de mirar: sin el anillo de poses.
       if (ahorro || tactil) return;
       const anillo = new Image();
       anillo.src = `${RUTA}/anillo.webp`;
@@ -271,8 +282,8 @@ export function Retrato({ className = "" }: { className?: string }) {
       window.addEventListener("pointermove", alMover, { passive: true });
       window.addEventListener("pointerdown", alMover, { passive: true });
       window.addEventListener("scroll", alDesplazar, { passive: true });
-      sal.preload = "auto";
-      sal.load();
+      // sal.preload = "auto";
+      // sal.load();
     };
     if (document.readyState === "complete") empezar();
     else window.addEventListener("load", empezar, { once: true });
@@ -280,7 +291,7 @@ export function Retrato({ className = "" }: { className?: string }) {
     return () => {
       vivo = false;
       window.clearTimeout(reloj);
-      window.clearTimeout(regreso);
+      // window.clearTimeout(regreso);
       cancelAnimationFrame(cuadro);
       fundido?.cancel();
       el.removeEventListener("click", alClic);
@@ -292,7 +303,7 @@ export function Retrato({ className = "" }: { className?: string }) {
   }, []);
 
   return (
-    // Sin menú contextual ni arrastre: guardar o ampliar la foto y los videos no queda a un clic.
+    // Sin menú contextual ni arrastre: guardar o ampliar la foto no queda a un clic.
     <div ref={caja} className={`${className} ${css.retrato}`} aria-hidden="true" onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>
       {/* En una pantalla táctil, la foto del CV (la de «Sobre mí»), quieta: ahí no hay cursor que seguir. */}
       <picture>
@@ -301,8 +312,10 @@ export function Retrato({ className = "" }: { className?: string }) {
       </picture>
       <div ref={base} className={`${css.capa} ${css.anillo}`} />
       <div ref={velo} className={`${css.capa} ${css.anillo} ${css.velo}`} />
+      {/* El irse, apagado: sus dos videos.
       <video ref={salida} className={`${css.capa} ${css.video}`} src={`${RUTA}/salida.mp4`} muted playsInline preload="none" tabIndex={-1} disablePictureInPicture controlsList="nodownload noremoteplayback" />
       <video ref={vuelta} className={`${css.capa} ${css.video}`} src={`${RUTA}/vuelta.mp4`} muted playsInline preload="none" tabIndex={-1} disablePictureInPicture controlsList="nodownload noremoteplayback" />
+      */}
     </div>
   );
 }
