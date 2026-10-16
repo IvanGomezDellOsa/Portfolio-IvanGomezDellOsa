@@ -56,10 +56,10 @@ const TRAMO = ULTIMO_ANIO + 1 - PRIMER_ANIO;
  * órdenes. El tramo de PBA reconstruido desde PDF se marca aparte.
  */
 const JURISDICCIONES = [
-  { nombre: "CABA", desde: 2003, hasta: 2024, ordenes: 209877 },
-  { nombre: "Santa Fe", desde: 2008, hasta: 2023, ordenes: 61187 },
-  { nombre: "Nación", desde: 2009, hasta: 2022, ordenes: 225367 },
-  { nombre: "PBA", desde: 2020, hasta: 2025, ordenes: 43982, exclusivo: [2020, 2024] as const },
+  { nombre: "CABA", desde: 2003, hasta: 2025, ordenes: 224677 },
+  { nombre: "Santa Fe", desde: 2008, hasta: 2023, ordenes: 64585 },
+  { nombre: "Nación", desde: 2009, hasta: 2022, ordenes: 224175 },
+  { nombre: "PBA", desde: 2020, hasta: 2025, ordenes: 57574, exclusivo: [2020, 2024] as const },
 ];
 
 export function Cobertura({ lang }: { lang: Idioma }) {
@@ -176,7 +176,7 @@ const TUBERIA = {
   es: [
     ["Fuentes oficiales", "CSV · Excel · PDF", "Cada jurisdicción publica a su manera."],
     ["Extracción", "Python", "Un extractor por jurisdicción."],
-    ["Unificación", "unificar.py · validar.py", "Un solo CSV canónico y validado: 8 columnas, 540.413 filas."],
+    ["Unificación", "unificar.py · validar.py", "Un solo CSV canónico y validado: 8 columnas, 571.011 filas."],
     ["Base de datos", "build_db.py · SQLite", "Montos deflactados por IPC (INDEC) y cachés precomputados."],
     ["Almacenamiento", "Cloudflare R2", "La base, partida en bloques de 20 MiB."],
     ["Consulta", "sql.js-httpvfs", "SQL desde el navegador, que pide sólo los bloques que necesita."],
@@ -185,7 +185,7 @@ const TUBERIA = {
   en: [
     ["Official sources", "CSV · Excel · PDF", "Each jurisdiction publishes in its own way."],
     ["Extraction", "Python", "One extractor per jurisdiction."],
-    ["Unification", "unificar.py · validar.py", "A single validated canonical CSV: 8 columns, 540,413 rows."],
+    ["Unification", "unificar.py · validar.py", "A single validated canonical CSV: 8 columns, 571,011 rows."],
     ["Database", "build_db.py · SQLite", "Amounts deflated by CPI (INDEC) and precomputed caches."],
     ["Storage", "Cloudflare R2", "The database, split into 20 MiB chunks."],
     ["Querying", "sql.js-httpvfs", "SQL from the browser, which requests only the chunks it needs."],

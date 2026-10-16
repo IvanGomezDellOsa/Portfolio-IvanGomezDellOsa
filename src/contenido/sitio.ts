@@ -193,7 +193,7 @@ export const VISUALES = {
   },
   cobertura: {
     titulo: b("Cobertura de la base, por jurisdicción", "Database coverage, by jurisdiction"),
-    exclusivo: b("Reconstruido de más de 500 resoluciones en PDF", "Rebuilt from more than 500 PDF resolutions"),
+    exclusivo: b("Reconstruido de más de 350 resoluciones en PDF", "Rebuilt from more than 350 PDF resolutions"),
     ordenes: b("órdenes", "orders"),
     total: b("órdenes en total, 2003–2025", "orders in total, 2003–2025"),
   },

@@ -335,21 +335,21 @@ export const PROYECTOS: Proyecto[] = [
     periodo: b("2026", "2026"),
     area: b("Datos · ETL", "Data · ETL"),
     resumen: b(
-      "La primera y única base unificada de pauta oficial argentina: **540.413 órdenes de publicidad** de Nación, CABA, PBA y Santa Fe (2003–2025), con montos deflactados por IPC. Se consulta desde el sitio con una tabla explorable, rankings y el buscador «Cuánto recibió» (por proveedor, medio o grupo mediático), con la metodología publicada.",
-      "The first and only unified database of Argentine government advertising: **540,413 advertising orders** from the national government, Buenos Aires City, Buenos Aires Province and Santa Fe (2003–2025), with amounts adjusted for inflation (CPI). It is queried on the website through an explorable table, rankings and the “Cuánto recibió” (how much it received) search by supplier, media outlet or media group, with the methodology published.",
+      "La primera y única base unificada de pauta oficial argentina: **571.011 órdenes de publicidad** de Nación, CABA, PBA y Santa Fe (2003–2025), con montos deflactados por IPC. Se consulta desde el sitio con una tabla explorable, rankings y el buscador «Cuánto recibió» (por proveedor, medio o grupo mediático), con la metodología publicada.",
+      "The first and only unified database of Argentine government advertising: **571,011 advertising orders** from the national government, Buenos Aires City, Buenos Aires Province and Santa Fe (2003–2025), with amounts adjusted for inflation (CPI). It is queried on the website through an explorable table, rankings and the “Cuánto recibió” (how much it received) search by supplier, media outlet or media group, with the methodology published.",
     ),
     cuerpo: b(
       [
-        "Antes, esos datos estaban dispersos en portales, planillas y PDF de cada jurisdicción, sin una forma unificada y sencilla de acceder a ellos ni de compararlos. El ETL en Python incluye un dataset de PBA 2020–2024 reconstruido a partir de más de 500 resoluciones en PDF, datos que no existen en ningún portal de datos abiertos.",
-        "Arquitectura sin backend: la base SQLite (~173 MB) se aloja en Cloudflare R2 y el navegador consulta únicamente los bytes necesarios mediante HTTP Range Requests.",
+        "Antes, esos datos estaban dispersos en portales, planillas y PDF de cada jurisdicción, sin una forma unificada y sencilla de acceder a ellos ni de compararlos. El ETL en Python incluye un dataset de PBA 2020–2024 reconstruido a partir de más de 350 resoluciones en PDF, datos que no existen en ningún portal de datos abiertos.",
+        "Arquitectura sin backend: la base SQLite (~182 MB) se aloja en Cloudflare R2 y el navegador consulta únicamente los bytes necesarios mediante HTTP Range Requests.",
       ],
       [
-        "Before, that data was scattered across portals, spreadsheets and PDFs from each jurisdiction, with no unified, simple way to access it or compare it. The Python ETL includes a Buenos Aires Province 2020–2024 dataset reconstructed from more than 500 PDF resolutions, data that does not exist in any open data portal.",
-        "Backendless architecture: the SQLite database (~173 MB) is hosted on Cloudflare R2 and the browser queries only the bytes it needs through HTTP Range Requests.",
+        "Before, that data was scattered across portals, spreadsheets and PDFs from each jurisdiction, with no unified, simple way to access it or compare it. The Python ETL includes a Buenos Aires Province 2020–2024 dataset reconstructed from more than 350 PDF resolutions, data that does not exist in any open data portal.",
+        "Backendless architecture: the SQLite database (~182 MB) is hosted on Cloudflare R2 and the browser queries only the bytes it needs through HTTP Range Requests.",
       ],
     ),
     dato: {
-      valor: b("540.413", "540,413"),
+      valor: b("571.011", "571,011"),
       etiqueta: b("órdenes de publicidad unificadas, de cuatro jurisdicciones", "advertising orders unified from four jurisdictions"),
       nota: b("Nación · CABA · PBA · Santa Fe · 2003–2025", "National government · Buenos Aires City · Buenos Aires Province · Santa Fe · 2003–2025"),
     },
@@ -373,8 +373,8 @@ export const PROYECTOS: Proyecto[] = [
       ],
     },
     descripcionMeta: b(
-      "540.413 órdenes de pauta oficial de Nación, CABA, PBA y Santa Fe en una sola base, consultable desde el navegador y sin backend.",
-      "540,413 Argentine government advertising orders from four jurisdictions in one database, queried from the browser with no backend.",
+      "571.011 órdenes de pauta oficial de Nación, CABA, PBA y Santa Fe en una sola base, consultable desde el navegador y sin backend.",
+      "571,011 Argentine government advertising orders from four jurisdictions in one database, queried from the browser with no backend.",
     ),
     caso: [
       {
@@ -383,8 +383,8 @@ export const PROYECTOS: Proyecto[] = [
           {
             tipo: "parrafos",
             texto: b(
-              ["La Provincia de Buenos Aires no publica sus órdenes de publicidad de 2020 a 2024 en datasets abiertos: la información estaba en resoluciones individuales en PDF. Un script fue extrayendo los datos resolución por resolución (más de 500) para reconstruir el detalle de cada orden: proveedor, medio, monto y expediente. Ese tramo es un dataset propio del proyecto."],
-              ["Buenos Aires Province does not publish its 2020 to 2024 advertising orders in open datasets: the information sat in individual PDF resolutions. A script extracted the data resolution by resolution (more than 500) to reconstruct the detail of each order: supplier, media outlet, amount and file number. That stretch is a dataset of the project's own."],
+              ["La Provincia de Buenos Aires no publica sus órdenes de publicidad de 2020 a 2024 en datasets abiertos: la información estaba en resoluciones individuales en PDF. Un script fue extrayendo los datos resolución por resolución (más de 350) para reconstruir el detalle de cada orden: proveedor, medio, monto y expediente. Ese tramo es un dataset propio del proyecto."],
+              ["Buenos Aires Province does not publish its 2020 to 2024 advertising orders in open datasets: the information sat in individual PDF resolutions. A script extracted the data resolution by resolution (more than 350) to reconstruct the detail of each order: supplier, media outlet, amount and file number. That stretch is a dataset of the project's own."],
             ),
           },
         ],
@@ -398,18 +398,18 @@ export const PROYECTOS: Proyecto[] = [
             columnas: b(["Jurisdicción", "Período", "Órdenes"], ["Jurisdiction", "Period", "Orders"]),
             filas: b(
               [
-                ["Nación", "2009–2022", "225.367"],
-                ["CABA", "2003–2024", "209.877"],
-                ["Santa Fe", "2008–2023", "61.187"],
-                ["PBA", "2020–2025", "43.982"],
-                ["**Total**", "**2003–2025**", "**540.413**"],
+                ["Nación", "2009–2022", "224.175"],
+                ["CABA", "2003–2025", "224.677"],
+                ["Santa Fe", "2008–2023", "64.585"],
+                ["PBA", "2020–2025", "57.574"],
+                ["**Total**", "**2003–2025**", "**571.011**"],
               ],
               [
-                ["National government (Nación)", "2009–2022", "225,367"],
-                ["Buenos Aires City (CABA)", "2003–2024", "209,877"],
-                ["Santa Fe", "2008–2023", "61,187"],
-                ["Buenos Aires Province (PBA)", "2020–2025", "43,982"],
-                ["**Total**", "**2003–2025**", "**540,413**"],
+                ["National government (Nación)", "2009–2022", "224.175"],
+                ["Buenos Aires City (CABA)", "2003–2025", "224.677"],
+                ["Santa Fe", "2008–2023", "64.585"],
+                ["Buenos Aires Province (PBA)", "2020–2025", "57.574"],
+                ["**Total**", "**2003–2025**", "**571,011**"],
               ],
             ),
             pie: b(
@@ -430,13 +430,13 @@ export const PROYECTOS: Proyecto[] = [
             tipo: "lista",
             items: b(
               [
-                "**Tabla explorable de 540 mil órdenes.** Filtros cruzados por jurisdicción y año, agrupación por proveedor o medio con filas expandibles. El estado inicial viene precomputado en el HTML, y la base se abre recién cuando el usuario interactúa. El dato que se muestra es el crudo exacto de la fuente oficial.",
+                "**Tabla explorable de 571 mil órdenes.** Filtros cruzados por jurisdicción y año, agrupación por proveedor o medio con filas expandibles. El estado inicial viene precomputado en el HTML, y la base se abre recién cuando el usuario interactúa. El dato que se muestra es el crudo exacto de la fuente oficial.",
                 "**«Cuánto recibió».** Buscador por proveedor, medio o grupo mediático; el modo grupo consolida las razones sociales de cada holding según el Media Ownership Monitor Argentina, con fuente citada. Genera una imagen de 1080 × 1080 para compartir, con Canvas puro, y enlaces que restauran la búsqueda.",
                 "**Rankings** de proveedores, medios y grupos por jurisdicción y año, servidos desde caches precomputados en el build.",
                 "**Metodología pública:** fuentes, criterios de deflactación y de normalización documentados en el sitio.",
               ],
               [
-                "**Explorable table of 540 thousand orders.** Cross filters by jurisdiction and year, grouping by supplier or media outlet with expandable rows. The initial state is precomputed into the HTML, and the database opens only when the user interacts. The value shown is the exact raw figure from the official source.",
+                "**Explorable table of 571 thousand orders.** Cross filters by jurisdiction and year, grouping by supplier or media outlet with expandable rows. The initial state is precomputed into the HTML, and the database opens only when the user interacts. The value shown is the exact raw figure from the official source.",
                 "**“Cuánto recibió” (how much it received).** Search by supplier, media outlet or media group; group mode consolidates each holding's companies according to the Media Ownership Monitor Argentina, with the source cited. It generates a 1080 × 1080 image for sharing, with pure Canvas, and links that restore the search.",
                 "**Rankings** of suppliers, media outlets and groups by jurisdiction and year, served from caches precomputed at build time.",
                 "**Public methodology:** sources, deflation and normalization criteria documented on the site.",
