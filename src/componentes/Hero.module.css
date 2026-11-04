@@ -14,7 +14,7 @@
   background: var(--fondo);
 }
 
-/* El retrato que mira el cursor (`Retrato.tsx`), en un círculo, arriba del nombre. */
+/* El retrato (`Retrato.tsx`, la foto del CV), en un círculo, arriba del nombre. */
 .foto {
   width: clamp(96px, 13vh, 132px);
   height: auto;
