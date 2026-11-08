@@ -44,15 +44,12 @@ export const CV_OPCIONES = [
 
 export const META = {
   titulo: b("Iván Gómez Dell’Osa · Full Stack Developer", "Iván Gómez Dell’Osa · Full Stack Developer"),
-  /** Google recorta cerca de los 155 caracteres: las dos entran enteras. */
-  descripcion: b(
-    "Iván Gómez Dell’Osa, Full Stack Developer con foco en backend e IA aplicada. Proyectos propios y freelance, con su video y su detalle técnico.",
-    "Iván Gómez Dell’Osa, Full Stack Developer focused on backend and applied AI. Personal and freelance projects, each with its video and technical details.",
-  ),
-  /** LinkedIn, WhatsApp y Slack muestran más: acá entran los proyectos. */
+  /** La que muestra Google. Corta a pedido de Iván (2026-11-06). */
+  descripcion: b("Iván Gómez Dell’Osa, Full Stack Developer.", "Iván Gómez Dell’Osa, Full Stack Developer."),
+  /** La que muestran LinkedIn, WhatsApp y Slack al compartir. */
   social: b(
-    "Full Stack Developer con foco en backend e IA aplicada. Nueve proyectos, siete con su video: Ask Leonardo da Vinci, Datos Pauta Oficial, Inversiones en Argentina y más.",
-    "Full Stack Developer focused on backend and applied AI. Nine projects, seven with their own video: Ask Leonardo da Vinci, Datos Pauta Oficial, Inversiones en Argentina and more.",
+    "Full Stack Developer con foco en backend e IA aplicada.",
+    "Full Stack Developer focused on backend and applied AI.",
   ),
 };
 
