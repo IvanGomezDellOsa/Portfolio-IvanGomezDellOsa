@@ -48,8 +48,8 @@ export const META = {
   descripcion: b("Iván Gómez Dell’Osa, Full Stack Developer.", "Iván Gómez Dell’Osa, Full Stack Developer."),
   /** La que muestran LinkedIn, WhatsApp y Slack al compartir. */
   social: b(
-    "Full Stack Developer con foco en backend e IA aplicada.",
-    "Full Stack Developer focused on backend and applied AI.",
+    "Full Stack Developer con mentalidad de producto e IA aplicada.",
+    "Product-minded Full Stack Developer working with applied AI.",
   ),
 };
 
