@@ -282,14 +282,14 @@ export const PERSONA = {
   titulo: b("Sobre mí", "About"),
   parrafos: b<Marcado[]>(
     [
-      "Desarrollo productos de software completos, desde el diseño hasta la puesta en producción, con foco en backend e inteligencia artificial aplicada. Tengo experiencia en proyectos propios y freelance, con clientes y usuarios reales. Trabajé con Python, FastAPI, PostgreSQL, TypeScript, React y Next.js, entre otras tecnologías.",
-      "Sobre la base que me da la carrera de Ingeniería de Sistemas (lógica de programación, análisis matemático y diseño de algoritmos), trabajo de forma autodidacta con tecnologías actuales, que aplico en proyectos propios con el código publicado. Lo combino con la gestión operativa de una PyME, donde sumo conocimientos de administración de empresas, producto y manejo de equipos.",
-      "Domino la IA aplicada al trabajo y a soluciones de producto: forma parte de mi proceso de desarrollo y de los productos que construyo. Las decisiones de producto, diseño y arquitectura son propias.",
+      "Desarrollo software con mentalidad de producto: aplicaciones completas, desde la idea y el diseño UX/UI hasta la puesta en producción. Tengo experiencia en proyectos propios y freelance. Trabajé con Python, FastAPI, PostgreSQL, TypeScript, React y Next.js, entre otras tecnologías.",
+      "Sobre la base que me da la carrera de Ingeniería de Sistemas (lógica de programación, análisis matemático y diseño de algoritmos), aprendo de forma autodidacta y lo aplico en proyectos con el código publicado. Lo combino con la gestión operativa de una PyME, que me dio experiencia en administración, producto y manejo de equipos.",
+      "Trabajo con inteligencia artificial como herramienta de desarrollo y como parte de los productos que construyo.",
     ],
     [
-      "I build complete software products, from design to production, with a focus on backend and applied artificial intelligence. I have experience in personal and freelance projects, with real clients and users. I have worked with Python, FastAPI, PostgreSQL, TypeScript, React and Next.js, among other technologies.",
-      "Building on the foundation my Systems Engineering studies give me (programming logic, mathematical analysis and algorithm design), I teach myself current technologies and apply them in personal projects with published code. I combine this with running the operations of a small business, where I have built knowledge of business administration, product and team management.",
-      "I am proficient in applied AI, both in my own workflow and in product features: it is part of my development process and of the products I build. The product, design and architecture decisions are my own.",
+      "I build software with a product mindset: complete applications, from the idea and UX/UI design to production. I have experience in personal and freelance projects. I have worked with Python, FastAPI, PostgreSQL, TypeScript, React and Next.js, among other technologies.",
+      "Building on the foundation my Systems Engineering studies give me (programming logic, mathematical analysis and algorithm design), I teach myself and apply what I learn in projects with published code. I combine this with running the operations of a small business, which has given me experience in administration, product and team management.",
+      "I work with artificial intelligence as a development tool and as part of the products I build.",
     ],
   ),
   fotoAlt: b("Iván Gómez Dell’Osa", "Iván Gómez Dell’Osa"),
